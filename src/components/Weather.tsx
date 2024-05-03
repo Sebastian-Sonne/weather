@@ -1,5 +1,6 @@
 import React from "react";
 import { Cloud, DropIcon, Rain, Snow, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
+import { Footer } from "./Components";
 
 export const Overview = (): JSX.Element => {
 
@@ -126,6 +127,8 @@ export const Forecast7Day = (): JSX.Element => {
                 <DayOverview day="Sat"  />
                 <DayOverview day="Sun"  isLast={true} />
             </div>
+
+            <Footer />
 
         </div>
     );

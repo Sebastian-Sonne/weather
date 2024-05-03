@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { AirCondition, Forecast7Day, ForecastToday, Overview } from "./Weather";
 
-const MainContent = () => {
+const MainContent = (): JSX.Element => {
 
     return (
         <div className="flex flex-col w-full gap-6 max-w-[2000px]">
@@ -13,7 +13,7 @@ const MainContent = () => {
 export default MainContent
 
 
-export const WeatherContent = () => {
+export const WeatherContent = (): JSX.Element => {
     return (
         <div className='flex flex-col lg:flex-row w-full gap-6'>
 
@@ -25,7 +25,7 @@ export const WeatherContent = () => {
     );
 }
 
-export const WeatherToday = () => {
+export const WeatherToday = (): JSX.Element => {
 
     return (
         <div className='flex flex-col w-full lg:w-2/3 gap-4'>
@@ -36,11 +36,21 @@ export const WeatherToday = () => {
     );
 }
 
-export const Weather7Day = () => {
+export const Weather7Day = (): JSX.Element => {
 
     return (
         <div className='flex flex-col w-full lg:w-1/3'>
             <Forecast7Day />
+        </div>
+    );
+}
+
+export const Footer = (): JSX.Element => {
+    return (
+        <div className='flex justify-center align-middle w-full h-6 my-2'>
+            <p className='text-gray-400 font-semibold'>&copy; {new Date().getFullYear()}
+                <a href='https://github.com/sebastian-sonne' className='text-slate-400 hover:text-white transition-colors' target='_blank'> Sebastian Sonne</a>
+            </p>
         </div>
     );
 }
