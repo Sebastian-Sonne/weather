@@ -26,7 +26,7 @@ function App(): JSX.Element {
     }, [dark]);
 
     return (
-        <div className='flex flex-row bg-slate-700 p-6 w-screen h-screen gap-6'>
+        <div className='flex flex-row bg-slate-700 p-4 w-screen gap-6 text-slate-950 dark:text-slate-50'>
 
             <Sidebar />
 
