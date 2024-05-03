@@ -30,7 +30,7 @@ export const ForecastToday = (): JSX.Element => {
     const weatherList = ['', '', '', '', '', '']
 
     return (
-        <div className="w-full bg-bg-secondary rounded-2xl p-6 pt-7">
+        <div className="w-full secondary-light bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
             <h2 className="font-semibold text-sm text-gray-300 mb-4">TODAY'S FORECAST</h2>
     
             <div className="overflow-x-auto">
@@ -75,7 +75,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 export const AirCondition = (): JSX.Element => {
 
     return (
-        <div className="w-full bg-bg-secondary rounded-2xl p-6 pt-7">
+        <div className="w-full bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
 
             <h2 className="font-semibold text-sm text-gray-300 mb-4">AIR CONDITION</h2>
 
@@ -117,7 +117,7 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 export const Forecast7Day = (): JSX.Element => {
 
     return (
-        <div className="w-full lg:h-full bg-bg-secondary rounded-2xl p-6 pt-7">
+        <div className="w-full lg:h-full bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
 
             <h2 className="font-semibold text-sm text-gray-300 mb-4">7-DAY FORECAST</h2>
 

@@ -1,4 +1,7 @@
-import { ThemeLight } from "./Icons";
+import { useDispatch, useSelector } from "react-redux";
+import { ThemeDark, ThemeLight } from "./Icons";
+import { RootState } from "../state/store";
+import { toggle } from "../state/theme/themeSlice";
 
 
 const Header = (): JSX.Element => {
@@ -20,7 +23,7 @@ export const SearchBar = (): JSX.Element => {
     }
 
     return (
-        <div className="w-full lg:w-2/3 h-12 mr-auto bg-bg-secondary rounded-xl">
+        <div className="w-full lg:w-2/3 h-12 mr-auto bg-secondary-light dark:bg-secondary-dark dark:bg-b rounded-xl">
             <input
                 className="w-full h-full bg-transparent px-4 rounded-xl caret-white focus:outline-none"
                 placeholder="Search for cities"
@@ -31,10 +34,17 @@ export const SearchBar = (): JSX.Element => {
 }
 
 export const ThemeSwitcher = (): JSX.Element => {
+    const theme = useSelector((state: RootState) => state.theme.value);
+    const dispatch = useDispatch();
 
     return (
-        <div className="bg-bg-secondary h-12 p-2 aspect-square rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
-            <ThemeLight />
+        <div className="bg-secondary-light dark:bg-secondary-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
+            <button onClick={() => dispatch(toggle())} className="w-full aspect-square p-2 rounded-xl">
+
+                {theme === 'dark' && <ThemeLight />}
+                {theme !== 'dark' && <ThemeDark />}
+
+            </button>
         </div>
     );
 }

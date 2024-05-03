@@ -1,34 +1,22 @@
-//import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import Main from './components/Components';
+import { RootState } from './state/store';
+import { useEffect } from 'react';
 
 
 function App(): JSX.Element {
 
-    /*
-    //initial load
-    var useTheme = false;
-    if ('theme' in localStorage) {
-        useTheme = localStorage.theme === 'dark';
-    } else {
-        useTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        localStorage.theme = useTheme ? 'dark' : 'light';
-    }
-    const [dark, setDark] = useState<boolean>(useTheme);
-
-    const toggleTheme = () => {
-        setDark(!dark);
-        localStorage.theme = dark ? 'light' : 'dark';
-    }
-
+    const theme = useSelector((state: RootState) => state.theme.value);
     useEffect(() => {
-        (dark) ? document.body.classList.add('dark')
+        (theme === 'dark') ? document.body.classList.add('dark')
             : document.body.classList.remove('dark');
-    }, [dark]);
+    }, [theme]);
 
-    */
+    //! onload theme does not work
+
 
     return (
-        <div className='flex flex-row bg-bg p-4 w-screen gap-6 text-slate-950 dark:text-slate-50'>
+        <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
 
             {/* <Sidebar /> */}
             
