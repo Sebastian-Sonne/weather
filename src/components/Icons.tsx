@@ -20,3 +20,7 @@ export const SunIcon = (): JSX.Element => <img src="/icons/sun.svg" alt="sun ico
 export const WindIcon = (): JSX.Element => <img src="/icons/wind.svg" alt="wind icon" />
 
 export const DropIcon = (): JSX.Element => <img src="/icons/drop.svg" alt="drop icon" />
+
+export const ThemeDark = (): JSX.Element => <img src="/theme_icons/moon.svg" alt="dark theme icon" />
+
+export const ThemeLight = (): JSX.Element => <img src="/theme_icons/sun.svg" alt="light theme icon" />

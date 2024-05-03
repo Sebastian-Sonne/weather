@@ -1,5 +1,5 @@
 //import { useEffect, useState } from 'react'
-import Weather from './components/Components';
+import Main from './components/Components';
 
 
 function App(): JSX.Element {
@@ -32,8 +32,7 @@ function App(): JSX.Element {
 
             {/* <Sidebar /> */}
             
-            <Weather />
-
+            <Main />
         </div>
     )
 }
