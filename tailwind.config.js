@@ -6,8 +6,11 @@ export default {
     extend: {
       colors: {
         'bg': '#0b131e',
-        'primary': '#202b3b',
-      }
+        'bg-secondary': '#202b3b',
+      },
+      screens: {
+        'xs': '450px'
+      },
     },
   },
   plugins: [],

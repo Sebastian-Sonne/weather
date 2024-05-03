@@ -1,20 +1,20 @@
 import React from "react";
-import { Cloud, DropIcon, Rain, Snow, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
+import { DropIcon, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
 import { Footer } from "./Components";
 
 export const Overview = (): JSX.Element => {
 
     return (
-        <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl">
+        <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
             <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
 
                 <div className="h-full gap-4">
-                    <h1 className="font-bold text-5xl mb-2">Madrid</h1>
+                    <h1 className="font-bold text-white text-5xl mb-2">Madrid</h1>
                     <h2 className="font-medium text-gray-300">Chance of rain: 31%</h2>
                 </div>
 
                 <div className="pb-2">
-                    <h2 className="font-bold text-6xl">31°</h2>
+                    <h2 className="font-bold text-white text-6xl">31°</h2>
                 </div>
 
             </div>
@@ -30,24 +30,27 @@ export const ForecastToday = (): JSX.Element => {
     const weatherList = ['', '', '', '', '', '']
 
     return (
-        <div className="w-full bg-primary rounded-2xl p-6 pt-7">
+        <div className="w-full bg-bg-secondary rounded-2xl p-6 pt-7">
             <h2 className="font-semibold text-sm text-gray-300 mb-4">TODAY'S FORECAST</h2>
-
-            <table className="table mb-2 -mx-2">
-                <tbody>
-                    <tr className="flex flex-row">
-                        {weatherList.map((_, index) => (
-                            <HourOverview
-                                key={index}
-                                isFirst={index === 0}
-                                isLast={index === weatherList.length - 1}
-                            />
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
+    
+            <div className="overflow-x-auto">
+                <table className="table mb-2">
+                    <tbody>
+                        <tr className="flex flex-row min-w-[568px]">
+                            {weatherList.map((_, index) => (
+                                <HourOverview
+                                    key={index}
+                                    isFirst={index === 0}
+                                    isLast={index === weatherList.length - 1}
+                                />
+                            ))}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
+    
 }
 
 interface HourOverviewProps {
@@ -72,16 +75,16 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 export const AirCondition = (): JSX.Element => {
 
     return (
-        <div className="w-full bg-primary rounded-2xl p-6 pt-7">
+        <div className="w-full bg-bg-secondary rounded-2xl p-6 pt-7">
 
             <h2 className="font-semibold text-sm text-gray-300 mb-4">AIR CONDITION</h2>
 
-            <div className="flex flex-row gap-6 mb-2">
-                <div className="flex flex-col gap-4 w-1/2">
+            <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
+                <div className="flex flex-col gap-4 w-full xs:w-1/2">
                     <ConditionElement name="Real Feel" value={30} unit="°" icon={<ThermometerIcon />} />
                     <ConditionElement name="Chance of rain" value={2} unit="%" icon={<DropIcon />} />
                 </div>
-                <div className="flex flex-col gap-4 w-1/2">
+                <div className="flex flex-col gap-4 w-full xs:w-1/2">
                     <ConditionElement name="Wind" value={12} unit="km/h" icon={<WindIcon />} />
                     <ConditionElement name="UV Index" value={5} unit="" icon={<SunIcon />} />
                 </div>
@@ -114,7 +117,7 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 export const Forecast7Day = (): JSX.Element => {
 
     return (
-        <div className="w-full lg:h-full bg-primary rounded-2xl p-6 pt-7">
+        <div className="w-full lg:h-full bg-bg-secondary rounded-2xl p-6 pt-7">
 
             <h2 className="font-semibold text-sm text-gray-300 mb-4">7-DAY FORECAST</h2>
 
@@ -148,16 +151,16 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
 
     return (
         <div className={classes}>
-            <h4 className="font-semibold text-gray-400">{props.day}</h4>
+            <h4 className="font-semibold text-gray-400 w-11">{props.day}</h4>
 
             <div className="flex flex-row items-center gap-4">
                 <div className="h-10 aspect-square">
                     <Sun />
                 </div>
-                <h5 className="font-bold">Sunny</h5>
+                <h5 className="font-bold text-white">Sunny</h5>
             </div>
 
-            <h4 className="font-semibold">00<span className="text-gray-400">/00</span></h4>
+            <h4 className="font-semibold text-white">00<span className="text-gray-400">/00</span></h4>
         </div>
     );
 }

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
-import Sidebar from './components/Sidebar';
+//import { useEffect, useState } from 'react'
 import Weather from './components/Components';
 
 
 function App(): JSX.Element {
 
+    /*
     //initial load
     var useTheme = false;
     if ('theme' in localStorage) {
@@ -24,6 +24,8 @@ function App(): JSX.Element {
         (dark) ? document.body.classList.add('dark')
             : document.body.classList.remove('dark');
     }, [dark]);
+
+    */
 
     return (
         <div className='flex flex-row bg-bg p-4 w-screen gap-6 text-slate-950 dark:text-slate-50'>
