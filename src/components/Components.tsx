@@ -4,7 +4,7 @@ import { AirCondition, Forecast7Day, ForecastToday, Overview } from "./Weather";
 const MainContent = () => {
 
     return (
-        <div className="flex flex-col w-full gap-6">
+        <div className="flex flex-col w-full gap-6 max-w-[2000px]">
             <Header />
             <WeatherContent />
         </div>
