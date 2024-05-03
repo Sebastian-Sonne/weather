@@ -1,4 +1,4 @@
-import { Sun } from "./Icons";
+import { Cloud, Rain, Snow, Sun } from "./Icons";
 
 
 export const Forecast7Day = () => {
@@ -33,18 +33,45 @@ export const Overview = () => {
 }
 
 export const ForecastToday = () => {
+    const weatherList = ['', '', '', '', '', '']
 
     return (
-        <div className="w-full h-[250px] bg-slate-400 rounded-2xl">
+        <div className="w-full bg-slate-600 rounded-2xl p-5">
+            <h2 className="font-semibold text-sm text-gray-300 mb-4">TODAY'S FORECAST</h2>
 
+            <table className="table">
+                <tbody>
+                    <tr className="flex flex-row">
+                        {weatherList.map((_, index) => (
+                            <HourOverview key={index} />
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 }
 
+export const HourOverview = () => {
+
+    return (
+        <td className="flex flex-col gap-2 items-center w-1/6">
+            <h3 className="font-bold text-sm text-gray-300">00:00</h3>
+            <div className="w-1/2">
+                <Sun />
+            </div>
+            <h3 className="font-bold text-sm text-gray-300">00°</h3>
+        </td>
+    );
+}
+
+
 export const AirCondition = () => {
 
     return (
-        <div className="w-full h-[250px] bg-slate-400 rounded-2xl">
+        <div className="w-full h-[250px] bg-slate-600 rounded-2xl p-5">
+
+            <h2 className="font-semibold text-sm text-gray-300 mb-4">AIR CONDITION</h2>
 
         </div>
     );
