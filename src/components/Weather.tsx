@@ -4,8 +4,9 @@ import { Cloud, DropIcon, Rain, Snow, Sun, SunIcon, ThermometerIcon, WindIcon } 
 export const Overview = (): JSX.Element => {
 
     return (
-        <div className="flex flex-row w-full h-[300px] p-4 rounded-2xl">
-            <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-6">
+        <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl">
+            <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
+
                 <div className="h-full gap-4">
                     <h1 className="font-bold text-5xl mb-2">Madrid</h1>
                     <h2 className="font-medium text-gray-300">Chance of rain: 31%</h2>
@@ -14,6 +15,7 @@ export const Overview = (): JSX.Element => {
                 <div className="pb-2">
                     <h2 className="font-bold text-6xl">31°</h2>
                 </div>
+
             </div>
 
             <div className="flex items-center h-full aspect-square py-4 px-6">
@@ -27,10 +29,10 @@ export const ForecastToday = (): JSX.Element => {
     const weatherList = ['', '', '', '', '', '']
 
     return (
-        <div className="w-full bg-slate-600 rounded-2xl p-5">
+        <div className="w-full bg-primary rounded-2xl p-6 pt-7">
             <h2 className="font-semibold text-sm text-gray-300 mb-4">TODAY'S FORECAST</h2>
 
-            <table className="table mb-2">
+            <table className="table mb-2 -mx-2">
                 <tbody>
                     <tr className="flex flex-row">
                         {weatherList.map((_, index) => (
@@ -57,11 +59,11 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 
     return (
         <td className={classes}>
-            <h3 className="font-bold text-sm text-gray-300">00:00</h3>
-            <div className="w-1/2">
+            <h3 className="font-bold text-lg text-gray-400">00:00</h3>
+            <div className="w-1/3">
                 <Sun />
             </div>
-            <h3 className="font-bold text-sm text-gray-300">00°</h3>
+            <h3 className="font-bold text-3xl text-gray-300">00°</h3>
         </td>
     );
 }
@@ -69,16 +71,16 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 export const AirCondition = (): JSX.Element => {
 
     return (
-        <div className="w-full bg-slate-600 rounded-2xl p-5">
+        <div className="w-full bg-primary rounded-2xl p-6 pt-7">
 
             <h2 className="font-semibold text-sm text-gray-300 mb-4">AIR CONDITION</h2>
 
             <div className="flex flex-row gap-6 mb-2">
-                <div className="flex flex-col gap-2 w-1/2">
+                <div className="flex flex-col gap-4 w-1/2">
                     <ConditionElement name="Real Feel" value={30} unit="°" icon={<ThermometerIcon />} />
                     <ConditionElement name="Chance of rain" value={2} unit="%" icon={<DropIcon />} />
                 </div>
-                <div className="flex flex-col gap-2 w-1/2">
+                <div className="flex flex-col gap-4 w-1/2">
                     <ConditionElement name="Wind" value={12} unit="km/h" icon={<WindIcon />} />
                     <ConditionElement name="UV Index" value={5} unit="" icon={<SunIcon />} />
                 </div>
@@ -93,7 +95,6 @@ interface ConditionElementProps {
     unit: string,
     icon: JSX.Element
 };
-
 export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.Element => {
 
     return (
@@ -112,8 +113,48 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 export const Forecast7Day = (): JSX.Element => {
 
     return (
-        <div className="w-full h-[250px] lg:h-full bg-slate-400 rounded-2xl">
+        <div className="w-full lg:h-full bg-primary rounded-2xl p-6 pt-7">
 
+            <h2 className="font-semibold text-sm text-gray-300 mb-4">7-DAY FORECAST</h2>
+
+            <div className="flex flex-col">
+                <DayOverview day="Today" isFirst={true} />
+                <DayOverview day="Tue"  />
+                <DayOverview day="Wed"  />
+                <DayOverview day="Thu"  />
+                <DayOverview day="Fri"  />
+                <DayOverview day="Sat"  />
+                <DayOverview day="Sun"  isLast={true} />
+            </div>
+
+        </div>
+    );
+}
+
+interface DayOverviewProps {
+    isFirst?: boolean,
+    isLast?: boolean,
+    day: string
+};
+
+export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
+
+    const { isFirst = false, isLast = false } = props;
+
+    const classes = `flex flex-row justify-between items-center h-24 px-4 border border-gray-500 border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
+
+    return (
+        <div className={classes}>
+            <h4 className="font-semibold text-gray-400">{props.day}</h4>
+
+            <div className="flex flex-row items-center gap-4">
+                <div className="h-10 aspect-square">
+                    <Sun />
+                </div>
+                <h5 className="font-bold">Sunny</h5>
+            </div>
+
+            <h4 className="font-semibold">00<span className="text-gray-400">/00</span></h4>
         </div>
     );
 }
