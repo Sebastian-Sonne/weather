@@ -1,32 +1,39 @@
 import { useEffect, useState } from 'react'
+import Sidebar from './components/Sidebar';
+import Weather from './components/Components';
+
 
 function App(): JSX.Element {
 
-  //initial load
-  var useTheme = false;
-  if ('theme' in localStorage) {
-    useTheme = localStorage.theme === 'dark';
-  } else {
-    useTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    localStorage.theme = useTheme ? 'dark' : 'light';
-  }
-  const [dark, setDark] = useState<boolean>(useTheme);
+    //initial load
+    var useTheme = false;
+    if ('theme' in localStorage) {
+        useTheme = localStorage.theme === 'dark';
+    } else {
+        useTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        localStorage.theme = useTheme ? 'dark' : 'light';
+    }
+    const [dark, setDark] = useState<boolean>(useTheme);
 
-  const toggleTheme = () => {
-    setDark(!dark);
-    localStorage.theme = dark ? 'light' : 'dark';
-  }
+    const toggleTheme = () => {
+        setDark(!dark);
+        localStorage.theme = dark ? 'light' : 'dark';
+    }
 
-  useEffect(() => {
-    (dark) ? document.body.classList.add('dark')
-      : document.body.classList.remove('dark');
-  }, [dark]);
+    useEffect(() => {
+        (dark) ? document.body.classList.add('dark')
+            : document.body.classList.remove('dark');
+    }, [dark]);
 
-  return (
-    <>
-      
-    </>
-  )
+    return (
+        <div className='flex flex-row bg-slate-700 p-6 w-screen h-screen gap-6'>
+
+            <Sidebar />
+
+            <Weather />
+
+        </div>
+    )
 }
 
 export default App
