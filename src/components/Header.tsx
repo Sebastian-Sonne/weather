@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { toggle } from "../state/theme/themeSlice";
+import { toggle } from "../state/slices/themeSlice";
 
 
 const Header = (): JSX.Element => {

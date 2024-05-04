@@ -751,6 +751,11 @@ video {
   background-color: rgb(225 233 244 / var(--tw-bg-opacity));
 }
 
+.bg-secondary-light {
+  --tw-bg-opacity: 1;
+  background-color: rgb(195 206 223 / var(--tw-bg-opacity));
+}
+
 .bg-slate-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity));
@@ -758,11 +763,6 @@ video {
 
 .bg-transparent {
   background-color: transparent;
-}
-
-.bg-secondary-light {
-  --tw-bg-opacity: 1;
-  background-color: rgb(195 206 223 / var(--tw-bg-opacity));
 }
 
 .p-2 {
