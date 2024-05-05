@@ -5,8 +5,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'bg': '#0b131e',
-        'bg-secondary': '#202b3b',
+        'bg-dark': '#0b131e',
+        'bg-light': '#e1e9f4',
+        'secondary-dark': '#202b3b',
+        'secondary-light': '#c3cedf',
       },
       screens: {
         'xs': '450px'
