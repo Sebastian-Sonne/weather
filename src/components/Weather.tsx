@@ -1,20 +1,25 @@
 import React from "react";
 import { DropIcon, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
 import { Footer } from "./Components";
+import { useSelector } from "react-redux";
+import { RootState } from "../state/store";
 
 export const Overview = (): JSX.Element => {
+
+    const city = useSelector((state: RootState) => state.city.value);
+    const weather = useSelector((state: RootState) => state.weather.value);
 
     return (
         <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
             <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
 
                 <div className="h-full gap-4">
-                    <h1 className="font-bold text-white text-5xl mb-2">Madrid</h1>
-                    <h2 className="font-medium text-gray-300">Chance of rain: 31%</h2>
+                    <h1 className="font-bold text-white text-5xl mb-2">{city.name}</h1>
+                    <h2 className="font-medium text-gray-300">Chance of rain: --</h2>
                 </div>
 
                 <div className="pb-2">
-                    <h2 className="font-bold text-white text-6xl">31°</h2>
+                    <h2 className="font-bold text-white text-6xl">{parseFloat(weather.main.temp).toFixed()}°</h2>
                 </div>
 
             </div>
@@ -73,6 +78,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 }
 
 export const AirCondition = (): JSX.Element => {
+    const weather = useSelector((state: RootState) => state.weather.value);
 
     return (
         <div className="w-full bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
@@ -81,12 +87,12 @@ export const AirCondition = (): JSX.Element => {
 
             <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Real Feel" value={30} unit="°" icon={<ThermometerIcon />} />
-                    <ConditionElement name="Chance of rain" value={2} unit="%" icon={<DropIcon />} />
+                    <ConditionElement name="Real Feel" value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIcon />} />
+                    <ConditionElement name="Chance of rain" value={''} unit="%" icon={<DropIcon />} />
                 </div>
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Wind" value={12} unit="km/h" icon={<WindIcon />} />
-                    <ConditionElement name="UV Index" value={5} unit="" icon={<SunIcon />} />
+                    <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit="km/h" icon={<WindIcon />} />
+                    <ConditionElement name="UV Index" value={'5'} unit="" icon={<SunIcon />} />
                 </div>
             </div>
         </div>
@@ -95,7 +101,7 @@ export const AirCondition = (): JSX.Element => {
 
 interface ConditionElementProps {
     name: string,
-    value: number,
+    value: string,
     unit: string,
     icon: JSX.Element
 };

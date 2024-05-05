@@ -2,29 +2,29 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface WeatherData {
     coord: {
-        lon: number;
-        lat: number;
+        lon: string;
+        lat: string;
     };
     main: {
-        temp: number;
-        feels_like: number;
-        temp_min: number;
-        temp_max: number;
-        humidity: number;
+        temp: string;
+        feels_like: string;
+        temp_min: string;
+        temp_max: string;
+        humidity: string;
     };
     name: string;
     dt: string;
     sys: {
         country: string;
-        sunrise: number;
-        sunset: number;
+        sunrise: string;
+        sunset: string;
     };
     weather: {
         main: string;
-        icon: number;
+        icon: string;
     }[];
     wind: {
-        speed: number;
+        speed: string;
     };
 }
 
@@ -35,31 +35,31 @@ export interface WeatherState {
 const initialState: WeatherState = {
     value: {
         coord: {
-            lon: 0,
-            lat: 0,
+            lon: '--',
+            lat: '--',
         },
         main: {
-            temp: 0,
-            feels_like: 0,
-            temp_min: 0,
-            temp_max: 0,
-            humidity: 0,
+            temp: '--',
+            feels_like: '--',
+            temp_min: '--',
+            temp_max: '--',
+            humidity: '--',
         },
-        name: '',
-        dt: '',
+        name: '--',
+        dt: '--',
         sys: {
-            country: '',
-            sunrise: 0,
-            sunset: 0,
+            country: '--',
+            sunrise: '--',
+            sunset: '--',
         },
         weather: [
             {
                 main: '',
-                icon: 0,
+                icon: '--',
             },
         ],
         wind: {
-            speed: 0,
+            speed: '--',
         },
     },
 }

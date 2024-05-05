@@ -14,11 +14,11 @@ export interface CityState {
 
 const initialState: CityState = {
     value: {
-        name: '',
+        name: '--',
         local_names: {},
         lat: 0,
         lon: 0,
-        country: '',
+        country: '--',
     },
 }
 

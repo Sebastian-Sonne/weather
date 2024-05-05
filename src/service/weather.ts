@@ -7,7 +7,7 @@ const API_KEY = '0032afd1c29e8f942849a4db3a826afd';
 
 const getWeather = async (lon: string, lat: string): Promise<WeatherData> => {
     const url = new URL(BASE_URL);
-    url.search = new URLSearchParams({ lon: lon, lat: lat, apikey: API_KEY }).toString();
+    url.search = new URLSearchParams({ lon: lon, lat: lat, units:'metric', apikey: API_KEY }).toString();
 
     try {
         const response = await fetch(url);
