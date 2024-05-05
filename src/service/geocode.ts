@@ -1,8 +1,9 @@
 import { CityData } from "../state/slices/citySlice";
+import { OPEN_WEATHER_API_KEY } from "./API_KEYs";
 
 const BASE_URL = 'http://api.openweathermap.org/geo/1.0/direct';
 
-const API_KEY = '0032afd1c29e8f942849a4db3a826afd'
+const API_KEY = OPEN_WEATHER_API_KEY;
 
 const getCities = async (cityName: string): Promise<CityData[]> => {
     const url = new URL(BASE_URL);

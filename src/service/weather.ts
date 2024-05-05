@@ -1,8 +1,9 @@
 import { WeatherData } from "../state/slices/weatherSlice";
+import { OPEN_WEATHER_API_KEY } from "./API_KEYs";
 
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
-const API_KEY = '0032afd1c29e8f942849a4db3a826afd';
+const API_KEY = OPEN_WEATHER_API_KEY; // use own API Key
 
 
 const getWeather = async (lon: string, lat: string): Promise<WeatherData> => {
