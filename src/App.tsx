@@ -3,7 +3,7 @@ import Main from './components/Components';
 import { RootState } from './state/store';
 import { useEffect } from 'react';
 import fetchLongLat from './service/city';
-import getCurrentWeatherData from './service/service';
+import getCurrentWeatherData from './service/weather';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -38,10 +38,7 @@ function App(): JSX.Element {
                         console.log(weatherData);
                     })
             })
-    }
-
-    test();
-    
+    }    
 
 
     return (
