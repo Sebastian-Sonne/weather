@@ -1,28 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface WeatherState {
+export interface WeatherState {
     value: {
+        lat: number,
+        lon: number,
+        temp: number,
+        feels_like: number,
+        temp_min: number,
+        temp_max: number,
+        humidity: number,
         name: string,
-        temperature: number,
-        realFeel: number,
-        chanceOfRain: number,
-        windSpeed: number,
-        UVIndex: number,
-        hourlyForecast: [],
-        dailyForecast: [],
+        dt: string,
+        country: string,
+        sunrise: number,
+        sunset: number,
+        speed: number,
+        details: string,
+        icon: number
     };
 };
 
 const initialState: WeatherState = {
     value: {
-        name: '',
-        temperature: 0,
-        realFeel: 0,
-        chanceOfRain: 0,
-        windSpeed: 0,
-        UVIndex: 0,
-        hourlyForecast: [],
-        dailyForecast: [],
+        lat: 0,
+        lon: 0,
+        temp: 0,
+        feels_like: 0,
+        temp_min: 0,
+        temp_max: 0,
+        humidity: 0,
+        name: 'N/A',
+        dt: 'N/A',
+        country: 'N/',
+        sunrise: 0,
+        sunset: 0,
+        speed: 0,
+        details: 'N/A',
+        icon: 0
     },
 }
 
@@ -30,8 +44,8 @@ const weatherSlice = createSlice({
     name: "weather",
     initialState,
     reducers: {
-        setWeather: (state, payload) => {
-            state.value = state.value;
+        setWeather: (state, action) => {
+            state.value = action.payload;
         },
     },
 })
