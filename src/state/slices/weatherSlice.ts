@@ -1,42 +1,66 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface WeatherData {
+    coord: {
+        lon: number;
+        lat: number;
+    };
+    main: {
+        temp: number;
+        feels_like: number;
+        temp_min: number;
+        temp_max: number;
+        humidity: number;
+    };
+    name: string;
+    dt: string;
+    sys: {
+        country: string;
+        sunrise: number;
+        sunset: number;
+    };
+    weather: {
+        main: string;
+        icon: number;
+    }[];
+    wind: {
+        speed: number;
+    };
+}
 
 export interface WeatherState {
-    value: {
-        lat: number,
-        lon: number,
-        temp: number,
-        feels_like: number,
-        temp_min: number,
-        temp_max: number,
-        humidity: number,
-        name: string,
-        dt: string,
-        country: string,
-        sunrise: number,
-        sunset: number,
-        speed: number,
-        details: string,
-        icon: number
-    };
+    value: WeatherData
 };
 
 const initialState: WeatherState = {
     value: {
-        lat: 0,
-        lon: 0,
-        temp: 0,
-        feels_like: 0,
-        temp_min: 0,
-        temp_max: 0,
-        humidity: 0,
-        name: 'N/A',
-        dt: 'N/A',
-        country: 'N/',
-        sunrise: 0,
-        sunset: 0,
-        speed: 0,
-        details: 'N/A',
-        icon: 0
+        coord: {
+            lon: 0,
+            lat: 0,
+        },
+        main: {
+            temp: 0,
+            feels_like: 0,
+            temp_min: 0,
+            temp_max: 0,
+            humidity: 0,
+        },
+        name: '',
+        dt: '',
+        sys: {
+            country: '',
+            sunrise: 0,
+            sunset: 0,
+        },
+        weather: [
+            {
+                main: '',
+                icon: 0,
+            },
+        ],
+        wind: {
+            speed: 0,
+        },
     },
 }
 
@@ -44,7 +68,7 @@ const weatherSlice = createSlice({
     name: "weather",
     initialState,
     reducers: {
-        setWeather: (state, action) => {
+        setWeather: (state, action: PayloadAction<WeatherData>) => {
             state.value = action.payload;
         },
     },

@@ -1,27 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface QueryState {
-    value: {
-        cityName: string,
-        long: number,
-        lat: number,
-    };
+    value: string
 }
 
 const initialState: QueryState = {
-    value: {
-        cityName: 'berlin',
-        long: 0,
-        lat: 0,
-    },
+    value: 'berlin',
 }
 
 const querySlice = createSlice({
     name: "query",
     initialState,
     reducers: {
-        setQuerry: (state, payload) => {
-            state.value = state.value;
+        setQuerry: (state, action: PayloadAction<string>) => {
+            state.value = action.payload;
         },
     },
 })
