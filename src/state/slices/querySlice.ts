@@ -1,11 +1,25 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { getUserLocation } from "../../service/geocode";
 
 interface QueryState {
     value: string
 }
 
+var initialQuery;
+if ('query' in localStorage) {
+    initialQuery = '';
+} else {
+    const getUserCity = async () => {
+        const data = await getUserLocation();
+        return await data.city;
+    }
+    
+    localStorage.query = await getUserCity();
+    initialQuery = '';
+}
+
 const initialState: QueryState = {
-    value: '',
+    value: initialQuery,
 }
 
 const querySlice = createSlice({

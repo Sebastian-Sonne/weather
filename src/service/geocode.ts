@@ -20,3 +20,16 @@ const getCities = async (cityName: string): Promise<CityData[]> => {
 }
 
 export default getCities
+
+export const getUserLocation = async () => {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        if (!response.ok)
+            throw new Error(`Failed to fetch user location based on IP: ${response.status} ${response.statusText}`);
+
+        return await response.json();
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Error: ${error}`)
+    }
+}

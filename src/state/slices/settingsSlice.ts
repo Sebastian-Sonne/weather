@@ -14,8 +14,16 @@ if ('theme' in localStorage) {
     initialTheme = (initialIsDark) ? 'dark' : 'light';
 }
 
+var initialUnit;
+if ('unit' in localStorage) {
+    initialUnit = localStorage.theme;
+} else {
+    initialUnit = 'metric';
+    localStorage.unit = initialUnit;
+}
+
 const initialState: SettingsState = {
-    unit: 'metric',
+    unit: initialUnit,
     theme: initialTheme,
 }
 

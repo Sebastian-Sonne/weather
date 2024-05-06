@@ -30,7 +30,7 @@ export const SearchBar = (): JSX.Element => {
     }
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && query !== '') {
             localStorage.query = query.toLowerCase();
             const { cityData, weatherData }: Data = await getData(query);
         
@@ -39,6 +39,8 @@ export const SearchBar = (): JSX.Element => {
             dispatch(setQuerry(''));
         }
     }
+
+    //! HANDLE ERRORS && FETCH ERRORS
 
     return (
         <div className="w-full lg:w-2/3 h-12 mr-auto bg-secondary-light dark:bg-secondary-dark dark:bg-b rounded-xl">
