@@ -43,10 +43,10 @@ export const SearchBar = (): JSX.Element => {
     //! HANDLE ERRORS && FETCH ERRORS
 
     return (
-        <div className="w-full lg:w-2/3 h-12 mr-auto bg-secondary-light dark:bg-secondary-dark dark:bg-b rounded-xl">
+        <div className="w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
             <input
-                className="w-full h-full bg-transparent px-4 rounded-xl caret-white focus:outline-none"
-                placeholder="Search for cities..."
+                className="w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 font-semibold dark:caret-white focus:outline-none"
+                placeholder="Search for cities"
                 onChange={handleChange}
                 value={query}
                 onKeyDown={handleKeyDown}
@@ -60,7 +60,7 @@ export const ThemeSwitcher = (): JSX.Element => {
     const dispatch = useDispatch();
 
     return (
-        <div className="bg-secondary-light dark:bg-secondary-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
+        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">
             <button onClick={() => dispatch(toggleTheme())} className="w-full aspect-square p-2 rounded-xl">
 
                 {theme === 'dark' && <ThemeLight />}
