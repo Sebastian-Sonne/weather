@@ -48,7 +48,7 @@ export const Weather7Day = (): JSX.Element => {
 export const Footer = (): JSX.Element => {
     return (
         <div className='flex justify-center align-middle w-full h-6 my-2'>
-            <p className='dark:text-gray-400 text-gray-600 font-semibold'>&copy; {new Date().getFullYear()}
+            <p className='text-secondary-l dark:text-secondary-d font-semibold'>&copy; {new Date().getFullYear()}
                 <a href='https://github.com/sebastian-sonne' className='dark:text-slate-400 dark:hover:text-white text-gray-600 hover:text-gray-800 transition-colors' target='_blank'> Sebastian Sonne</a>
             </p>
         </div>

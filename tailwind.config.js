@@ -5,10 +5,19 @@ export default {
   theme: {
     extend: {
       colors: {
+        'bg-light': '#ffffff',
+        'component-light': '#f0f0f0',
+
         'bg-dark': '#0b131e',
-        'bg-light': '#e1e9f4',
-        'secondary-dark': '#202b3b',
-        'secondary-light': '#c3cedf',
+        'component-dark': '#202b3b',
+
+        'primary-d': '#dde0e4',
+        'secondary-d': '#8899a2',
+        'accent-d': '#9399a2 c4cad3 dde0e4',
+
+        'primary-l': '#1b1e22',
+        'secondary-l': '#5e6f78',
+        'accent-l': '#2b313b',
       },
       screens: {
         'xs': '450px'

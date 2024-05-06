@@ -14,12 +14,12 @@ export const Overview = (): JSX.Element => {
             <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
 
                 <div className="h-full gap-4">
-                    <h1 className="font-bold dark:text-white text-5xl mb-2">{city.name}</h1>
-                    <h2 className="font-medium dark:text-gray-300">Chance of rain: --</h2>
+                    <h1 className="font-bold text-primary-l dark:text-primary-d text-5xl mb-2">{city.name}</h1>
+                    <h2 className="font-semibold text-secondary-l dark:text-secondary-d">Chance of rain: --</h2>
                 </div>
 
                 <div className="pb-2">
-                    <h2 className="font-bold  dark:text-white text-6xl">{parseFloat(weather.main.temp).toFixed()}°</h2>
+                    <h2 className="font-bold dark:text-primary-d text-7xl">{parseFloat(weather.main.temp).toFixed()}°</h2>
                 </div>
 
             </div>
@@ -35,8 +35,8 @@ export const ForecastToday = (): JSX.Element => {
     const weatherList = ['', '', '', '', '', '']
 
     return (
-        <div className="w-full secondary-light bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
-            <h2 className="font-semibold text-sm dark:text-gray-300 mb-4">TODAY'S FORECAST</h2>
+        <div className="w-full component-light bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">TODAY'S FORECAST</h2>
     
             <div className="overflow-x-auto">
                 <table className="table mb-2">
@@ -68,11 +68,11 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast }): 
 
     return (
         <td className={classes}>
-            <h3 className="font-bold text-lg dark:text-gray-400">00:00</h3>
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">NaN:NaN</h3>
             <div className="w-1/3">
                 <Sun />
             </div>
-            <h3 className="font-bold text-3xl dark:text-gray-300">00°</h3>
+            <h3 className="font-semibold text-3xl text-primary-l dark:text-primary-d">NaN°</h3>
         </td>
     );
 }
@@ -81,9 +81,9 @@ export const AirCondition = (): JSX.Element => {
     const weather = useSelector((state: RootState) => state.weather.value);
 
     return (
-        <div className="w-full bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
+        <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
 
-            <h2 className="font-semibold text-sm dark:text-gray-300 mb-4">AIR CONDITION</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">AIR CONDITION</h2>
 
             <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
@@ -109,12 +109,12 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 
     return (
         <div className="flex flex-row w-full">
-            <div className="w-8 aspect-square pt-1 px-1">
+            <div className="w-8 aspect-square pt-1 px-1 text-primary-l dark:text-primary-d">
                 {props.icon}
             </div>
             <div className="flex flex-col px-2">
-                <h4 className="font-semibold text-lg dark:text-gray-400">{props.name}</h4>
-                <h3 className="font-bold text-3xl dark:text-gray-300">{props.value}{props.unit}</h3>
+                <h4 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{props.name}</h4>
+                <h3 className="font-bold text-3xl text-primary-l dark:text-primary-d">{props.value}{props.unit}</h3>
             </div>
         </div>
     );
@@ -123,9 +123,9 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 export const Forecast7Day = (): JSX.Element => {
 
     return (
-        <div className="w-full lg:h-full bg-secondary-light dark:bg-secondary-dark rounded-2xl p-6 pt-7">
+        <div className="w-full lg:h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
 
-            <h2 className="font-semibold text-sm dark:text-gray-300 mb-4">7-DAY FORECAST</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">7-DAY FORECAST</h2>
 
             <div className="flex flex-col">
                 <DayOverview day="Today" isFirst={true} />
@@ -157,16 +157,16 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
 
     return (
         <div className={classes}>
-            <h4 className="font-semibold dark:text-gray-400 w-11">{props.day}</h4>
+            <h4 className="font-medium text-secondary-l dark:text-secondary-d w-11">{props.day}</h4>
 
             <div className="flex flex-row items-center gap-4">
                 <div className="h-10 aspect-square">
                     <Sun />
                 </div>
-                <h5 className="font-bold dark:text-white">Sunny</h5>
+                <h5 className="font-bold text-primary-l dark:text-primary-d">Sunny</h5>
             </div>
 
-            <h4 className="font-semibold dark:text-white">00<span className="dark:text-gray-400">/00</span></h4>
+            <h4 className="font-semibold text-primary-l dark:text-primary-d">00<span className="text-secondary-l dark:text-secondary-d">/00</span></h4>
         </div>
     );
 }
