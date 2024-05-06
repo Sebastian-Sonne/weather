@@ -12,11 +12,19 @@ function App(): JSX.Element {
     }, [theme]);
     //! onload theme does not work
 
+    //! light icons; general color palete
+
     return (
-        <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
+        <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-primary-l dark:text-primary-d transition-colors'>
 
             {/* <Sidebar /> */}
             <Main />
+
+            
+
+            <h3 className='text-2xl font-semibold text-primary-l dark:text-primary-d'>Test primary</h3>
+            <h3 className='text-2xl font-semibold text-secondary-l dark:text-secondary-d'>Test secondary</h3>
+            <h3 className='text-2xl font-semibold text-accent-l dark:text-accent-d'>Test accent</h3>
         </div>
     )
 }
