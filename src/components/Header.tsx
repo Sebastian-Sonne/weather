@@ -2,13 +2,11 @@ import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { toggle } from "../state/slices/themeSlice";
 import { setQuerry } from "../state/slices/querySlice";
-import { setWeather, WeatherData } from '../state/slices/weatherSlice';
-import getCities from '../service/geocode';
-import getWeather from '../service/weather';
-import { CityData, setCity } from '../state/slices/citySlice';
+import { setWeather } from '../state/slices/weatherSlice';
+import { setCity } from '../state/slices/citySlice';
 import getData, { Data } from '../service/service';
+import { toggleTheme } from '../state/slices/settingsSlice';
 
 
 const Header = (): JSX.Element => {
@@ -24,8 +22,6 @@ const Header = (): JSX.Element => {
 export default Header
 
 export const SearchBar = (): JSX.Element => {
-
-    const unit = useSelector((state: RootState) => state.settings.value.unit);
     const query = useSelector((state: RootState) => state.query.value);
     const dispatch = useDispatch()
 
@@ -58,12 +54,12 @@ export const SearchBar = (): JSX.Element => {
 }
 
 export const ThemeSwitcher = (): JSX.Element => {
-    const theme = useSelector((state: RootState) => state.theme.value);
+    const theme = useSelector((state: RootState) => state.settings.theme);
     const dispatch = useDispatch();
 
     return (
         <div className="bg-secondary-light dark:bg-secondary-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-200 transition-colors">
-            <button onClick={() => dispatch(toggle())} className="w-full aspect-square p-2 rounded-xl">
+            <button onClick={() => dispatch(toggleTheme())} className="w-full aspect-square p-2 rounded-xl">
 
                 {theme === 'dark' && <ThemeLight />}
                 {theme !== 'dark' && <ThemeDark />}

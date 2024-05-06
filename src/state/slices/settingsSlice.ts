@@ -1,29 +1,42 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface SettingsData {
+export interface SettingsState {
     unit: string,
+    theme: string,
 }
 
-export interface SettingsState {
-    value: SettingsData,
+var initialTheme;
+if ('theme' in localStorage) {
+    initialTheme = localStorage.theme;
+} else {
+    const initialIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    localStorage.theme = (initialIsDark) ? 'dark' : 'light';
+    initialTheme = (initialIsDark) ? 'dark' : 'light';
 }
 
 const initialState: SettingsState = {
-    value: {
-        unit: 'metric'
-    },
+    unit: 'metric',
+    theme: initialTheme,
 }
 
 const settingwSlice = createSlice({
     name: "settings",
     initialState,
     reducers: {
-        setCity: (state, action: PayloadAction<SettingsData>) => {
-            state.value = action.payload;
+        setUnit: (state, action: PayloadAction<string>) => {
+            state.unit = action.payload;
+        },
+        setTheme: (state, action: PayloadAction<string>) => {
+            state.theme = action.payload;
+        },
+        toggleTheme: (state) => {
+            const newTheme = (state.theme === 'dark') ? 'light' : 'dark';
+            localStorage.theme = newTheme;
+            state.theme = newTheme;
         },
     },
 })
 
-export const { setCity } = settingwSlice.actions;
+export const { setUnit, setTheme, toggleTheme } = settingwSlice.actions;
 
 export default settingwSlice.reducer;
