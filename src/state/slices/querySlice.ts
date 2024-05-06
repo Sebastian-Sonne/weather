@@ -5,7 +5,7 @@ interface QueryState {
 }
 
 const initialState: QueryState = {
-    value: 'berlin',
+    value: '',
 }
 
 const querySlice = createSlice({

@@ -8,6 +8,7 @@ import { setWeather, WeatherData } from '../state/slices/weatherSlice';
 import getCities from '../service/geocode';
 import getWeather from '../service/weather';
 import { CityData, setCity } from '../state/slices/citySlice';
+import getData, { Data } from '../service/service';
 
 
 const Header = (): JSX.Element => {
@@ -24,6 +25,7 @@ export default Header
 
 export const SearchBar = (): JSX.Element => {
 
+    const unit = useSelector((state: RootState) => state.settings.value.unit);
     const query = useSelector((state: RootState) => state.query.value);
     const dispatch = useDispatch()
 
@@ -33,12 +35,9 @@ export const SearchBar = (): JSX.Element => {
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            const citiesData: CityData[] = await getCities(query);
-            const cityData: CityData = citiesData[0]
-
-            const { lon, lat } = cityData;
-            const weatherData: WeatherData = await getWeather(lon.toString(), lat.toString());
-
+            localStorage.query = query.toLowerCase();
+            const { cityData, weatherData }: Data = await getData(query);
+        
             dispatch(setWeather(weatherData));
             dispatch(setCity(cityData));
             dispatch(setQuerry(''));
