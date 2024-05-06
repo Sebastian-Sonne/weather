@@ -7,6 +7,7 @@ const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
 const getWeather = async (lon: string, lat: string): Promise<WeatherData> => {
     const url = new URL(BASE_URL);
+    //@ts-ignore
     url.search = new URLSearchParams({ lon: lon, lat: lat, units:'metric', apikey: API_KEY }).toString();
 
     try {

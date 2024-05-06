@@ -1,12 +1,11 @@
 import { CityData } from "../state/slices/citySlice";
 
-
 const BASE_URL = 'http://api.openweathermap.org/geo/1.0/direct';
-
 const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
 const getCities = async (cityName: string): Promise<CityData[]> => {
     const url = new URL(BASE_URL);
+    //@ts-ignore
     url.search = new URLSearchParams({ q: cityName, appid: API_KEY, limit: '5' }).toString();
 
     try {
