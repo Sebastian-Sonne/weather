@@ -1,7 +1,13 @@
+import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { toggle } from "../state/theme/themeSlice";
+import { toggle } from "../state/slices/themeSlice";
+import { setQuerry } from "../state/slices/querySlice";
+import { setWeather, WeatherData } from '../state/slices/weatherSlice';
+import getCities from '../service/geocode';
+import getWeather from '../service/weather';
+import { CityData, setCity } from '../state/slices/citySlice';
 
 
 const Header = (): JSX.Element => {
@@ -18,8 +24,25 @@ export default Header
 
 export const SearchBar = (): JSX.Element => {
 
-    const handleKeyDown = () => {
+    const query = useSelector((state: RootState) => state.query.value);
+    const dispatch = useDispatch()
 
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setQuerry(event.target.value));
+    }
+
+    const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            const citiesData: CityData[] = await getCities(query);
+            const cityData: CityData = citiesData[0]
+
+            const { lon, lat } = cityData;
+            const weatherData: WeatherData = await getWeather(lon.toString(), lat.toString());
+
+            dispatch(setWeather(weatherData));
+            dispatch(setCity(cityData));
+            dispatch(setQuerry(''));
+        }
     }
 
     return (
@@ -27,6 +50,8 @@ export const SearchBar = (): JSX.Element => {
             <input
                 className="w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 font-semibold dark:caret-white focus:outline-none"
                 placeholder="Search for cities"
+                onChange={handleChange}
+                value={query}
                 onKeyDown={handleKeyDown}
             />
         </div>
