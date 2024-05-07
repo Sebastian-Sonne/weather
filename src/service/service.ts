@@ -15,7 +15,7 @@ const getData = async (query: string): Promise<Data> => {
     const cityData: CityData = citiesData[0];
 
     const { lon, lat } = cityData;
-    const weatherData: WeatherData = await getWeather(lon.toString(), lat.toString(), unit)
+    const weatherData: WeatherData = await getWeather(lon.toString(), lat.toString(), unit);
 
     return { cityData, weatherData };
 }

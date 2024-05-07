@@ -21,6 +21,7 @@ export interface WeatherData {
     };
     weather: {
         main: string;
+        description: string;
         icon: string;
     }[];
     wind: {
@@ -54,7 +55,8 @@ const initialState: WeatherState = {
         },
         weather: [
             {
-                main: '',
+                main: '--',
+                description: '--',
                 icon: '--',
             },
         ],
