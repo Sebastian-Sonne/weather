@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { setCity } from './state/slices/citySlice';
 import { setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
-import { setQuerry } from './state/slices/querySlice';
+import { fetchInitialQuery, setQuery } from './state/slices/querySlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -15,11 +15,13 @@ function App(): JSX.Element {
     //onload data fetch 
     useEffect(() => {
         const inialSetup = async () => {
+            fetchInitialQuery();
+
             const { cityData, weatherData }: Data = await getData(localStorage.query);
     
             dispatch(setWeather(weatherData));
             dispatch(setCity(cityData));
-            dispatch(setQuerry(''));
+            dispatch(setQuery(''));
         }
 
         inialSetup();

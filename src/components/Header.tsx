@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { setQuerry } from "../state/slices/querySlice";
+import { setQuery } from "../state/slices/querySlice";
 import { setWeather } from '../state/slices/weatherSlice';
 import { setCity } from '../state/slices/citySlice';
 import getData, { Data } from '../service/service';
@@ -26,7 +26,7 @@ export const SearchBar = (): JSX.Element => {
     const dispatch = useDispatch()
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setQuerry(event.target.value));
+        dispatch(setQuery(event.target.value));
     }
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ export const SearchBar = (): JSX.Element => {
         
             dispatch(setWeather(weatherData));
             dispatch(setCity(cityData));
-            dispatch(setQuerry(''));
+            dispatch(setQuery(''));
         }
     }
 

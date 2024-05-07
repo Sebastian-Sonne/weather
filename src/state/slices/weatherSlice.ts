@@ -57,7 +57,7 @@ const initialState: WeatherState = {
             {
                 main: '--',
                 description: '--',
-                icon: '--',
+                icon: '50d',
             },
         ],
         wind: {
