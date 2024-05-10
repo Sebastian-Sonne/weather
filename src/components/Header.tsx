@@ -7,7 +7,7 @@ import { setWeather } from '../state/slices/weatherSlice';
 import { setCity } from '../state/slices/citySlice';
 import getData, { Data } from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
-import { setForecast } from '../state/slices/ForecastSlice';
+import { setForecast } from '../state/slices/forecastSlice';
 
 
 const Header = (): JSX.Element => {

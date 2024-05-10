@@ -3,6 +3,7 @@ import { DropIcon, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
 import { Footer } from "./Components";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
+import { HourlyData } from "../state/slices/forecastSlice";
 
 export const Overview = (): JSX.Element => {
 
@@ -28,7 +29,7 @@ export const Overview = (): JSX.Element => {
             </div>
 
             <div className="flex items-center h-full aspect-square py-4 px-6">
-                <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} alt="test weather !!!" />
+                <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} alt="weather icon" />
             </div>
 
             {/*! ICONS !!!
@@ -42,19 +43,10 @@ export const Overview = (): JSX.Element => {
     );
 }
 
-interface Weather {
-    time: Date | string,
-    temperature: number | string,
-}
-
-interface WeatherArray extends Array<Weather> { }
-
 export const ForecastToday = (): JSX.Element => {
 
-    const weather = useSelector((state: RootState) => state.weather);
-    const date = new Date();
-
-    const weatherList: WeatherArray = [{ time: 'Now', temperature: parseFloat(weather.value.main.temp).toFixed() }, { time: date, temperature: '-' }, { time: date, temperature: '-' }, { time: date, temperature: '-' }, { time: date, temperature: '-' }, { time: date, temperature: '-' }];
+    const forecast = useSelector((state: RootState) => state.forecast.value);
+    const firstForecast = forecast.list.slice(0, 6);
 
     return (
         <div className="w-full component-light bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
@@ -64,14 +56,12 @@ export const ForecastToday = (): JSX.Element => {
                 <table className="table mb-2">
                     <tbody>
                         <tr className="flex flex-row min-w-[568px]">
-                            {weatherList.map((data, index) => (
+                            {firstForecast.map((data, index) => (
                                 <HourOverview
                                     key={index}
                                     isFirst={index === 0}
-                                    isLast={index === weatherList.length - 1}
-                                    time={data.time}
-                                    temperature={data.temperature}
-                                    index={index}
+                                    isLast={index === firstForecast.length - 1}
+                                    data={data}
                                 />
                             ))}
                         </tr>
@@ -84,30 +74,28 @@ export const ForecastToday = (): JSX.Element => {
 }
 
 interface HourOverviewProps {
-    isFirst: boolean,
-    isLast: boolean,
-    time: Date | string,
-    temperature: number | string,
-    index: number,
+    isFirst?: boolean;
+    isLast?: boolean;
+    data: HourlyData;
 }
-export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, time, temperature, index }): JSX.Element => {
+
+export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, data: data }): JSX.Element => {
+
+    const padZeros = (num: number) =>  (num < 10) ? '0' + num : num;
+
+    const time = padZeros(new Date(data.dt * 1000).getHours());
+    const temp = data.main.temp.toFixed();
+    const icon = data.weather[0].icon;
 
     const classes = `flex flex-col gap-2 items-center border border-y-0 border-gray-500 ${isFirst ? 'border-l-0' : ''} ${isLast ? 'border-r-0' : ''}`;
 
-    var currentTime
-    if (typeof time !== 'string') {
-        const timeParts = time.toTimeString().split(':');
-        const hour = parseInt(timeParts[0])
-        currentTime = `${hour + (index * 2)}:00`
-    }
-
     return (
         <td className={classes}>
-            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{(typeof time === 'string') ? time : currentTime}</h3>
-            <div className="w-1/3">
-                <Sun />
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{time}:00</h3>
+            <div className="w-2/3 md:w-1/3 rounded-xl bg-gray-300 dark:bg-accent-l">
+                <img src={`https://openweathermap.org/img/wn/${icon}@4x.png`} alt="weather icon" />
             </div>
-            <h3 className="font-semibold text-3xl text-primary-l dark:text-primary-d">{temperature}°</h3>
+            <h3 className="font-semibold text-3xl text-primary-l dark:text-primary-d">{temp}°</h3>
         </td>
     );
 }

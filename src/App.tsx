@@ -6,7 +6,7 @@ import { setCity } from './state/slices/citySlice';
 import { setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
 import { fetchInitialQuery, setQuery } from './state/slices/querySlice';
-import { setForecast } from './state/slices/ForecastSlice';
+import { setForecast } from './state/slices/forecastSlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();

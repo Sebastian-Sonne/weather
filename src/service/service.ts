@@ -1,4 +1,4 @@
-import { ForecastData } from "../state/slices/ForecastSlice";
+import { ForecastData } from "../state/slices/forecastSlice";
 import { CityData } from "../state/slices/citySlice"
 import { WeatherData } from "../state/slices/weatherSlice";
 import getCities from "./geocode"

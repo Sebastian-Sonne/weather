@@ -1,4 +1,4 @@
-import { ForecastData } from "../state/slices/ForecastSlice";
+import { ForecastData } from "../state/slices/forecastSlice";
 import { WeatherData } from "../state/slices/weatherSlice";
 
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';

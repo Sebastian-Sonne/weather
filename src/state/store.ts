@@ -3,7 +3,7 @@ import queryReducer from './slices/querySlice';
 import weatherReducer from './slices/weatherSlice';
 import cityReducer from './slices/citySlice';
 import settingReducer from './slices/settingsSlice'
-import forecastSlice from './slices/ForecastSlice';
+import forecastSlice from './slices/forecastSlice';
 
 export const store = configureStore({
     reducer: {
