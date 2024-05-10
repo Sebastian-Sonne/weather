@@ -1,7 +1,7 @@
 import { ForecastData } from "../state/slices/forecastSlice";
 import { CityData } from "../state/slices/citySlice"
 import { WeatherData } from "../state/slices/weatherSlice";
-import getCities from "./geocode"
+import getCities, { getCitiesByCoordinates } from "./geocode"
 import getCurrentWeather, { getForecast } from "./weather";
 
 
@@ -11,17 +11,28 @@ export interface Data {
     forecast: ForecastData;
 }
 
-const getData = async (query: string): Promise<Data> => {
-    const unit = localStorage.unit;
-
-    const citiesData: CityData[] = await getCities(query);
-    const cityData: CityData = citiesData[0];
-
-    const { lon, lat } = cityData;
-    const currentWeather = await getCurrentWeather(lon.toString(), lat.toString(), unit);
-    const forecast = await getForecast(lon.toString(), lat.toString(), unit);
-
-    return { cityData, currentWeather, forecast };
+interface Coordinates {
+    lon: number;
+    lat: number;
 }
 
-export default getData
+const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> => {
+    const unit = localStorage.unit;
+
+    let citiesData: CityData[];
+
+    if (typeof queryOrCoordinates === 'string') {
+        citiesData = await getCities(queryOrCoordinates);
+    } else {
+        citiesData = await getCitiesByCoordinates(queryOrCoordinates.lon, queryOrCoordinates.lat);
+    }
+
+    const cityData: CityData = citiesData[0];
+
+    const currentWeather = await getCurrentWeather(cityData.lon.toString(), cityData.lat.toString(), unit);
+    const forecast = await getForecast(cityData.lon.toString(), cityData.lat.toString(), unit);
+
+    return { cityData, currentWeather, forecast };
+};
+
+export default getData;

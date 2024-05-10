@@ -1,13 +1,14 @@
 import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { ThemeDark, ThemeLight } from "./Icons";
+import { LocationDark, LocationLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
 import { setQuery } from "../state/slices/querySlice";
-import { setWeather } from '../state/slices/weatherSlice';
-import { setCity } from '../state/slices/citySlice';
 import getData, { Data } from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
+import { getUserLocation } from '../service/geocode';
+import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
+import { setCity } from '../state/slices/citySlice';
 
 
 const Header = (): JSX.Element => {
@@ -15,7 +16,11 @@ const Header = (): JSX.Element => {
     return (
         <div className="flex flex-row justify-between w-full">
             <SearchBar />
-            <ThemeSwitcher />
+
+            <div className='flex flex-r'>
+                <Location />
+                <ThemeSwitcher />
+            </div>
         </div>
     );
 }
@@ -34,15 +39,15 @@ export const SearchBar = (): JSX.Element => {
         if (event.key === 'Enter' && query !== '') {
             localStorage.query = query.toLowerCase();
             const { cityData, currentWeather, forecast }: Data = await getData(query);
-        
+
             dispatch(setWeather(currentWeather));
-            dispatch(setForecast(forecast));
+            dispatch(setForecast(forecast))
             dispatch(setCity(cityData));
             dispatch(setQuery(''));
         }
     }
 
-    //! HANDLE ERRORS && FETCH ERRORS
+    //! @me HANDLE ERRORS
 
     return (
         <div className="w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
@@ -67,6 +72,32 @@ export const ThemeSwitcher = (): JSX.Element => {
 
                 {theme === 'dark' && <ThemeLight />}
                 {theme !== 'dark' && <ThemeDark />}
+
+            </button>
+        </div>
+    );
+}
+
+export const Location = (): JSX.Element => {
+    const dispatch = useDispatch();
+    const theme = useSelector((state: RootState) => state.settings.theme);
+
+    const handleClick = async () => {
+        const userLocation = await getUserLocation();
+        const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude});
+
+        dispatch(setWeather(currentWeather));
+        dispatch(setForecast(forecast))
+        dispatch(setCity(cityData));
+
+        localStorage.query = userLocation.city;
+    }
+
+    return (
+        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">
+            <button onClick={handleClick} className="w-full aspect-square p-2 rounded-xl">
+
+                {theme === 'dark' ? <LocationDark /> : <LocationLight />}
 
             </button>
         </div>

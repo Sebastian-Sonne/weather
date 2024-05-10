@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Main from './components/Components';
 import { RootState } from './state/store';
 import { useEffect } from 'react';
-import { setCity } from './state/slices/citySlice';
-import { setWeather } from './state/slices/weatherSlice';
+import { CityData, setCity } from './state/slices/citySlice';
+import { WeatherData, setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
 import { setQuery } from './state/slices/querySlice';
-import { setForecast } from './state/slices/forecastSlice';
+import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { getUserLocation } from './service/geocode';
 
 function App(): JSX.Element {
@@ -19,14 +19,23 @@ function App(): JSX.Element {
         const inialSetup = async () => {
             if (!('query' in localStorage)) {
                 const userLocation = await getUserLocation();
+
+                const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude });
+                saveData(cityData, currentWeather, forecast);
+
                 localStorage.query = userLocation.city;
+            } else {
+                const { cityData, currentWeather, forecast }: Data = await getData(localStorage.query);
+                saveData(cityData, currentWeather, forecast);
             }
-            
-            const { cityData, currentWeather, forecast }: Data = await getData(localStorage.query);
+
+            dispatch(setQuery(''));
+        }
+
+        const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
             dispatch(setWeather(currentWeather));
             dispatch(setForecast(forecast))
             dispatch(setCity(cityData));
-            dispatch(setQuery(''));
         }
 
         inialSetup();
