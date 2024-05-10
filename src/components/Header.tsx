@@ -9,6 +9,7 @@ import { getUserLocation } from '../service/geocode';
 import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
 import { setCity } from '../state/slices/citySlice';
+import { setLoading, toggleLoading } from '../state/slices/loadingSlice';
 
 
 const Header = (): JSX.Element => {
@@ -37,6 +38,7 @@ export const SearchBar = (): JSX.Element => {
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && query !== '') {
+            dispatch(setLoading(true));
             localStorage.query = query.toLowerCase();
             const { cityData, currentWeather, forecast }: Data = await getData(query);
 
@@ -44,6 +46,7 @@ export const SearchBar = (): JSX.Element => {
             dispatch(setForecast(forecast))
             dispatch(setCity(cityData));
             dispatch(setQuery(''));
+            dispatch(toggleLoading())
         }
     }
 
@@ -83,12 +86,14 @@ export const Location = (): JSX.Element => {
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     const handleClick = async () => {
+        dispatch(setLoading(true));
         const userLocation = await getUserLocation();
         const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude});
 
         dispatch(setWeather(currentWeather));
         dispatch(setForecast(forecast))
         dispatch(setCity(cityData));
+        dispatch(toggleLoading());
 
         localStorage.query = userLocation.city;
     }

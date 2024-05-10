@@ -8,6 +8,8 @@ import getData, { Data } from './service/service';
 import { setQuery } from './state/slices/querySlice';
 import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { getUserLocation } from './service/geocode';
+import { Loader } from './components/Effects';
+import { toggleLoading } from './state/slices/loadingSlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -30,6 +32,7 @@ function App(): JSX.Element {
             }
 
             dispatch(setQuery(''));
+            dispatch(toggleLoading());
         }
 
         const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
@@ -53,9 +56,15 @@ function App(): JSX.Element {
     }, [city]);
 
     return (
+        <>
+
+        <Loader />
+
         <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
             <Main />
         </div>
+
+        </>
     )
 }
 
