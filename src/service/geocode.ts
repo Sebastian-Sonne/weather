@@ -21,7 +21,7 @@ const getCities = async (cityName: string): Promise<CityData[]> => {
 
 export default getCities
 
-export const getUserLocation = async () => {
+export const getUserLocation = async (): Promise<any> => {
     try {
         const response = await fetch('https://ipapi.co/json/');
         if (!response.ok)
@@ -29,7 +29,6 @@ export const getUserLocation = async () => {
 
         return await response.json();
     } catch (error) {
-        console.log(error);
         throw new Error(`Error: ${error}`)
     }
 }
