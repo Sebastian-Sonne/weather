@@ -7,6 +7,7 @@ import { setWeather } from '../state/slices/weatherSlice';
 import { setCity } from '../state/slices/citySlice';
 import getData, { Data } from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
+import { setForecast } from '../state/slices/ForecastSlice';
 
 
 const Header = (): JSX.Element => {
@@ -32,9 +33,10 @@ export const SearchBar = (): JSX.Element => {
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && query !== '') {
             localStorage.query = query.toLowerCase();
-            const { cityData, weatherData }: Data = await getData(query);
+            const { cityData, currentWeather, forecast }: Data = await getData(query);
         
-            dispatch(setWeather(weatherData));
+            dispatch(setWeather(currentWeather));
+            dispatch(setForecast(forecast));
             dispatch(setCity(cityData));
             dispatch(setQuery(''));
         }

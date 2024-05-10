@@ -1,11 +1,14 @@
+import { ForecastData } from "../state/slices/ForecastSlice";
 import { CityData } from "../state/slices/citySlice"
 import { WeatherData } from "../state/slices/weatherSlice";
 import getCities from "./geocode"
-import getWeather from "./weather";
+import getCurrentWeather, { getForecast } from "./weather";
+
 
 export interface Data {
     cityData: CityData;
-    weatherData: WeatherData;
+    currentWeather: WeatherData;
+    forecast: ForecastData;
 }
 
 const getData = async (query: string): Promise<Data> => {
@@ -15,9 +18,10 @@ const getData = async (query: string): Promise<Data> => {
     const cityData: CityData = citiesData[0];
 
     const { lon, lat } = cityData;
-    const weatherData: WeatherData = await getWeather(lon.toString(), lat.toString(), unit);
+    const currentWeather = await getCurrentWeather(lon.toString(), lat.toString(), unit);
+    const forecast = await getForecast(lon.toString(), lat.toString(), unit);
 
-    return { cityData, weatherData };
+    return { cityData, currentWeather, forecast };
 }
 
 export default getData

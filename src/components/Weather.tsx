@@ -123,7 +123,7 @@ export const AirCondition = (): JSX.Element => {
             <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
                     <ConditionElement name="Real Feel" value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIcon />} />
-                    <ConditionElement name="Chance of rain" value={'--'} unit="%" icon={<DropIcon />} />
+                    <ConditionElement name="Humidity" value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIcon />} />
                 </div>
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
                     <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit="km/h" icon={<WindIcon />} />

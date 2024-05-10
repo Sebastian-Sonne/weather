@@ -6,6 +6,7 @@ import { setCity } from './state/slices/citySlice';
 import { setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
 import { fetchInitialQuery, setQuery } from './state/slices/querySlice';
+import { setForecast } from './state/slices/ForecastSlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -17,9 +18,10 @@ function App(): JSX.Element {
         const inialSetup = async () => {
             fetchInitialQuery();
 
-            const { cityData, weatherData }: Data = await getData(localStorage.query);
+            const { cityData, currentWeather, forecast }: Data = await getData(localStorage.query);
     
-            dispatch(setWeather(weatherData));
+            dispatch(setWeather(currentWeather));
+            dispatch(setForecast(forecast))
             dispatch(setCity(cityData));
             dispatch(setQuery(''));
         }
