@@ -1,5 +1,5 @@
 import React from "react";
-import { DropIcon, Sun, SunIcon, ThermometerIcon, WindIcon } from "./Icons";
+import { DropIconLight, PressureIconLight, Sun, ThermometerIconLight, WindIconLight } from "./Icons";
 import { Footer } from "./Components";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
@@ -31,14 +31,6 @@ export const Overview = (): JSX.Element => {
             <div className="flex items-center h-full aspect-square py-4 px-6">
                 <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} alt="weather icon" />
             </div>
-
-            {/*! ICONS !!!
-             * 
-            <div className="flex items-center h-full aspect-square py-4 px-6">
-                <Sun />
-            </div>
-
-            */}
         </div>
     );
 }
@@ -110,12 +102,12 @@ export const AirCondition = (): JSX.Element => {
 
             <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Real Feel" value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIcon />} />
-                    <ConditionElement name="Humidity" value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIcon />} />
+                    <ConditionElement name="Real Feel" value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIconLight />} />
+                    <ConditionElement name="Humidity" value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIconLight />} />
                 </div>
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit="km/h" icon={<WindIcon />} />
-                    <ConditionElement name="UV Index" value={'--'} unit="" icon={<SunIcon />} />
+                    <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit="km/h" icon={<WindIconLight />} />
+                    <ConditionElement name="Pressure" value={weather.main.pressure} unit="hPa" icon={<PressureIconLight />} />
                 </div>
             </div>
         </div>
@@ -124,7 +116,7 @@ export const AirCondition = (): JSX.Element => {
 
 interface ConditionElementProps {
     name: string,
-    value: string,
+    value: string | number,
     unit: string,
     icon: JSX.Element
 };

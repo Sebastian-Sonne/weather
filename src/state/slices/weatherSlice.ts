@@ -11,6 +11,7 @@ export interface WeatherData {
         temp_min: string;
         temp_max: string;
         humidity: string;
+        pressure: number;
     };
     name: string;
     dt: string;
@@ -45,6 +46,7 @@ const initialState: WeatherState = {
             temp_min: '--',
             temp_max: '--',
             humidity: '--',
+            pressure: 0,
         },
         name: '--',
         dt: '--',

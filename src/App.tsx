@@ -51,10 +51,7 @@ function App(): JSX.Element {
     useEffect(() => {
         document.title = `${city} - Weather`;
 
-        interface HTMLLinkElementWithFavicon extends HTMLLinkElement {
-            href: string;
-        }
-
+        interface HTMLLinkElementWithFavicon extends HTMLLinkElement { href: string }
         const icon = document.getElementById('favicon') as HTMLLinkElementWithFavicon;
         icon.href = `https://openweathermap.org/img/wn/${iconNum}@4x.png`;
     }, [city]);
