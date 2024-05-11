@@ -39,8 +39,11 @@ export const SearchBar = (): JSX.Element => {
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && query !== '') {
             dispatch(setLoading(true));
-            localStorage.query = query.toLowerCase();
+
             const { cityData, currentWeather, forecast }: Data = await getData(query);
+            const coords = { lon: cityData.lon, lat: cityData.lat }
+            
+            localStorage.setItem('coords', JSON.stringify(coords));
 
             dispatch(setWeather(currentWeather));
             dispatch(setForecast(forecast))
@@ -88,14 +91,16 @@ export const Location = (): JSX.Element => {
     const handleClick = async () => {
         dispatch(setLoading(true));
         const userLocation = await getUserLocation();
-        const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude});
+        const { longitude, latitude } = userLocation;
+        const coords = { lon: longitude, lat: latitude };
 
+        const { cityData, currentWeather, forecast }: Data = await getData(coords);
+
+        localStorage.setItem('coords', JSON.stringify(coords));
         dispatch(setWeather(currentWeather));
         dispatch(setForecast(forecast))
         dispatch(setCity(cityData));
         dispatch(toggleLoading());
-
-        localStorage.query = userLocation.city;
     }
 
     return (

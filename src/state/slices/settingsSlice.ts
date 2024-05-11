@@ -16,7 +16,7 @@ if ('theme' in localStorage) {
 
 var initialUnit;
 if ('unit' in localStorage) {
-    initialUnit = localStorage.theme;
+    initialUnit = localStorage.unit;
 } else {
     initialUnit = 'metric';
     localStorage.unit = initialUnit;

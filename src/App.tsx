@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { CityData, setCity } from './state/slices/citySlice';
 import { WeatherData, setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
-import { setQuery } from './state/slices/querySlice';
 import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { getUserLocation } from './service/geocode';
 import { Loader } from './components/Effects';
@@ -19,19 +18,16 @@ function App(): JSX.Element {
     //onload data fetch 
     useEffect(() => {
         const inialSetup = async () => {
-            if (!('query' in localStorage)) {
+            if (!('coords' in localStorage)) {
                 const userLocation = await getUserLocation();
-
                 const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude });
-                saveData(cityData, currentWeather, forecast);
 
-                localStorage.query = userLocation.city;
+                saveData(cityData, currentWeather, forecast);
             } else {
-                const { cityData, currentWeather, forecast }: Data = await getData(localStorage.query);
+                const { cityData, currentWeather, forecast }: Data = await getData(JSON.parse(localStorage.coords));
                 saveData(cityData, currentWeather, forecast);
             }
 
-            dispatch(setQuery(''));
             dispatch(toggleLoading());
         }
 
@@ -53,6 +49,7 @@ function App(): JSX.Element {
     // document title
     useEffect(() => {
         document.title = `${city} - Weather`;
+        
     }, [city]);
 
     return (
