@@ -14,6 +14,7 @@ function App(): JSX.Element {
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.settings.theme);
     const city = useSelector((state: RootState) => state.city.value.name);
+    const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
 
     //onload data fetch 
     useEffect(() => {
@@ -49,7 +50,13 @@ function App(): JSX.Element {
     // document title
     useEffect(() => {
         document.title = `${city} - Weather`;
-        
+
+        interface HTMLLinkElementWithFavicon extends HTMLLinkElement {
+            href: string;
+        }
+
+        const icon = document.getElementById('favicon') as HTMLLinkElementWithFavicon;
+        icon.href = `https://openweathermap.org/img/wn/${iconNum}@4x.png`;
     }, [city]);
 
     return (
