@@ -15,7 +15,7 @@ const getCities = async (cityName: string): Promise<CityData[]> => {
 
         return await response.json();
     } catch (error) {
-        throw new Error(`API ERROR: ${error}`)
+        throw new Error(`City API Error: ${error}`)
     }
 }
 export default getCities
@@ -32,7 +32,7 @@ export const getCitiesByCoordinates = async (lon: number, lat: number): Promise<
 
         return await response.json();
     } catch (error) {
-        throw new Error(`API ERROR:: ${error}`)
+        throw new Error(`City API Error: ${error}`)
     }
 }
 
@@ -44,6 +44,6 @@ export const getUserLocation = async (): Promise<any> => {
 
         return await response.json();
     } catch (error) {
-        throw new Error(`API Error: ${error}`)
+        throw new Error(`Location API Error: ${error}`)
     }
 }

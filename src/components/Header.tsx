@@ -40,16 +40,25 @@ export const SearchBar = (): JSX.Element => {
         if (event.key === 'Enter' && query !== '') {
             dispatch(setLoading(true));
 
-            const { cityData, currentWeather, forecast }: Data = await getData(query);
-            const coords = { lon: cityData.lon, lat: cityData.lat }
-            
-            localStorage.setItem('coords', JSON.stringify(coords));
+            getData(query)
+                .then(data => {
+                    const { cityData, currentWeather, forecast } = data;
+                    const coords = { lon: cityData.lon, lat: cityData.lat }
 
-            dispatch(setWeather(currentWeather));
-            dispatch(setForecast(forecast))
-            dispatch(setCity(cityData));
-            dispatch(setQuery(''));
-            dispatch(toggleLoading())
+                    localStorage.setItem('coords', JSON.stringify(coords));
+
+                    dispatch(setWeather(currentWeather));
+                    dispatch(setForecast(forecast))
+                    dispatch(setCity(cityData));
+                    dispatch(setQuery(''));
+                    dispatch(toggleLoading())
+                })
+                .catch(error => {
+                    
+                    //! HANDLE ERROR HERE @me
+
+                    dispatch(toggleLoading());
+                })
         }
     }
 

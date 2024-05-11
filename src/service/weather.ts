@@ -19,7 +19,7 @@ const getCurrentWeather = async (lon: string, lat: string, unit: string): Promis
 
         return await response.json();
     } catch (error) {
-        throw new Error(`API ERROR: ${error}`);
+        throw new Error(`Weather API Error: ${error}`);
     }
 }
 
@@ -39,6 +39,6 @@ export const getForecast = async (lon: string, lat: string, unit: string): Promi
 
         return await response.json();
     } catch (error) {
-        throw new Error(`API ERROR: ${error}`);
+        throw new Error(`Forecast API Error: ${error}`);
     }
 }

@@ -21,18 +21,23 @@ const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> 
 
     let citiesData: CityData[];
 
-    if (typeof queryOrCoordinates === 'string') {
-        citiesData = await getCities(queryOrCoordinates);
-    } else {
-        citiesData = await getCitiesByCoordinates(queryOrCoordinates.lon, queryOrCoordinates.lat);
+    try {
+        if (typeof queryOrCoordinates === 'string') {
+            citiesData = await getCities(queryOrCoordinates);
+        } else {
+            citiesData = await getCitiesByCoordinates(queryOrCoordinates.lon, queryOrCoordinates.lat);
+        }
+    
+        const cityData: CityData = citiesData[0];
+    
+        const currentWeather = await getCurrentWeather(cityData.lon.toString(), cityData.lat.toString(), unit);
+        const forecast = await getForecast(cityData.lon.toString(), cityData.lat.toString(), unit);
+    
+        return { cityData, currentWeather, forecast };
+    } catch (error) {
+        throw error;
     }
 
-    const cityData: CityData = citiesData[0];
-
-    const currentWeather = await getCurrentWeather(cityData.lon.toString(), cityData.lat.toString(), unit);
-    const forecast = await getForecast(cityData.lon.toString(), cityData.lat.toString(), unit);
-
-    return { cityData, currentWeather, forecast };
 };
 
 export default getData;
