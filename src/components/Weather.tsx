@@ -16,8 +16,12 @@ export const Overview = (): JSX.Element => {
 
                 <div className="h-full gap-4">
                     <h1 className="font-bold text-primary-l dark:text-primary-d text-5xl mb-2">
-                        {city.local_names === undefined ? city.name : (city.local_names.de !== undefined) ? city.local_names.de : city.name}
-                        <span className="font-bold text-secondary-l dark:text-secondary-d text-2xl">, {city.country}</span>
+                        <span className="truncate">
+                            {city.local_names === undefined ? city.name : (city.local_names.de !== undefined) ? city.local_names.de : city.name}
+                            <span className="font-bold text-secondary-l dark:text-secondary-d text-2xl">
+                                , {city.country}
+                            </span>
+                        </span>
                     </h1>
                     <h2 className="font-semibold text-secondary-l dark:text-secondary-d">{weather.weather[0].description}</h2>
                 </div>
@@ -73,13 +77,13 @@ interface HourOverviewProps {
 
 export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, data: data }): JSX.Element => {
 
-    const padZeros = (num: number) =>  (num < 10) ? '0' + num : num;
+    const padZeros = (num: number) => (num < 10) ? '0' + num : num;
 
     const time = padZeros(new Date(data.dt * 1000).getHours());
     const temp = data.main.temp.toFixed();
     const icon = data.weather[0].icon;
 
-    const classes = `flex flex-col gap-2 items-center border border-y-0 border-gray-500 ${isFirst ? 'border-l-0' : ''} ${isLast ? 'border-r-0' : ''}`;
+    const classes = `flex flex-col gap-2 items-center border border-gray-500 border-y-0 ${isFirst ? 'border-l-0' : ''} ${isLast ? 'border-r-0' : ''}`;
 
     return (
         <td className={classes}>
