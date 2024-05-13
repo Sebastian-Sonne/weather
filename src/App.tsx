@@ -18,25 +18,33 @@ function App(): JSX.Element {
 
     //onload data fetch 
     useEffect(() => {
-        const initialSetup = async () => {
-            let newUserLocation;
-            try {
-                //find initial location
-                if ('coords' in localStorage) {
-                    newUserLocation = JSON.parse(localStorage.coords);
-                } else {
+        interface LocationData {
+            lon: number;
+            lat: number;
+        }
+        //get initial location
+        const getInitialLocation = async (): Promise<LocationData | string> => {
+            if ('coords' in localStorage) {
+                return JSON.parse(localStorage.coords);
+            } else {
+                try {
                     const data = await getUserLocation();
-                    newUserLocation = { lon: data.longitude, lat: data.latitude };
+                    return { lon: data.longitude, lat: data.latitude };
+                } catch (error) {
+                    return 'berlin'; //* default location
                 }
+            }
+        }
 
-                const { cityData, currentWeather, forecast }: Data = await getData(newUserLocation);
+        //initial weather data fetch
+        const initialSetup = async () => {
+            try {
+                const location = await getInitialLocation();
+                const { cityData, currentWeather, forecast }: Data = await getData(location);
                 saveData(cityData, currentWeather, forecast);
             } catch (error) {
-                //default location if ipLocation fails
-                newUserLocation = { lon: 52.5200, lat: 13.4050 };
-
-                const { cityData, currentWeather, forecast }: Data = await getData(newUserLocation);
-                saveData(cityData, currentWeather, forecast);
+                //! @me handle error
+                console.error(error);
             }
 
             dispatch(toggleLoading());

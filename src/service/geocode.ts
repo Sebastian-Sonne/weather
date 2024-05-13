@@ -23,7 +23,7 @@ export default getCities
 export const getCitiesByCoordinates = async (lon: number, lat: number): Promise<CityData[]> => {
     const url = new URL(BASE_URL + '/reverse');
     //@ts-ignore
-    url.search = new URLSearchParams({ lon: lon, lat: lat,  appid: API_KEY }).toString();
+    url.search = new URLSearchParams({ lat: lat, lon: lon, limit: 5, appid: API_KEY }).toString();
 
     try {
         const response = await fetch(url);
