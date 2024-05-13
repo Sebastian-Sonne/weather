@@ -18,14 +18,24 @@ function App(): JSX.Element {
 
     //onload data fetch 
     useEffect(() => {
-        const inialSetup = async () => {
-            if (!('coords' in localStorage)) {
-                const userLocation = await getUserLocation();
-                const { cityData, currentWeather, forecast }: Data = await getData({ lon: userLocation.longitude, lat: userLocation.latitude });
+        const initialSetup = async () => {
+            let newUserLocation;
+            try {
+                //find initial location
+                if ('coords' in localStorage) {
+                    newUserLocation = JSON.parse(localStorage.coords);
+                } else {
+                    const data = await getUserLocation();
+                    newUserLocation = { lon: data.longitude, lat: data.latitude };
+                }
 
+                const { cityData, currentWeather, forecast }: Data = await getData(newUserLocation);
                 saveData(cityData, currentWeather, forecast);
-            } else {
-                const { cityData, currentWeather, forecast }: Data = await getData(JSON.parse(localStorage.coords));
+            } catch (error) {
+                //default location if ipLocation fails
+                newUserLocation = { lon: 52.5200, lat: 13.4050 };
+
+                const { cityData, currentWeather, forecast }: Data = await getData(newUserLocation);
                 saveData(cityData, currentWeather, forecast);
             }
 
@@ -38,7 +48,7 @@ function App(): JSX.Element {
             dispatch(setCity(cityData));
         }
 
-        inialSetup();
+        initialSetup();
     }, []);
 
     // theme switching
