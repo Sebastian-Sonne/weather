@@ -4,6 +4,7 @@ import { Footer } from "./Components";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { HourlyData } from "../state/slices/forecastSlice";
+import moment from "moment-timezone";
 
 export const Overview = (): JSX.Element => {
 
@@ -58,6 +59,7 @@ export const ForecastToday = (): JSX.Element => {
                                     isFirst={index === 0}
                                     isLast={index === firstForecast.length - 1}
                                     data={data}
+                                    offSet={forecast.city.timezone}
                                 />
                             ))}
                         </tr>
@@ -73,13 +75,15 @@ interface HourOverviewProps {
     isFirst?: boolean;
     isLast?: boolean;
     data: HourlyData;
+    offSet: number;
 }
 
-export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, data: data }): JSX.Element => {
+export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, data, offSet }): JSX.Element => {
 
-    const padZeros = (num: number) => (num < 10) ? '0' + num : num;
+    //convert time to correct offset
+    const timeString = convertUnixToLocal(data.dt, offSet);
+    const time = timeString.split(' ')[1].split(':')[0];
 
-    const time = padZeros(new Date(data.dt * 1000).getHours());
     const temp = data.main.temp.toFixed();
     const icon = data.weather[0].icon;
 
@@ -228,4 +232,16 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
             </h4>
         </div>
     );
+}
+
+/**
+ * function to convert Unix timestamp to Local time with timezone offset
+ * @param unixTimestamp 
+ * @param timezoneOffset 
+ * @returns timestring YYYY-MM-DD HH:mm:s
+ */
+const convertUnixToLocal = (unixTimestamp: number, timezoneOffset: number): string => {
+    const utcMoment = moment.unix(unixTimestamp);
+    const localMoment = utcMoment.clone().utcOffset(timezoneOffset / 60);
+    return localMoment.format('YYYY-MM-DD HH:mm:ss');
 }

@@ -58,13 +58,10 @@ function App(): JSX.Element {
 
     return (
         <>
-
-        <Loader />
-
-        <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
-            <Main />
-        </div>
-
+            <Loader />
+            <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
+                <Main />
+            </div>
         </>
     )
 }
