@@ -10,6 +10,7 @@ import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
 import { setCity } from '../state/slices/citySlice';
 import { setLoading, toggleLoading } from '../state/slices/loadingSlice';
+import { setInputError } from '../state/slices/errorSlice';
 
 
 const Header = (): JSX.Element => {
@@ -30,9 +31,11 @@ export default Header
 
 export const SearchBar = (): JSX.Element => {
     const query = useSelector((state: RootState) => state.query.value);
-    const dispatch = useDispatch()
+    const inputError = useSelector((state: RootState) => state.error.inputError);
+    const dispatch = useDispatch();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (inputError !== '') dispatch(setInputError(''));
         dispatch(setQuery(event.target.value));
     }
 
@@ -51,30 +54,32 @@ export const SearchBar = (): JSX.Element => {
                     dispatch(setForecast(forecast))
                     dispatch(setCity(cityData));
                     dispatch(setQuery(''));
-                    dispatch(toggleLoading())
+                    dispatch(toggleLoading());
+                    if (inputError !== '') dispatch(setInputError(''));
                 })
                 .catch(error => {
-                    
-                    //! HANDLE ERROR HERE @me
-
-                    console.log(error);
-
+                    console.error(error);
+                    dispatch(setInputError('Error: City not Found!'));
                     dispatch(toggleLoading());
                 })
         }
     }
 
-    //! @me HAND LE ERRORS
-
     return (
         <div className="w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
             <input
-                className="w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 font-semibold dark:caret-white focus:outline-none"
-                placeholder="Search for cities"
+                className={`w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 ${inputError !== '' ? 'border border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
+                placeholder="Search for cities..."
                 onChange={handleChange}
                 value={query}
                 onKeyDown={handleKeyDown}
             />
+            {inputError !== '' && (
+                <div className='relative flex flex-col bg-component-light dark:bg-component-dark px-4 py-1 text-red-600 text-center font-semibold text-xl rounded-lg w-[calc(100vw-32px)] lg:w-full mt-2 shadow-lg'>
+                    <span className="inline-block h-min break-words">{inputError}</span>
+                    <a href='mailto:hello@sebastian-sonne.com' className='font-semibold text-secondary-l dark:text-secondary-d hover:text-red-600 text-lg'>Report Issue</a>
+                </div>
+            )}
         </div>
     )
 }

@@ -13,7 +13,7 @@ export default {
 
         'primary-d': '#dde0e4',
         'secondary-d': '#8899a2',
-        'accent-d': '#9399a2 c4cad3 dde0e4',
+        'accent-d': '#9399a2',
 
         'primary-l': '#1b1e22',
         'secondary-l': '#5e6f78',

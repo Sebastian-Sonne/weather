@@ -19,7 +19,6 @@ export const Loader = (): JSX.Element => {
                         </linearGradient>
                     </svg>
                 </div>
-
             )}
         </>
     );
@@ -28,7 +27,7 @@ export const Loader = (): JSX.Element => {
 export const Error = (): JSX.Element => {
 
     return (
-        <div className="flex items-center justify-center fixed backdrop-blur-sm dark:bg-opacity-50 top-0 left-0 p-4 z-30 w-screen h-screen">
+        <div className="flex items-center justify-center fixed top-0 left-0 p-4 z-30 w-screen h-screen">
             <div className="flex flex-col items-center justify-center gap-8 p-6 bg-component-light rounded-xl shadow-lg">
                 <div className="w-36 aspect-square">
                     <ErrorIcon />

@@ -9,7 +9,7 @@ import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { getUserLocation } from './service/geocode';
 import { Loader } from './components/Effects';
 import { toggleLoading } from './state/slices/loadingSlice';
-import { Error } from './components/Effects';
+import { setInputError } from './state/slices/errorSlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function App(): JSX.Element {
                     const data = await getUserLocation();
                     return { lon: data.longitude, lat: data.latitude };
                 } catch (error) {
-                    return 'berlin'; //* default location
+                    return 'berlin'; //* default location if error
                 }
             }
         }
@@ -44,7 +44,7 @@ function App(): JSX.Element {
                 const { cityData, currentWeather, forecast }: Data = await getData(location);
                 saveData(cityData, currentWeather, forecast);
             } catch (error) {
-                //! @me handle error
+                dispatch(setInputError(`Failed to Load Weather Data: ${error}`));
                 console.error(error);
             }
 
@@ -78,7 +78,8 @@ function App(): JSX.Element {
     return (
         <>
             <Loader />
-            <Error />
+
+            
             <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
             </div>
