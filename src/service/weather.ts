@@ -17,7 +17,8 @@ const getCurrentWeather = async (lon: string, lat: string, unit: string): Promis
 
         return await response.json();
     } catch (error) {
-        throw new Error(`Weather API Error: ${error}`);
+        console.error(error);
+        throw new Error('Failed to fetch current weather');
     }
 }
 
@@ -33,10 +34,11 @@ export const getForecast = async (lon: string, lat: string, unit: string): Promi
         const response = await fetch(url);
         
         if (!response.ok)
-            throw new Error(`Failed to fetch daily forecast: ${response.status} ${response.statusText}`);
+            throw new Error(`Failed to fetch weather forecast: ${response.status} ${response.statusText}`);
 
         return await response.json();
     } catch (error) {
-        throw new Error(`Forecast API Error: ${error}`);
+        console.error(error);
+        throw new Error('Failed to fetch weather forecast');
     }
 }

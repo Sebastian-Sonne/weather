@@ -17,26 +17,22 @@ interface Coordinates {
 
 const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> => {
     const unit = localStorage.unit;
-
     let citiesData: CityData[];
 
-    try {
-        if (typeof queryOrCoordinates === 'string') {
-            citiesData = await getCities(queryOrCoordinates);
-        } else {
-            citiesData = await getCitiesByCoordinates(queryOrCoordinates.lon, queryOrCoordinates.lat);
-        }
-    
-        const cityData: CityData = citiesData[0];
-    
-        const currentWeather = await getCurrentWeather(cityData.lon.toString(), cityData.lat.toString(), unit);
-        const forecast = await getForecast(cityData.lon.toString(), cityData.lat.toString(), unit);
-    
-        return { cityData, currentWeather, forecast };
-    } catch (error) {
-        throw error;
+    if (typeof queryOrCoordinates === 'string') {
+        citiesData = await getCities(queryOrCoordinates);
+    } else {
+        citiesData = await getCitiesByCoordinates(queryOrCoordinates.lon, queryOrCoordinates.lat);
     }
 
+    if (citiesData.length === 0) throw new Error('Failed to fetch city data');
+
+    const cityData: CityData = citiesData[0];
+
+    const currentWeather = await getCurrentWeather(cityData.lon.toString(), cityData.lat.toString(), unit);
+    const forecast = await getForecast(cityData.lon.toString(), cityData.lat.toString(), unit);
+
+    return { cityData, currentWeather, forecast };
 };
 
 export default getData;

@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { LocationDark, LocationLight, ThemeDark, ThemeLight } from "./Icons";
+import { LocationDark, LocationLight, SearchIcon, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
 import { setQuery } from "../state/slices/querySlice";
 import getData, { Data } from '../service/service';
@@ -41,46 +41,56 @@ export const SearchBar = (): JSX.Element => {
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && query !== '') {
-            dispatch(setLoading(true));
-
-            getData(query)
-                .then(data => {
-                    const { cityData, currentWeather, forecast } = data;
-                    const coords = { lon: cityData.lon, lat: cityData.lat }
-
-                    localStorage.setItem('coords', JSON.stringify(coords));
-
-                    dispatch(setWeather(currentWeather));
-                    dispatch(setForecast(forecast))
-                    dispatch(setCity(cityData));
-                    dispatch(setQuery(''));
-                    dispatch(toggleLoading());
-                    if (inputError !== '') dispatch(setInputError(''));
-                })
-                .catch(error => {
-                    console.error(error);
-                    dispatch(setInputError('Error: City not Found!'));
-                    dispatch(toggleLoading());
-                })
+            handleClick();
         }
     }
 
+    const handleClick = () => {
+        dispatch(setLoading(true));
+
+        getData(query)
+            .then(data => {
+                const { cityData, currentWeather, forecast } = data;
+                const coords = { lon: cityData.lon, lat: cityData.lat }
+
+                localStorage.setItem('coords', JSON.stringify(coords));
+
+                dispatch(setWeather(currentWeather));
+                dispatch(setForecast(forecast))
+                dispatch(setCity(cityData));
+                dispatch(setQuery(''));
+                dispatch(toggleLoading());
+                if (inputError !== '') dispatch(setInputError(''));
+            })
+            .catch(error => {
+                dispatch(setInputError(` ${error}`));
+                dispatch(toggleLoading());
+            })
+    }
+
     return (
-        <div className="w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
-            <input
-                className={`w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 ${inputError !== '' ? 'border border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
-                placeholder="Search for cities..."
-                onChange={handleChange}
-                value={query}
-                onKeyDown={handleKeyDown}
-            />
+        <>
+            <div className="flex flex-row w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
+                <input
+                    className={`w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 ${inputError !== '' ? 'border border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
+                    placeholder="Search for cities..."
+                    onChange={handleChange}
+                    value={query}
+                    onKeyDown={handleKeyDown}
+                />
+                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-secondary-l dark:hover:bg-secondary-d transition-colors'>
+                    <SearchIcon />
+                </button>
+            </div>
             {inputError !== '' && (
-                <div className='relative flex flex-col bg-component-light dark:bg-component-dark px-4 py-1 text-red-600 text-center font-semibold text-xl rounded-lg w-[calc(100vw-32px)] lg:w-full mt-2 shadow-lg'>
+                <div className='absolute top-16 w-[calc(100%-32px)] lg:w-[calc(66.66667%-18px)]'>
+                    <div className='flex flex-col bg-component-light dark:bg-component-dark py-1 text-red-600 text-center font-semibold text-xl rounded-lg mt-2 shadow-lg'>
                     <span className="inline-block h-min break-words">{inputError}</span>
                     <a href='mailto:hello@sebastian-sonne.com' className='font-semibold text-secondary-l dark:text-secondary-d hover:text-red-600 text-lg'>Report Issue</a>
                 </div>
+                </div>
             )}
-        </div>
+        </>
     )
 }
 

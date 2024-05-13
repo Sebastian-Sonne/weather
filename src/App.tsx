@@ -26,7 +26,11 @@ function App(): JSX.Element {
         //get initial location
         const getInitialLocation = async (): Promise<LocationData | string> => {
             if ('coords' in localStorage) {
-                return JSON.parse(localStorage.coords);
+                try {
+                    return JSON.parse(localStorage.coords);
+                } catch (error) {
+                    return 'berlin'; //* default location if local storage parse error
+                }
             } else {
                 try {
                     const data = await getUserLocation();
@@ -43,8 +47,9 @@ function App(): JSX.Element {
                 const location = await getInitialLocation();
                 const { cityData, currentWeather, forecast }: Data = await getData(location);
                 saveData(cityData, currentWeather, forecast);
-            } catch (error) {
-                dispatch(setInputError(`Failed to Load Weather Data: ${error}`));
+
+            } catch (error: any) {
+                dispatch(setInputError(`Failed to Load Weather Data: ${error.message}`));
                 console.error(error);
             }
 
@@ -79,7 +84,6 @@ function App(): JSX.Element {
         <>
             <Loader />
 
-            
             <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
             </div>

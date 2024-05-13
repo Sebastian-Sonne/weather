@@ -6,7 +6,7 @@ const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 const getCities = async (cityName: string): Promise<CityData[]> => {
     const url = new URL(BASE_URL + '/direct');
     //@ts-ignore
-    url.search = new URLSearchParams({ q: cityName, appid: API_KEY, limit: '5' }).toString();
+    url.search = new URLSearchParams({ q: cityName, appid: API_KEY, limit: 5 }).toString();
 
     try {
         const response = await fetch(url);
@@ -32,7 +32,8 @@ export const getCitiesByCoordinates = async (lon: number, lat: number): Promise<
 
         return await response.json();
     } catch (error) {
-        throw new Error(`City API Error: ${error}`)
+        console.error(error);
+        throw new Error('Failed to fetch city data (coords)');
     }
 }
 
@@ -44,6 +45,7 @@ export const getUserLocation = async (): Promise<any> => {
 
         return await response.json();
     } catch (error) {
-        throw new Error(`Location API Error: ${error}`)
+        console.error(error);
+        throw new Error('Failed to fetch user location');
     }
 }
