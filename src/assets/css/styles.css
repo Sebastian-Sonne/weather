@@ -574,11 +574,6 @@ video {
   z-index: 30;
 }
 
-.mx-\[9px\] {
-  margin-left: 9px;
-  margin-right: 9px;
-}
-
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -600,20 +595,12 @@ video {
   margin-right: auto;
 }
 
-.block {
-  display: block;
-}
-
 .flex {
   display: flex;
 }
 
 .table {
   display: table;
-}
-
-.hidden {
-  display: none;
 }
 
 .aspect-square {
@@ -636,8 +623,8 @@ video {
   height: 1.5rem;
 }
 
-.h-\[18px\] {
-  height: 18px;
+.h-\[150px\] {
+  height: 150px;
 }
 
 .h-\[200px\] {
@@ -650,10 +637,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-\[150px\] {
-  height: 150px;
 }
 
 .w-1\/2 {
@@ -680,8 +663,8 @@ video {
   width: 2rem;
 }
 
-.w-\[7px\] {
-  width: 7px;
+.w-\[250px\] {
+  width: 250px;
 }
 
 .w-full {
@@ -690,26 +673,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[10px\] {
-  width: 10px;
-}
-
-.w-48 {
-  width: 12rem;
-}
-
-.w-60 {
-  width: 15rem;
-}
-
-.w-64 {
-  width: 16rem;
-}
-
-.w-\[250px\] {
-  width: 250px;
 }
 
 .min-w-\[568px\] {
@@ -778,24 +741,16 @@ video {
   white-space: nowrap;
 }
 
-.whitespace-nowrap {
-  white-space: nowrap;
-}
-
 .rounded-2xl {
   border-radius: 1rem;
 }
 
-.rounded-xl {
-  border-radius: 0.75rem;
-}
-
-.rounded {
-  border-radius: 0.25rem;
-}
-
 .rounded-full {
   border-radius: 9999px;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
 }
 
 .border {
@@ -848,13 +803,22 @@ video {
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 
-.bg-gray-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-}
-
 .bg-transparent {
   background-color: transparent;
+}
+
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 
 .p-2 {
@@ -1062,11 +1026,6 @@ video {
   background-color: rgb(32 43 59 / var(--tw-bg-opacity));
 }
 
-.dark\:bg-white:is(.dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .dark\:bg-opacity-50:is(.dark *) {
   --tw-bg-opacity: 0.5;
 }
@@ -1120,24 +1079,12 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:block {
-    display: block;
-  }
-
-  .sm\:inline-block {
-    display: inline-block;
-  }
-
   .sm\:h-\[300px\] {
     height: 300px;
   }
 
   .sm\:p-4 {
     padding: 1rem;
-  }
-
-  .sm\:font-bold {
-    font-weight: 700;
   }
 }
 

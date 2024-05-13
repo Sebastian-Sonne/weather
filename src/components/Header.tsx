@@ -57,12 +57,14 @@ export const SearchBar = (): JSX.Element => {
                     
                     //! HANDLE ERROR HERE @me
 
+                    console.log(error);
+
                     dispatch(toggleLoading());
                 })
         }
     }
 
-    //! @me HANDLE ERRORS
+    //! @me HAND LE ERRORS
 
     return (
         <div className="w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
