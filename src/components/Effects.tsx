@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
+import { ErrorIcon } from "./Icons";
 
 
 export const Loader = (): JSX.Element => {
@@ -21,5 +22,25 @@ export const Loader = (): JSX.Element => {
 
             )}
         </>
+    );
+}
+
+export const Error = (): JSX.Element => {
+
+    return (
+        <div className="flex items-center justify-center fixed backdrop-blur-sm dark:bg-opacity-50 top-0 left-0 p-4 z-30 w-screen h-screen">
+            <div className="flex flex-col items-center justify-center gap-8 p-6 bg-component-light rounded-xl shadow-lg">
+                <div className="w-36 aspect-square">
+                    <ErrorIcon />
+                </div>
+
+                <div className="flex flex-col gap-2 text-center">
+                    <h2 className="font-bold text-4xl text-red-600 px-6">ERROR</h2>
+                    <p className="font-semibold text-xl text-secondary-l">ERROR MESSAGE HERE</p>
+                </div>
+
+                <button className="w-full px-4 py-2 font-bold text-white bg-red-600 rounded-lg">Try Again</button>
+            </div>
+        </div>
     );
 }

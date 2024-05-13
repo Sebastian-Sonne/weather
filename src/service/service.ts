@@ -4,7 +4,6 @@ import { WeatherData } from "../state/slices/weatherSlice";
 import getCities, { getCitiesByCoordinates } from "./geocode"
 import getCurrentWeather, { getForecast } from "./weather";
 
-
 export interface Data {
     cityData: CityData;
     currentWeather: WeatherData;

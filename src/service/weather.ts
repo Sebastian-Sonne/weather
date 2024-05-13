@@ -2,9 +2,7 @@ import { ForecastData } from "../state/slices/forecastSlice";
 import { WeatherData } from "../state/slices/weatherSlice";
 
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
-
 const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
-
 
 const getCurrentWeather = async (lon: string, lat: string, unit: string): Promise<WeatherData> => {
 

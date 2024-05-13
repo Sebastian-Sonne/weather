@@ -21,3 +21,5 @@ export const WindIconDark = (): JSX.Element => <img src="/other/wind_d.svg" alt=
 
 export const DropIconLight = (): JSX.Element => <img src="/other/drop.svg" alt="drop icon" />
 export const DropIconDark = (): JSX.Element => <img src="/other/drop.svg" alt="drop icon" />
+
+export const ErrorIcon = (): JSX.Element => <img src="/other/error.svg" alt="error icon" />
