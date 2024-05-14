@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { LocationDark, LocationLight, SearchIcon, ThemeDark, ThemeLight } from "./Icons";
+import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
 import { setQuery } from "../state/slices/querySlice";
 import getData, { Data } from '../service/service';
@@ -11,6 +11,7 @@ import { setForecast } from '../state/slices/forecastSlice';
 import { setCity } from '../state/slices/citySlice';
 import { setLoading } from '../state/slices/loadingSlice';
 import { setInputError } from '../state/slices/errorSlice';
+import { InputError } from './Effects';
 
 
 const Header = (): JSX.Element => {
@@ -30,6 +31,7 @@ const Header = (): JSX.Element => {
 export default Header
 
 export const SearchBar = (): JSX.Element => {
+    const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
@@ -40,14 +42,15 @@ export const SearchBar = (): JSX.Element => {
     }
 
     const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' && query !== '') {
-            handleClick();
-        }
+        if (event.key === 'Enter') handleClick();
     }
 
     const handleClick = () => {
-        if (query === '') return;
-        
+        if (query === '') {
+            dispatch(setInputError('Please provide a location'));
+            return;
+        }
+
         dispatch(setLoading(true));
 
         getData(query)
@@ -80,18 +83,11 @@ export const SearchBar = (): JSX.Element => {
                     value={query}
                     onKeyDown={handleKeyDown}
                 />
-                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-secondary-l dark:hover:bg-secondary-d transition-colors'>
-                    <SearchIcon />
+                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors'>
+                    {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
                 </button>
             </div>
-            {inputError !== '' && (
-                <div className='absolute top-16 w-[calc(100%-32px)] lg:w-[calc(66.66667%-18px)]'>
-                    <div className='flex flex-col bg-component-light dark:bg-component-dark py-1 text-red-600 text-center font-semibold text-xl rounded-lg mt-2 shadow-lg'>
-                    <span className="inline-block h-min break-words">{inputError}</span>
-                    <a href='mailto:hello@sebastian-sonne.com' className='font-semibold text-secondary-l dark:text-secondary-d hover:text-red-600 text-lg'>Report Issue</a>
-                </div>
-                </div>
-            )}
+            {inputError !== '' && <InputError />}
         </>
     )
 }
@@ -104,8 +100,7 @@ export const ThemeSwitcher = (): JSX.Element => {
         <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">
             <button onClick={() => dispatch(toggleTheme())} className="w-full aspect-square p-2 rounded-xl">
 
-                {theme === 'dark' && <ThemeLight />}
-                {theme !== 'dark' && <ThemeDark />}
+                {theme === 'dark' ? <ThemeLight /> : <ThemeDark />}
 
             </button>
         </div>
