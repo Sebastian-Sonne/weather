@@ -1,9 +1,10 @@
 import React from "react";
-import { DropIconLight, PressureIconLight, Sun, ThermometerIconLight, WindIconLight } from "./Icons";
+import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "./Icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { HourlyData } from "../state/slices/forecastSlice";
 import moment from "moment-timezone";
+import { getDailyForecast } from "../service/weather";
 
 export const Overview = (): JSX.Element => {
 
@@ -86,7 +87,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, dat
     const temp = data.main.temp.toFixed();
     const icon = data.weather[0].icon;
 
-    const classes = `flex flex-col gap-2 items-center border border-gray-500 border-y-0 ${isFirst ? 'border-l-0' : ''} ${isLast ? 'border-r-0' : ''}`;
+    const classes = `flex flex-col gap-2 items-center border border-secondary-l dark:border-secondary-d border-y-0 ${isFirst ? 'border-l-0' : ''} ${isLast ? 'border-r-0' : ''}`;
 
     return (
         <td className={classes}>
@@ -143,11 +144,17 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
 }
 
 export const Forecast7Day = (): JSX.Element => {
+    const forecast = useSelector((state: RootState) => state.forecast.value);
+    const dailyData = getDailyForecast(forecast);
 
-    const weather = useSelector((state: RootState) => state.weather)
-
+    //calc future day names
+    const dayNames: string[] = [];
     const day = new Date().getDay();
-    const matchDay = (dayNumber: number): string => {
+    for (var i = 0; i < dailyData.length; i++) {
+        dayNames.push(matchDay(day + i % 7));
+    }
+
+    function matchDay(dayNumber: number): string {
         switch (dayNumber) {
             case 0:
                 return 'Sun'
@@ -177,53 +184,51 @@ export const Forecast7Day = (): JSX.Element => {
 
     return (
         <div className="w-full h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
-
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">7-DAY FORECAST</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">5-DAY FORECAST</h2>
 
             <div className="flex flex-col h-full min-h-[600px]">
-                <DayOverview day="Today" weather={{ main: weather.value.weather[0].main, min: weather.value.main.temp_min, max: weather.value.main.temp_max }} isFirst={true} />
-                <DayOverview day={matchDay((day + 1) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 2) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 3) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 4) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 5) % 7)} weather={{ main: '--', min: '--', max: '--' }} isLast={true} />
+                {dailyData.map((data, index) => (
+                    <DayOverview
+                        key={index}
+                        data={data}
+                        day={dayNames[index]}
+                        isFirst={index === 0}
+                        isLast={index === dailyData.length - 1} />
+                ))}
             </div>
         </div>
     );
 }
 
-interface DayWeather {
-    main: string,
-    min: string,
-    max: string,
-}
-
 interface DayOverviewProps {
     isFirst?: boolean,
     isLast?: boolean,
-    day: string,
-    weather: DayWeather
+    data: HourlyData,
+    day: string
 };
 
 export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
+    const { isFirst = false, isLast = false, data, day } = props;
 
-    const { isFirst = false, isLast = false, weather, day } = props;
+    const description = data.weather[0].main;
+    const { temp_min: minTemp, temp_max: maxTemp } = data.main;
+    const iconURL = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
 
-    const classes = `flex flex-row justify-between items-center h-full min-h-[100px] px-4 border border-gray-500 border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
+    const classes = `flex flex-row justify-between items-center h-full min-h-[100px] px-4 border border-accent-l dark:border-accent-d border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
 
     return (
         <div className={classes}>
             <h4 className="font-medium text-secondary-l dark:text-secondary-d w-11">{day}</h4>
 
-            <div className="flex flex-row items-center justify-center w-36 gap-4">
-                <div className="h-10 aspect-square">
-                    <Sun />
+            <div className="flex flex-row items-center justify-left w-36 gap-4">
+                <div className="w-2/3 md:w-1/3 rounded-xl bg-gray-300 dark:bg-accent-l">
+                    <img src={iconURL} alt="Condition Icon" />
                 </div>
-                <h5 className="font-bold text-primary-l dark:text-primary-d">{weather.main}</h5>
+                <h5 className="font-bold text-primary-l dark:text-primary-d">{description}</h5>
             </div>
 
             <h4 className="flex justify-end font-semibold text-primary-l dark:text-primary-d w-16">
-                {(weather.max !== '--') ? parseFloat(weather.max).toFixed() : '-'}<span className="text-secondary-l dark:text-secondary-d">/{(weather.min !== '--') ? parseFloat(weather.min).toFixed() : '-'}</span>
+                {minTemp.toFixed()}<span className="text-secondary-l dark:text-secondary-d">/{maxTemp.toFixed()}</span>
             </h4>
         </div>
     );

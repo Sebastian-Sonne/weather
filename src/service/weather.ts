@@ -1,4 +1,4 @@
-import { ForecastData } from "../state/slices/forecastSlice";
+import { ForecastData, HourlyData } from "../state/slices/forecastSlice";
 import { WeatherData } from "../state/slices/weatherSlice";
 
 const BASE_URL = 'https://api.openweathermap.org/data/2.5';
@@ -41,4 +41,19 @@ export const getForecast = async (lon: string, lat: string, unit: string): Promi
         console.error(error);
         throw new Error('Failed to fetch weather forecast');
     }
+}
+
+export const getDailyForecast = (forecast: ForecastData): HourlyData[] => {
+    const dailyData: HourlyData[] = [];
+
+    forecast.list.forEach((data: HourlyData) => {
+        const date = new Date(data.dt * 1000);
+        const hour = date.getHours();
+
+        if (hour === 13 && date >= new Date()) {
+            dailyData.push(data);
+        }
+    });
+
+    return dailyData;
 }
