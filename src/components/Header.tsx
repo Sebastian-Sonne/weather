@@ -46,6 +46,8 @@ export const SearchBar = (): JSX.Element => {
     }
 
     const handleClick = () => {
+        if (query === '') return;
+        
         dispatch(setLoading(true));
 
         getData(query)

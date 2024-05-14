@@ -8,7 +8,7 @@ import getData, { Data } from './service/service';
 import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { getUserLocation } from './service/geocode';
 import { Loader } from './components/Effects';
-import { toggleLoading } from './state/slices/loadingSlice';
+import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
 
 function App(): JSX.Element {
@@ -53,7 +53,7 @@ function App(): JSX.Element {
                 console.error(error);
             }
 
-            dispatch(toggleLoading());
+            dispatch(setLoading(false));
         }
 
         const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
