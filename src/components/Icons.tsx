@@ -26,3 +26,6 @@ export const SearchIcon = (): JSX.Element => <img src="/other/search.svg" alt="s
 
 export const ExitIconLight = (): JSX.Element => <img src="/other/x_l.svg" alt="exit icon" />
 export const ExitIconDark = (): JSX.Element => <img src="/other/x_d.svg" alt="exit icon" />
+
+export const SettingsIconLight = (): JSX.Element => <img src="/other/settings_l.svg" alt="settings icon" />
+export const SettingsIconDark = (): JSX.Element => <img src="/other/settings_d.svg" alt="settings icon" />

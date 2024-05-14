@@ -1,6 +1,5 @@
 import React from "react";
 import { DropIconLight, PressureIconLight, Sun, ThermometerIconLight, WindIconLight } from "./Icons";
-import { Footer } from "./Components";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { HourlyData } from "../state/slices/forecastSlice";
@@ -177,22 +176,18 @@ export const Forecast7Day = (): JSX.Element => {
     }
 
     return (
-        <div className="w-full lg:h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
+        <div className="w-full h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
 
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">7-DAY FORECAST</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">7-DAY FORECAST</h2>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col h-full min-h-[600px]">
                 <DayOverview day="Today" weather={{ main: weather.value.weather[0].main, min: weather.value.main.temp_min, max: weather.value.main.temp_max }} isFirst={true} />
                 <DayOverview day={matchDay((day + 1) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
                 <DayOverview day={matchDay((day + 2) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
                 <DayOverview day={matchDay((day + 3) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
                 <DayOverview day={matchDay((day + 4) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 5) % 7)} weather={{ main: '--', min: '--', max: '--' }} />
-                <DayOverview day={matchDay((day + 6) % 7)} weather={{ main: '--', min: '--', max: '--' }} isLast={true} />
+                <DayOverview day={matchDay((day + 5) % 7)} weather={{ main: '--', min: '--', max: '--' }} isLast={true} />
             </div>
-
-            <Footer />
-
         </div>
     );
 }
@@ -214,7 +209,7 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
 
     const { isFirst = false, isLast = false, weather, day } = props;
 
-    const classes = `flex flex-row justify-between items-center h-24 px-4 border border-gray-500 border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
+    const classes = `flex flex-row justify-between items-center h-full min-h-[100px] px-4 border border-gray-500 border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
 
     return (
         <div className={classes}>

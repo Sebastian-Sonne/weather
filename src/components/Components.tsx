@@ -1,5 +1,8 @@
+import { useSelector } from "react-redux";
 import Header from "./Header";
 import { AirCondition, Forecast7Day, ForecastToday, Overview } from "./Weather";
+import { RootState } from "../state/store";
+import { SettingsIconDark, SettingsIconLight } from "./Icons";
 
 const MainContent = (): JSX.Element => {
 
@@ -16,11 +19,8 @@ export default MainContent
 export const WeatherContent = (): JSX.Element => {
     return (
         <div className='flex flex-col lg:flex-row w-full gap-6'>
-
             <WeatherToday />
-
-            <Weather7Day />
-
+            <WeatherSettingsContainer />
         </div>
     );
 }
@@ -36,18 +36,40 @@ export const WeatherToday = (): JSX.Element => {
     );
 }
 
-export const Weather7Day = (): JSX.Element => {
+export const WeatherSettingsContainer = (): JSX.Element => {
 
     return (
-        <div className='flex flex-col w-full lg:w-1/3'>
+        <div className='flex flex-col gap-4 w-full lg:w-1/3'>
             <Forecast7Day />
+
+            <div className="flex flex-row space-between w-full">
+                <Footer />
+                <Settings />
+            </div>
         </div>
     );
 }
 
+export const Settings = (): JSX.Element => {
+    const theme = useSelector((state: RootState) => state.settings.theme);
+
+    const handleClick = () => {
+        //! open settings
+    }
+
+    return (
+        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">
+            <button onClick={handleClick} className="w-full aspect-square p-2 rounded-xl">
+                {theme === 'dark' ? <SettingsIconDark /> : <SettingsIconLight />}
+            </button>
+        </div>
+    );
+}
+
+
 export const Footer = (): JSX.Element => {
     return (
-        <div className='flex justify-center align-middle w-full h-6 my-2'>
+        <div className='flex items-center justify-center bg-component-light dark:bg-component-dark w-full h-12 rounded-xl'>
             <p className='text-secondary-l dark:text-secondary-d font-semibold'>&copy; {new Date().getFullYear()}
                 <a href='https://github.com/sebastian-sonne' className='dark:text-slate-400 dark:hover:text-white text-gray-600 hover:text-gray-800 transition-colors' target='_blank'> Sebastian Sonne</a>
             </p>
