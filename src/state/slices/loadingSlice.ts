@@ -2,24 +2,29 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface LoadingState {
     value: boolean;
+    timeout: number;
 }
 
 const initialState: LoadingState = {
     value: true,
+    timeout: 10,
 };
 
 const loadingSlice = createSlice({
     name: 'loading',
     initialState,
     reducers: {
-        toggleLoading: (state) => {
-            state.value = !state.value;
-        },
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.value = action.payload;
         },
+        setTimeoutToValue: (state, action: PayloadAction<number>) => {
+            state.timeout = action.payload;
+        },
+        decrementTimeout: (state) => {
+            state.timeout--;
+        }
     },
 });
 
-export const { toggleLoading, setLoading } = loadingSlice.actions;
+export const { setLoading, setTimeoutToValue, decrementTimeout } = loadingSlice.actions;
 export default loadingSlice.reducer;

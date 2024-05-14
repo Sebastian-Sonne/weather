@@ -9,7 +9,7 @@ import { getUserLocation } from '../service/geocode';
 import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
 import { setCity } from '../state/slices/citySlice';
-import { setLoading, toggleLoading } from '../state/slices/loadingSlice';
+import { setLoading } from '../state/slices/loadingSlice';
 import { setInputError } from '../state/slices/errorSlice';
 
 
@@ -61,12 +61,12 @@ export const SearchBar = (): JSX.Element => {
                 dispatch(setForecast(forecast))
                 dispatch(setCity(cityData));
                 dispatch(setQuery(''));
-                dispatch(toggleLoading());
+                dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
             })
             .catch(error => {
                 dispatch(setInputError(` ${error}`));
-                dispatch(toggleLoading());
+                dispatch(setLoading(false));
             })
     }
 
@@ -128,7 +128,7 @@ export const Location = (): JSX.Element => {
         dispatch(setWeather(currentWeather));
         dispatch(setForecast(forecast))
         dispatch(setCity(cityData));
-        dispatch(toggleLoading());
+        dispatch(setLoading(false));
     }
 
     return (

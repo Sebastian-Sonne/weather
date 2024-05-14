@@ -16,6 +16,7 @@ function App(): JSX.Element {
     const theme = useSelector((state: RootState) => state.settings.theme);
     const city = useSelector((state: RootState) => state.city.value.name);
     const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
+    const isLoading = useSelector((state: RootState) => state.loading.value);
 
     //onload data fetch 
     useEffect(() => {
@@ -53,7 +54,7 @@ function App(): JSX.Element {
                 console.error(error);
             }
 
-            dispatch(setLoading(false));
+            //dispatch(setLoading(false));
         }
 
         const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
@@ -82,8 +83,7 @@ function App(): JSX.Element {
 
     return (
         <>
-            <Loader />
-
+            {isLoading && <Loader />}
             <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
             </div>

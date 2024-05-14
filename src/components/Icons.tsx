@@ -24,4 +24,5 @@ export const DropIconDark = (): JSX.Element => <img src="/other/drop.svg" alt="d
 
 export const SearchIcon = (): JSX.Element => <img src="/other/search.svg" alt="search icon" />
 
-export const ExitIcon = (): JSX.Element => <img src="/other/x.svg" alt="exit icon" />
+export const ExitIconLight = (): JSX.Element => <img src="/other/x_l.svg" alt="exit icon" />
+export const ExitIconDark = (): JSX.Element => <img src="/other/x_d.svg" alt="exit icon" />
