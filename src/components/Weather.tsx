@@ -186,7 +186,7 @@ export const Forecast7Day = (): JSX.Element => {
         <div className="w-full h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
             <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">5-DAY FORECAST</h2>
 
-            <div className="flex flex-col h-full min-h-[600px]">
+            <div className="flex flex-col h-full">
                 {dailyData.map((data, index) => (
                     <DayOverview
                         key={index}
@@ -221,7 +221,7 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
             <h4 className="font-medium text-secondary-l dark:text-secondary-d w-11">{day}</h4>
 
             <div className="flex flex-row items-center justify-left w-36 gap-4">
-                <div className="w-2/3 md:w-1/3 rounded-xl bg-gray-300 dark:bg-accent-l">
+                <div className="h-14 aspect-square m-4 rounded-xl bg-gray-300 dark:bg-accent-l">
                     <img src={iconURL} alt="Condition Icon" />
                 </div>
                 <h5 className="font-bold text-primary-l dark:text-primary-d">{description}</h5>
