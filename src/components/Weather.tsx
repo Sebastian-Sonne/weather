@@ -11,6 +11,8 @@ export const Overview = (): JSX.Element => {
     const city = useSelector((state: RootState) => state.city.value);
     const weather = useSelector((state: RootState) => state.weather.value);
 
+    
+
     return (
         <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
             <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
@@ -25,6 +27,7 @@ export const Overview = (): JSX.Element => {
                         </span>
                     </h1>
                     <h2 className="font-semibold text-secondary-l dark:text-secondary-d">{weather.weather[0].description}</h2>
+                    <h2 className="font-semibold text-secondary-l dark:text-secondary-d">00:00:00</h2>
                 </div>
 
                 <div className="pb-2">

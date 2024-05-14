@@ -66,7 +66,6 @@ export const Settings = (): JSX.Element => {
     );
 }
 
-
 export const Footer = (): JSX.Element => {
     return (
         <div className='flex items-center justify-center bg-component-light dark:bg-component-dark w-full h-12 rounded-xl'>

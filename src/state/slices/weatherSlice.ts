@@ -20,6 +20,7 @@ export interface WeatherData {
         sunrise: string;
         sunset: string;
     };
+    timezone: number;
     weather: {
         main: string;
         description: string;
@@ -55,6 +56,7 @@ const initialState: WeatherState = {
             sunrise: '--',
             sunset: '--',
         },
+        timezone: 0,
         weather: [
             {
                 main: '--',
