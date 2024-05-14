@@ -54,7 +54,7 @@ function App(): JSX.Element {
                 console.error(error);
             }
 
-            //dispatch(setLoading(false));
+            dispatch(setLoading(false));
         }
 
         const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
