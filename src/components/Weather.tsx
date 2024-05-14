@@ -7,11 +7,8 @@ import moment from "moment-timezone";
 import { getDailyForecast } from "../service/weather";
 
 export const Overview = (): JSX.Element => {
-
     const city = useSelector((state: RootState) => state.city.value);
     const weather = useSelector((state: RootState) => state.weather.value);
-
-    
 
     return (
         <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
@@ -27,13 +24,11 @@ export const Overview = (): JSX.Element => {
                         </span>
                     </h1>
                     <h2 className="font-semibold text-secondary-l dark:text-secondary-d">{weather.weather[0].description}</h2>
-                    <h2 className="font-semibold text-secondary-l dark:text-secondary-d">00:00:00</h2>
                 </div>
 
                 <div className="pb-2">
                     <h2 className="font-bold dark:text-primary-d text-7xl">{parseFloat(weather.main.temp).toFixed()}°</h2>
                 </div>
-
             </div>
 
             <div className="flex items-center h-full aspect-square py-4 px-6">
