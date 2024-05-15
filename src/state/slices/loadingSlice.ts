@@ -15,6 +15,7 @@ const loadingSlice = createSlice({
     initialState,
     reducers: {
         setLoading: (state, action: PayloadAction<boolean>) => {
+            if(!action.payload) state.timeout = 10;
             state.value = action.payload;
         },
         setTimeoutToValue: (state, action: PayloadAction<number>) => {

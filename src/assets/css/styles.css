@@ -631,12 +631,12 @@ video {
   aspect-ratio: 1 / 1;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-12 {
   height: 3rem;
+}
+
+.h-14 {
+  height: 3.5rem;
 }
 
 .h-6 {
@@ -664,16 +664,8 @@ video {
   height: 100vh;
 }
 
-.h-14 {
-  height: 3.5rem;
-}
-
 .min-h-\[100px\] {
   min-height: 100px;
-}
-
-.min-h-\[600px\] {
-  min-height: 600px;
 }
 
 .w-1\/2 {
@@ -714,10 +706,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-1\/3 {
-  width: 33.333333%;
 }
 
 .min-w-\[568px\] {
@@ -836,9 +824,9 @@ video {
   border-top-width: 0px;
 }
 
-.border-gray-500 {
+.border-accent-l {
   --tw-border-opacity: 1;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity));
+  border-color: rgb(43 49 59 / var(--tw-border-opacity));
 }
 
 .border-red-600 {
@@ -849,11 +837,6 @@ video {
 .border-secondary-l {
   --tw-border-opacity: 1;
   border-color: rgb(94 111 120 / var(--tw-border-opacity));
-}
-
-.border-accent-l {
-  --tw-border-opacity: 1;
-  border-color: rgb(43 49 59 / var(--tw-border-opacity));
 }
 
 .bg-bg-light {
@@ -1075,11 +1058,6 @@ video {
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-secondary-l:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(94 111 120 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1105,14 +1083,14 @@ video {
   outline-offset: 2px;
 }
 
-.dark\:border-secondary-d:is(.dark *) {
-  --tw-border-opacity: 1;
-  border-color: rgb(136 153 162 / var(--tw-border-opacity));
-}
-
 .dark\:border-accent-d:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(147 153 162 / var(--tw-border-opacity));
+}
+
+.dark\:border-secondary-d:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(136 153 162 / var(--tw-border-opacity));
 }
 
 .dark\:bg-accent-l:is(.dark *) {
@@ -1166,11 +1144,6 @@ video {
 .dark\:hover\:bg-gray-600:hover:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(75 85 99 / var(--tw-bg-opacity));
-}
-
-.dark\:hover\:bg-secondary-d:hover:is(.dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(136 153 162 / var(--tw-bg-opacity));
 }
 
 .dark\:hover\:text-white:hover:is(.dark *) {

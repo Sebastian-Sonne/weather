@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { ExitIconDark, ExitIconLight } from "./Icons";
-import { decrementTimeout, setLoading, setTimeoutToValue } from "../state/slices/loadingSlice";
+import { decrementTimeout, setLoading } from "../state/slices/loadingSlice";
 import { useEffect } from "react";
 
 /**
@@ -48,7 +48,6 @@ export const ExitLoader = (): JSX.Element => {
 
     const handleClick = () => {
         dispatch(setLoading(false));
-        dispatch(setTimeoutToValue(10));
     }
 
     return (
@@ -79,7 +78,9 @@ export const LoaderTimer = (): JSX.Element => {
 
         if (timeout === 0) clearInterval(interval);
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval);
+        }
 
     }, [timeout]);
 
