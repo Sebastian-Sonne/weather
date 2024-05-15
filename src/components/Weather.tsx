@@ -149,8 +149,9 @@ export const Forecast7Day = (): JSX.Element => {
     const dayNames: string[] = [];
     const day = new Date().getDay();
     for (var i = 0; i < dailyData.length; i++) {
-        dayNames.push(matchDay(day + i % 7));
+        dayNames.push(matchDay((day + i) % 7));
     }
+    console.log(dayNames.toString());
 
     function matchDay(dayNumber: number): string {
         switch (dayNumber) {
