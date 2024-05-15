@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Main from './components/Components';
+import Main, { Settings } from './components/Components';
 import { RootState } from './state/store';
 import { useEffect } from 'react';
 import { CityData, setCity } from './state/slices/citySlice';
@@ -10,6 +10,7 @@ import { getUserLocation } from './service/geocode';
 import { Loader } from './components/Effects';
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
+import { setPrevScrollPos } from './state/slices/settingsSlice';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function App(): JSX.Element {
     const city = useSelector((state: RootState) => state.city.value.name);
     const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
     const isLoading = useSelector((state: RootState) => state.loading.value);
+    const settingsIsVisible = useSelector((state: RootState) => state.settings.isVisible);
 
     //onload data fetch 
     useEffect(() => {
@@ -81,11 +83,23 @@ function App(): JSX.Element {
         icon.href = `https://openweathermap.org/img/wn/${iconNum}@4x.png`;
     }, [city]);
 
+    //smooth settings scroll
+    useEffect(() => {
+        if (settingsIsVisible) {
+            dispatch(setPrevScrollPos(window.scrollY));
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    }, [settingsIsVisible])
+
     return (
         <>
             {isLoading && <Loader />}
-            <div className='flex flex-row bg-bg-light dark:bg-bg-dark p-4 w-screen gap-6 text-slate-950 dark:text-slate-50 transition-colors'>
+            <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
+                {settingsIsVisible && <Settings />}
             </div>
         </>
     )

@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
 import { AirCondition, Forecast7Day, ForecastToday, Overview } from "./Weather";
 import { RootState } from "../state/store";
 import { SettingsIconDark, SettingsIconLight } from "./Icons";
+import { toggleSettings } from "../state/slices/settingsSlice";
 
 const MainContent = (): JSX.Element => {
-
     return (
         <div className="flex flex-col w-full gap-6 max-w-[2000px]">
             <Header />
@@ -43,18 +43,20 @@ export const WeatherSettingsContainer = (): JSX.Element => {
             <Forecast7Day />
 
             <div className="flex flex-row space-between w-full">
+
                 <Footer />
-                <Settings />
+                <SettingsIcon />
             </div>
         </div>
     );
 }
 
-export const Settings = (): JSX.Element => {
+export const SettingsIcon = (): JSX.Element => {
     const theme = useSelector((state: RootState) => state.settings.theme);
+    const dispatch = useDispatch();
 
     const handleClick = () => {
-        //! open settings
+        dispatch(toggleSettings());
     }
 
     return (
@@ -72,6 +74,17 @@ export const Footer = (): JSX.Element => {
             <p className='text-secondary-l dark:text-secondary-d font-semibold'>&copy; {new Date().getFullYear()}
                 <a href='https://github.com/sebastian-sonne' className='dark:text-slate-400 dark:hover:text-white text-gray-600 hover:text-gray-800 transition-colors' target='_blank'> Sebastian Sonne</a>
             </p>
+        </div>
+    );
+}
+
+export const Settings = (): JSX.Element => {
+
+    return (
+        <div className="w-full shadow-xl bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">SETTINGS</h2>
+
+            <br /><br /><br /><br /><br />
         </div>
     );
 }

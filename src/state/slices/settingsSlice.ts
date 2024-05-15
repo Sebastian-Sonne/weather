@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface SettingsState {
+    isVisible: boolean,
+    prevScollPos: number | null,
     unit: string,
     theme: string,
 }
@@ -23,6 +25,8 @@ if ('unit' in localStorage) {
 }
 
 const initialState: SettingsState = {
+    isVisible: false,
+    prevScollPos: null,
     unit: initialUnit,
     theme: initialTheme,
 }
@@ -42,9 +46,18 @@ const settingwSlice = createSlice({
             localStorage.theme = newTheme;
             state.theme = newTheme;
         },
+        setSettingsIsVisible: (state, action: PayloadAction<boolean>) => {
+            state.isVisible = action.payload;
+        },
+        toggleSettings: (state) => {
+            state.isVisible = !state.isVisible;
+        },
+        setPrevScrollPos: (state, action: PayloadAction<number | null>) => {
+            state.prevScollPos = action.payload;
+        },
     },
 })
 
-export const { setUnit, setTheme, toggleTheme } = settingwSlice.actions;
+export const { setUnit, setTheme, toggleTheme, setSettingsIsVisible, toggleSettings, setPrevScrollPos } = settingwSlice.actions;
 
 export default settingwSlice.reducer;
