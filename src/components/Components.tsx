@@ -77,14 +77,3 @@ export const Footer = (): JSX.Element => {
         </div>
     );
 }
-
-export const Settings = (): JSX.Element => {
-
-    return (
-        <div className="w-full shadow-xl bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">SETTINGS</h2>
-
-            <br /><br /><br /><br /><br />
-        </div>
-    );
-}

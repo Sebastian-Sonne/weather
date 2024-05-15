@@ -25,7 +25,7 @@ if ('unit' in localStorage) {
 }
 
 const initialState: SettingsState = {
-    isVisible: false,
+    isVisible: true,
     prevScollPos: null,
     unit: initialUnit,
     theme: initialTheme,

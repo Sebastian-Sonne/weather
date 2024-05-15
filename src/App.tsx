@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Main, { Settings } from './components/Components';
+import Main from './components/Components';
 import { RootState } from './state/store';
 import { useEffect } from 'react';
 import { CityData, setCity } from './state/slices/citySlice';
@@ -11,6 +11,7 @@ import { Loader } from './components/Effects';
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
 import { setPrevScrollPos } from './state/slices/settingsSlice';
+import Settings from './components/Settings';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
