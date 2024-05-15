@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "./Icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";

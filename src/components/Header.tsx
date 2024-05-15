@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, MutableRefObject, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
@@ -36,6 +36,7 @@ export const SearchBar = (): JSX.Element => {
     const query = useSelector((state: RootState) => state.query.value);
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
+    const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (inputError !== '') dispatch(setInputError(''));
@@ -49,9 +50,10 @@ export const SearchBar = (): JSX.Element => {
     const handleClick = () => {
         if (query === '') {
             dispatch(setInputError('Please provide a location'));
+            inputRef.current?.blur();
             return;
         }
-
+        inputRef.current?.blur();
         dispatch(setLoading(true));
 
         getData(query)
@@ -83,6 +85,7 @@ export const SearchBar = (): JSX.Element => {
                     onChange={handleChange}
                     value={query}
                     onKeyDown={handleKeyDown}
+                    ref={inputRef}
                 />
                 <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors'>
                     {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
