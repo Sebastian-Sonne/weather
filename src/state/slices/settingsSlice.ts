@@ -5,6 +5,7 @@ export interface SettingsState {
     prevScollPos: number | null,
     unit: 'metric' | 'imperial' | 'standard',
     theme: 'dark' | 'light',
+    lang: string,
     time: 12 | 24,
 }
 
@@ -33,12 +34,21 @@ if ('time' in localStorage) {
     localStorage.time = initialTime;
 }
 
+var initialLanguage;
+if ('lang' in localStorage) {
+    initialLanguage = localStorage.lang;
+} else {
+    initialLanguage = 'en';
+    localStorage.lang = initialLanguage;
+}
+
 const initialState: SettingsState = {
     isVisible: true,
     prevScollPos: null,
     unit: initialUnit,
     theme: initialTheme,
     time: initialTime,
+    lang: initialLanguage,
 }
 
 const settingwSlice = createSlice({
@@ -70,10 +80,14 @@ const settingwSlice = createSlice({
         setTime: (state, action: PayloadAction<12 | 24>) => {
             localStorage.time = action.payload;
             state.time = action.payload;
-        }
+        },
+        setLang: (state, action: PayloadAction<string>) => {
+            localStorage.lang = action.payload;
+            state.lang = action.payload;
+        },
     },
 })
 
-export const { setUnit, setTheme, toggleTheme, setSettingsIsVisible, toggleSettings, setPrevScrollPos, setTime } = settingwSlice.actions;
+export const { setUnit, setTheme, toggleTheme, setSettingsIsVisible, toggleSettings, setPrevScrollPos, setTime, setLang } = settingwSlice.actions;
 
 export default settingwSlice.reducer;

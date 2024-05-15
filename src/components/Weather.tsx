@@ -9,6 +9,7 @@ import { getDailyForecast } from "../service/weather";
 export const Overview = (): JSX.Element => {
     const city = useSelector((state: RootState) => state.city.value);
     const weather = useSelector((state: RootState) => state.weather.value);
+    const lang = useSelector((state: RootState) => state.settings.lang);
 
     return (
         <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
@@ -17,7 +18,7 @@ export const Overview = (): JSX.Element => {
                 <div className="h-full gap-4">
                     <h1 className="font-bold text-primary-l dark:text-primary-d text-5xl mb-2">
                         <span className="truncate">
-                            {city.local_names === undefined ? city.name : (city.local_names.de !== undefined) ? city.local_names.de : city.name}
+                            {(city.local_names !== undefined) && (city.local_names[lang] !== undefined) ? city.local_names[lang] : city.name}
                             <span className="font-bold text-secondary-l dark:text-secondary-d text-2xl">
                                 , {city.country}
                             </span>
@@ -100,6 +101,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, dat
 
 export const AirCondition = (): JSX.Element => {
     const weather = useSelector((state: RootState) => state.weather.value);
+    const unit = useSelector((state: RootState) => state.settings.unit);
 
     return (
         <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
@@ -112,7 +114,7 @@ export const AirCondition = (): JSX.Element => {
                     <ConditionElement name="Humidity" value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIconLight />} />
                 </div>
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit="km/h" icon={<WindIconLight />} />
+                    <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit={unit === 'imperial' ? 'mp/h' : 'm/s'} icon={<WindIconLight />} />
                     <ConditionElement name="Pressure" value={weather.main.pressure} unit="hPa" icon={<PressureIconLight />} />
                 </div>
             </div>
@@ -135,7 +137,9 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
             </div>
             <div className="flex flex-col px-2">
                 <h4 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{props.name}</h4>
-                <h3 className="font-bold text-3xl text-primary-l dark:text-primary-d">{props.value}{props.unit}</h3>
+                <h3 className="font-bold text-3xl text-primary-l dark:text-primary-d">{props.value}
+                <span className={`font-bold ${props.unit === '°' ? 'text-3xl' : 'text-xl'} text-secondary-l dark:text-secondary-d`}>{props.unit}</span>
+                </h3>
             </div>
         </div>
     );
@@ -151,8 +155,7 @@ export const Forecast7Day = (): JSX.Element => {
     for (var i = 0; i < dailyData.length; i++) {
         dayNames.push(matchDay((day + i) % 7));
     }
-    console.log(dayNames.toString());
-
+    
     function matchDay(dayNumber: number): string {
         switch (dayNumber) {
             case 0:

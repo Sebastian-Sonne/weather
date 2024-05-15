@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
-import { setTheme, setTime, setUnit } from "../state/slices/settingsSlice";
+import { setLang, setTheme, setTime, setUnit } from "../state/slices/settingsSlice";
 
 const Settings = (): JSX.Element => {
 
@@ -51,23 +51,25 @@ export const UnitSettings = (): JSX.Element => {
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Unit</h3>
 
             <div className="flex flex-row bg-bg-l">
-                <SettingButton value="Celcius" location="left" selected={unit === 'metric'} onClick={() => dispatch(setUnit('metric'))} />
-                <SettingButton value="Farenheit" location="center" selected={unit === 'imperial'} onClick={() => dispatch(setUnit('imperial'))} />
-                <SettingButton value="Kelvin" location="right" selected={unit === 'standard'} onClick={() => dispatch(setUnit('standard'))} />
+                <SettingButton value="Metric" location="left" selected={unit === 'metric'} onClick={() => dispatch(setUnit('metric'))} />
+                <SettingButton value="Imperial" location="center" selected={unit === 'imperial'} onClick={() => dispatch(setUnit('imperial'))} />
+                <SettingButton value="SI" location="right" selected={unit === 'standard'} onClick={() => dispatch(setUnit('standard'))} />
             </div>
         </div>
     );
 }
 
 export const LanguageSettings = (): JSX.Element => {
+    const lang = useSelector((state: RootState) => state.settings.lang);
+    const dispatch = useDispatch();
 
     return (
         <div className="flex flex-col gap-4 xl:mx-auto">
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Language</h3>
 
             <div className="flex flex-row bg-bg-l">
-                <SettingButton value="Englisch" location="left" />
-                <SettingButton value="German" location="right" />
+                <SettingButton value="Englisch" location="left" selected={lang === 'en'} onClick={() => dispatch(setLang('en'))} />
+                <SettingButton value="German" location="right" selected={lang === 'de'} onClick={() => dispatch(setLang('de'))} />
             </div>
         </div>
     );
@@ -89,7 +91,6 @@ export const TimeSettings = (): JSX.Element => {
     );
 }
 
-
 interface SettingButtonProps {
     value: string,
     location: 'left' | 'center' | 'right',
@@ -97,10 +98,12 @@ interface SettingButtonProps {
     onClick?: any,
 }
 export const SettingButton: React.FC<SettingButtonProps> = ({ value, location, selected, onClick }): JSX.Element => {
-    const borderClass = `border-2 ${selected ? 'border-white' : 'border-secondary-l dark:border-secondary-d'} ${location === 'left' ? 'rounded-l-lg' : location === 'center' ? 'border-l-0' : 'border-l-0 rounded-r-lg'}`;
+    const borderClass = `border-2 ${selected ? 'border-gray-600 dark:border-white' : 'border-secondary-l dark:border-secondary-d'} ${location === 'left' ? 'rounded-l-lg' : location === 'center' ? 'border-l-0' : 'border-l-0 rounded-r-lg'}`;
+    const colorClass = `${selected ? 'bg-gray-600 text-white dark:bg-bg-light dark:text-black' : 'hover:bg-icon dark:hover:bg-secondary-d'}`;
 
     return (
-        <button onClick={onClick}
-            className={`font-semibold px-4 py-2 w-32 ${selected ? 'bg-white text-black' : 'hover:bg-secondary-l dark:hover:bg-secondary-d'} ${borderClass} transition-colors`}>{value}</button>
+        <button onClick={onClick} disabled={selected} className={`font-semibold px-4 py-2 w-32 ${colorClass} ${borderClass} transition-colors`}>
+            {value}
+        </button>
     );
 }
