@@ -31,6 +31,7 @@ const Header = (): JSX.Element => {
 export default Header
 
 export const SearchBar = (): JSX.Element => {
+    const lang = useSelector((state: RootState) => state.settings.lang);
     const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
     const inputError = useSelector((state: RootState) => state.error.inputError);
@@ -78,7 +79,7 @@ export const SearchBar = (): JSX.Element => {
             <div className="flex flex-row w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
                 <input
                     className={`w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 ${inputError !== '' ? 'border border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
-                    placeholder="Search for cities..."
+                    placeholder={lang === 'en' ? 'Search for cities...' : 'Nach Stadt suchen...'}
                     onChange={handleChange}
                     value={query}
                     onKeyDown={handleKeyDown}

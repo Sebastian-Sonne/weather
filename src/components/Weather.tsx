@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "./Icons";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
@@ -40,13 +40,13 @@ export const Overview = (): JSX.Element => {
 }
 
 export const ForecastToday = (): JSX.Element => {
-
+    const lang = useSelector((state: RootState) => state.settings.lang);
     const forecast = useSelector((state: RootState) => state.forecast.value);
     const firstForecast = forecast.list.slice(0, 6);
 
     return (
         <div className="w-full component-light bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">TODAY'S FORECAST</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">{lang === 'en' ? 'TODAY\'S FORECAST' : 'TAGES VORHERSAGE'}</h2>
 
             <div className="overflow-x-auto">
                 <table className="table mb-2">
@@ -78,10 +78,14 @@ interface HourOverviewProps {
 }
 
 export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, data, offSet }): JSX.Element => {
-
-    //convert time to correct offset
+    const timeType = useSelector((state: RootState) => state.settings.time);
     const timeString = convertUnixToLocal(data.dt, offSet);
-    const time = timeString.split(' ')[1].split(':')[0];
+    const hourTime = parseInt(timeString.split(' ')[1].split(':')[0]);
+
+    const getTime = () => {
+        const prefix = hourTime < 12 ? 'AM' : 'PM';
+        return `${timeType === 12 ? hourTime % 12 : hourTime}:00 ${timeType === 12 ? prefix : ''}`;
+    }
 
     const temp = data.main.temp.toFixed();
     const icon = data.weather[0].icon;
@@ -90,7 +94,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, dat
 
     return (
         <td className={classes}>
-            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{time}:00</h3>
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">{getTime()}</h3>
             <div className="w-2/3 md:w-1/3 rounded-xl bg-icon dark:bg-accent-l">
                 <img src={`https://openweathermap.org/img/wn/${icon}@4x.png`} alt="weather icon" />
             </div>
@@ -102,20 +106,21 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, dat
 export const AirCondition = (): JSX.Element => {
     const weather = useSelector((state: RootState) => state.weather.value);
     const unit = useSelector((state: RootState) => state.settings.unit);
+    const lang = useSelector((state: RootState) => state.settings.lang);
 
     return (
         <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
 
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">AIR CONDITION</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-4">{lang === 'en' ? 'AIR CONDITION' : 'LUFT DATEN'}</h2>
 
             <div className="flex flex-col xs:flex-row gap-4 xs:gap-6 mb-2">
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
-                    <ConditionElement name="Real Feel" value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIconLight />} />
-                    <ConditionElement name="Humidity" value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIconLight />} />
+                    <ConditionElement name={lang === 'en' ? 'Real Feel' : 'Gefühlt'} value={parseFloat(weather.main.feels_like).toFixed()} unit="°" icon={<ThermometerIconLight />} />
+                    <ConditionElement name={lang === 'en' ? 'Humidity' : 'Feuchtigkeit'} value={parseFloat(weather.main.humidity).toFixed()} unit="%" icon={<DropIconLight />} />
                 </div>
                 <div className="flex flex-col gap-4 w-full xs:w-1/2">
                     <ConditionElement name="Wind" value={parseFloat(weather.wind.speed).toFixed()} unit={unit === 'imperial' ? 'mp/h' : 'm/s'} icon={<WindIconLight />} />
-                    <ConditionElement name="Pressure" value={weather.main.pressure} unit="hPa" icon={<PressureIconLight />} />
+                    <ConditionElement name={lang === 'en' ? 'Pressure' : 'Luftdruck'} value={weather.main.pressure} unit="hPa" icon={<PressureIconLight />} />
                 </div>
             </div>
         </div>
@@ -145,7 +150,8 @@ export const ConditionElement: React.FC<ConditionElementProps> = (props): JSX.El
     );
 }
 
-export const Forecast7Day = (): JSX.Element => {
+export const Forecast5Day = (): JSX.Element => {
+    const lang = useSelector((state: RootState) => state.settings.lang);
     const forecast = useSelector((state: RootState) => state.forecast.value);
     const dailyData = getDailyForecast(forecast);
 
@@ -159,25 +165,25 @@ export const Forecast7Day = (): JSX.Element => {
     function matchDay(dayNumber: number): string {
         switch (dayNumber) {
             case 0:
-                return 'Sun'
+                return lang === 'en' ? 'Sun' : 'So'
                 break;
             case 1:
-                return 'Mon'
+                return lang === 'en' ? 'Mon' : 'Mo'
                 break;
             case 2:
-                return 'Tue'
+                return lang === 'en' ? 'Tue' : 'Di'
                 break;
             case 3:
-                return 'Wed'
+                return lang === 'en' ? 'Wed' : 'Mi'
                 break;
             case 4:
-                return 'Thu'
+                return lang === 'en' ? 'Thu' : 'Do'
                 break;
             case 5:
-                return 'Fri'
+                return lang === 'en' ? 'Fri' : 'Fr'
                 break;
             case 6:
-                return 'Sat'
+                return lang === 'en' ? 'Sat' : 'Sa'
                 break;
             default:
                 return 'NA'
@@ -186,7 +192,7 @@ export const Forecast7Day = (): JSX.Element => {
 
     return (
         <div className="w-full h-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
-            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">5-DAY FORECAST</h2>
+            <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d">{lang === 'en' ? '5-DAY FORECAST' : '5-TAGE-VORHERSAGE'}</h2>
 
             <div className="flex flex-col h-full">
                 {dailyData.map((data, index) => (
@@ -213,7 +219,7 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
     const { isFirst = false, isLast = false, data, day } = props;
 
     const description = data.weather[0].main;
-    const { temp_min: minTemp, temp_max: maxTemp } = data.main;
+    const { temp } = data.main;
     const iconURL = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
 
     const classes = `flex flex-row justify-between items-center h-full min-h-[100px] px-4 border border-accent-l dark:border-accent-d border-x-0 ${isFirst ? 'border-t-0' : ''} ${isLast ? 'border-b-0' : ''}`
@@ -230,7 +236,7 @@ export const DayOverview: React.FC<DayOverviewProps> = (props): JSX.Element => {
             </div>
 
             <h4 className="flex justify-end font-semibold text-primary-l dark:text-primary-d w-16">
-                {minTemp.toFixed()}<span className="text-secondary-l dark:text-secondary-d">/{maxTemp.toFixed()}</span>
+                {temp.toFixed()}° {/*<span className="text-secondary-l dark:text-secondary-d">/{temp_min.toFixed()}</span>*/}
             </h4>
         </div>
     );

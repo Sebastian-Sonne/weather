@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
-import { AirCondition, Forecast7Day, ForecastToday, Overview } from "./Weather";
+import { AirCondition, Forecast5Day, ForecastToday, Overview } from "./Weather";
 import { RootState } from "../state/store";
 import { SettingsIconDark, SettingsIconLight } from "./Icons";
 import { toggleSettings } from "../state/slices/settingsSlice";
@@ -40,7 +40,7 @@ export const WeatherSettingsContainer = (): JSX.Element => {
 
     return (
         <div className='flex flex-col gap-4 w-full lg:w-1/3'>
-            <Forecast7Day />
+            <Forecast5Day />
 
             <div className="flex flex-row space-between w-full">
 
