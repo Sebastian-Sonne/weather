@@ -4,7 +4,8 @@ export interface SettingsState {
     isVisible: boolean,
     prevScollPos: number | null,
     unit: 'metric' | 'imperial' | 'standard',
-    theme: string,
+    theme: 'dark' | 'light',
+    time: 12 | 24,
 }
 
 var initialTheme;
@@ -24,11 +25,20 @@ if ('unit' in localStorage) {
     localStorage.unit = initialUnit;
 }
 
+var initialTime;
+if ('time' in localStorage) {
+    initialTime = localStorage.time;
+} else {
+    initialTime = 24;
+    localStorage.time = initialTime;
+}
+
 const initialState: SettingsState = {
     isVisible: true,
     prevScollPos: null,
     unit: initialUnit,
     theme: initialTheme,
+    time: initialTime,
 }
 
 const settingwSlice = createSlice({
@@ -39,7 +49,8 @@ const settingwSlice = createSlice({
             localStorage.unit = action.payload;
             state.unit = action.payload;
         },
-        setTheme: (state, action: PayloadAction<string>) => {
+        setTheme: (state, action: PayloadAction<'dark' | 'light'>) => {
+            localStorage.theme = action.payload;
             state.theme = action.payload;
         },
         toggleTheme: (state) => {
@@ -56,9 +67,13 @@ const settingwSlice = createSlice({
         setPrevScrollPos: (state, action: PayloadAction<number | null>) => {
             state.prevScollPos = action.payload;
         },
+        setTime: (state, action: PayloadAction<12 | 24>) => {
+            localStorage.time = action.payload;
+            state.time = action.payload;
+        }
     },
 })
 
-export const { setUnit, setTheme, toggleTheme, setSettingsIsVisible, toggleSettings, setPrevScrollPos } = settingwSlice.actions;
+export const { setUnit, setTheme, toggleTheme, setSettingsIsVisible, toggleSettings, setPrevScrollPos, setTime } = settingwSlice.actions;
 
 export default settingwSlice.reducer;

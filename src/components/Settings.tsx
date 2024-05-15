@@ -1,29 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
-import { setTheme, setUnit } from "../state/slices/settingsSlice";
+import { setTheme, setTime, setUnit } from "../state/slices/settingsSlice";
 
 const Settings = (): JSX.Element => {
 
     return (
-        <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7">
+        <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7 max-w-[2000px]">
             <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-2">SETTINGS</h2>
 
-            <div className="flex flex-col lg:flex-row lg:justify-between w-full p-2 gap-2">
+            <div className="flex flex-col lg:flex-row lg:justify-between w-full p-2 gap-4 lg:gap-2">
                 <UnitSettings />
+                <TimeSettings />
+                <LanguageSettings />
                 <ThemeSettings />
-
-                <div className="flex flex-col gap-4">
-                    <h3 className="font-semibold text-sm text-secondary-l dark:text-secondary-d">Language</h3>
-
-                    <div className="flex flex-row bg-bg-l">
-                        <SettingButton value="Englisch" location="left" />
-                        <SettingButton value="German" location="right" />
-                    </div>
-
-                </div>
             </div>
-
-
         </div>
     );
 }
@@ -35,7 +25,7 @@ export const ThemeSettings = (): JSX.Element => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h3 className="font-semibold text-sm text-secondary-l dark:text-secondary-d">Theme</h3>
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Theme</h3>
 
             <div className="flex flex-row bg-bg-l">
                 <SettingButton value="Dark" location="left" selected={theme === 'dark'} onClick={() => dispatch(setTheme('dark'))} />
@@ -53,12 +43,42 @@ export const UnitSettings = (): JSX.Element => {
 
     return (
         <div className="flex flex-col gap-4">
-            <h3 className="font-semibold text-sm text-secondary-l dark:text-secondary-d">Theme</h3>
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Unit</h3>
 
             <div className="flex flex-row bg-bg-l">
                 <SettingButton value="Celcius" location="left" selected={unit === 'metric'} onClick={() => dispatch(setUnit('metric'))} />
                 <SettingButton value="Farenheit" location="center" selected={unit === 'imperial'} onClick={() => dispatch(setUnit('imperial'))} />
                 <SettingButton value="Kelvin" location="right" selected={unit === 'standard'} onClick={() => dispatch(setUnit('standard'))} />
+            </div>
+        </div>
+    );
+}
+
+export const LanguageSettings = (): JSX.Element => {
+
+    return (
+        <div className="flex flex-col gap-4">
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Language</h3>
+
+            <div className="flex flex-row bg-bg-l">
+                <SettingButton value="Englisch" location="left" />
+                <SettingButton value="German" location="right" />
+            </div>
+        </div>
+    );
+}
+
+export const TimeSettings = (): JSX.Element => {
+    const time = useSelector((state: RootState) => state.settings.time);
+    const dispatch = useDispatch();
+
+    return (
+        <div className="flex flex-col gap-4">
+            <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Time</h3>
+
+            <div className="flex flex-row bg-bg-l">
+                <SettingButton value="12h" location="left" selected={time == 12} onClick={() => dispatch(setTime(12))} />
+                <SettingButton value="24h" location="right" selected={time == 24} onClick={() => dispatch(setTime(24))}/>
             </div>
         </div>
     );
