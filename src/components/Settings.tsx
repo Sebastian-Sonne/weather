@@ -8,11 +8,16 @@ const Settings = (): JSX.Element => {
         <div className="w-full bg-component-light dark:bg-component-dark rounded-2xl p-6 pt-7 max-w-[2000px]">
             <h2 className="font-bold text-sm text-secondary-l dark:text-secondary-d mb-2">SETTINGS</h2>
 
-            <div className="flex flex-col lg:flex-row lg:justify-between w-full p-2 gap-4 lg:gap-2">
-                <UnitSettings />
-                <TimeSettings />
-                <LanguageSettings />
-                <ThemeSettings />
+            <div className="flex flex-col xl:flex-row xl:justify-between w-full p-2 gap-4">
+
+                <div className="flex flex-col md:flex-row justify-between xl:justify-start xl:gap-4 xl:w-full gap-2">
+                    <UnitSettings />
+                    <TimeSettings />
+                </div>
+                <div className="flex flex-col sm:flex-row justify-between xl:justify-start xl:gap-4 xl:w-full gap-2">
+                    <LanguageSettings />
+                    <ThemeSettings />
+                </div>
             </div>
         </div>
     );
@@ -24,7 +29,7 @@ export const ThemeSettings = (): JSX.Element => {
     const dispatch = useDispatch();
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:ml-auto">
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Theme</h3>
 
             <div className="flex flex-row bg-bg-l">
@@ -42,7 +47,7 @@ export const UnitSettings = (): JSX.Element => {
     //! refresh on change
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:mr-auto">
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Unit</h3>
 
             <div className="flex flex-row bg-bg-l">
@@ -57,7 +62,7 @@ export const UnitSettings = (): JSX.Element => {
 export const LanguageSettings = (): JSX.Element => {
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:mx-auto">
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Language</h3>
 
             <div className="flex flex-row bg-bg-l">
@@ -73,12 +78,12 @@ export const TimeSettings = (): JSX.Element => {
     const dispatch = useDispatch();
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:mx-auto">
             <h3 className="font-semibold text-lg text-secondary-l dark:text-secondary-d">Time</h3>
 
             <div className="flex flex-row bg-bg-l">
                 <SettingButton value="12h" location="left" selected={time == 12} onClick={() => dispatch(setTime(12))} />
-                <SettingButton value="24h" location="right" selected={time == 24} onClick={() => dispatch(setTime(24))}/>
+                <SettingButton value="24h" location="right" selected={time == 24} onClick={() => dispatch(setTime(24))} />
             </div>
         </div>
     );
