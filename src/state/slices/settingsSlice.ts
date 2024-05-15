@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface SettingsState {
     isVisible: boolean,
     prevScollPos: number | null,
-    unit: string,
+    unit: 'metric' | 'imperial' | 'standard',
     theme: string,
 }
 
@@ -35,7 +35,8 @@ const settingwSlice = createSlice({
     name: "settings",
     initialState,
     reducers: {
-        setUnit: (state, action: PayloadAction<string>) => {
+        setUnit: (state, action: PayloadAction<'metric' | 'imperial' | 'standard'>) => {
+            localStorage.unit = action.payload;
             state.unit = action.payload;
         },
         setTheme: (state, action: PayloadAction<string>) => {

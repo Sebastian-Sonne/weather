@@ -11,6 +11,8 @@ export default {
         'bg-dark': '#0b131e',
         'component-dark': '#202b3b',
 
+        'icon': '#ced4da',
+
         'primary-d': '#dde0e4',
         'secondary-d': '#8899a2',
         'accent-d': '#9399a2',
