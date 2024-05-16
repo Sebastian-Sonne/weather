@@ -1,14 +1,14 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
-import { ExitIconDark, ExitIconLight } from "./Icons";
 import { decrementTimeout, setLoading } from "../state/slices/loadingSlice";
-import { useEffect } from "react";
+import { ExitIconDark, ExitIconLight } from "./Icons";
 
 /**
  * Loading Screen with timeout to exit screen
  * @returns JSX Element
  */
-export const Loader = (): JSX.Element => {
+const Loader = (): JSX.Element => {
     const timeout = useSelector((state: RootState) => state.loading.timeout);
 
     return (
@@ -19,6 +19,7 @@ export const Loader = (): JSX.Element => {
         </div>
     );
 }
+export default Loader
 
 /**
  * Loading Circle Animation
