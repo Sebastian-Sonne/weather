@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Main from './components/Components';
 import { RootState } from './state/store';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { CityData, setCity } from './state/slices/citySlice';
 import { WeatherData, setWeather } from './state/slices/weatherSlice';
 import getData, { Data } from './service/service';
@@ -11,9 +11,11 @@ import { Loader } from './components/Effects';
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
 import { setLang, setPrevScrollPos } from './state/slices/settingsSlice';
-import Settings from './components/Settings';
+import React from 'react';
 
 function App(): JSX.Element {
+    const Settings = React.lazy(() => import('./components/Settings'));
+    
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.settings.theme);
     const city = useSelector((state: RootState) => state.city.value.name);
@@ -110,7 +112,11 @@ function App(): JSX.Element {
             {isLoading && <Loader />}
             <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
-                {settingsIsVisible && <Settings />}
+                {settingsIsVisible && (
+                    <Suspense fallback={<Loader />}>
+                        <Settings />
+                    </Suspense>
+                )}
             </div>
         </>
     )
