@@ -84,7 +84,7 @@ export const HourOverview: React.FC<HourOverviewProps> = ({ isFirst, isLast, dat
 
     const getTime = () => {
         const prefix = hourTime < 12 ? 'AM' : 'PM';
-        return `${timeType === 12 ? hourTime % 12 : hourTime}:00 ${timeType === 12 ? prefix : ''}`;
+        return `${timeType == 12 ? hourTime % 12 : hourTime}:00 ${timeType == 12 ? prefix : ''}`;
     }
 
     const temp = data.main.temp.toFixed();

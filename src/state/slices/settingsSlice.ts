@@ -39,11 +39,10 @@ if ('lang' in localStorage) {
     initialLanguage = localStorage.lang;
 } else {
     initialLanguage = 'en';
-    localStorage.lang = initialLanguage;
 }
 
 const initialState: SettingsState = {
-    isVisible: true,
+    isVisible: false,
     prevScollPos: null,
     unit: initialUnit,
     theme: initialTheme,

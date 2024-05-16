@@ -10,7 +10,7 @@ import { getUserLocation } from './service/geocode';
 import { Loader } from './components/Effects';
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
-import { setPrevScrollPos } from './state/slices/settingsSlice';
+import { setLang, setPrevScrollPos } from './state/slices/settingsSlice';
 import Settings from './components/Settings';
 
 function App(): JSX.Element {
@@ -29,7 +29,7 @@ function App(): JSX.Element {
         }
         //get initial location
         const getInitialLocation = async (): Promise<LocationData | string> => {
-            if ('coords' in localStorage) {
+            if (('coords' in localStorage)) {
                 try {
                     return JSON.parse(localStorage.coords);
                 } catch (error) {
@@ -38,6 +38,7 @@ function App(): JSX.Element {
             } else {
                 try {
                     const data = await getUserLocation();
+                    localStorage.coords = JSON.stringify({ lon: data.longitude, lat: data.latitude });
                     return { lon: data.longitude, lat: data.latitude };
                 } catch (error) {
                     return 'berlin'; //* default location if error
@@ -50,8 +51,17 @@ function App(): JSX.Element {
             try {
                 const location = await getInitialLocation();
                 const { cityData, currentWeather, forecast }: Data = await getData(location);
-                saveData(cityData, currentWeather, forecast);
 
+                //set lang german if coutrny germany
+                if (!('lang' in localStorage)) {
+                    if (cityData.country === 'DE') {
+                        dispatch(setLang('de'))
+                    } else {
+                        dispatch(setLang('en'));
+                    }
+                }
+
+                saveData(cityData, currentWeather, forecast);
             } catch (error: any) {
                 dispatch(setInputError(`Failed to Load Weather Data: ${error.message}`));
                 console.error(error);
