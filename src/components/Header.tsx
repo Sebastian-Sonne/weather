@@ -2,7 +2,7 @@ import React, { ChangeEvent, MutableRefObject, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { QuerySearchResults, setQuery, setSearch } from "../state/slices/querySlice";
+import { QuerySearchResults, setQuery, setSearch, setSearchIsVisible } from "../state/slices/querySlice";
 import getData from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
 import { getCityResuts, getUserLocation } from '../service/geocode';
@@ -33,7 +33,7 @@ export const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
-    const searchResults = useSelector((state: RootState) => state.query.results);
+    const searchIsVisible = useSelector((state: RootState) => state.query.searchIsVisible);
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
     const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
@@ -41,7 +41,9 @@ export const SearchBar = (): JSX.Element => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (inputError !== '') dispatch(setInputError(''));
         dispatch(setQuery(event.target.value));
+        dispatch(setSearchIsVisible(event.target.value !== ''));
 
+        if (event.target.value === '') return;
         getCityResuts(event.target.value)
             .then(data => {
                 dispatch(setSearch(data));
@@ -58,12 +60,12 @@ export const SearchBar = (): JSX.Element => {
 
     const handleClick = () => {
         if (query === '') {
+            dispatch(setSearchIsVisible(false));
             dispatch(setInputError('Please provide a location'));
-            inputRef.current?.blur();
             return;
         }
-        inputRef.current?.blur();
         dispatch(setLoading(true));
+        dispatch(setSearchIsVisible(false));
 
         getData(query)
             .then(data => {
@@ -76,6 +78,7 @@ export const SearchBar = (): JSX.Element => {
                 dispatch(setForecast(forecast))
                 dispatch(setCity(cityData));
                 dispatch(setQuery(''));
+                inputRef.current?.blur();
                 dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
             })
@@ -86,23 +89,23 @@ export const SearchBar = (): JSX.Element => {
     }
 
     return (
-        <>
-            <div className="flex flex-row w-full lg:w-2/3 h-12 mr-auto bg-component-light dark:bg-component-dark dark:bg-b rounded-xl">
+        <div className='w-full lg:w-2/3 h-12 pr-4 rounded-xl'>
+            <div className="flex flex-row w-full h-full bg-component-light dark:bg-component-dark rounded-xl">
                 <input
-                    className={`w-full h-full bg-transparent px-4 rounded-xl placeholder:text-slate-600 ${inputError !== '' ? 'border border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
+                    className={`w-full h-full bg-transparent px-4 rounded-xl focus:border focus:border-blue-600 placeholder:text-slate-600 ${inputError !== '' ? '!border !border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
                     placeholder={lang === 'en' ? 'Search for cities...' : 'Nach Stadt suchen...'}
                     onChange={handleChange}
                     value={query}
                     onKeyDown={handleKeyDown}
                     ref={inputRef}
                 />
-                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-component-light-hover dark:hover:bg-component-light-hover transition-colors'>
+                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors'>
                     {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
                 </button>
             </div>
             {inputError !== '' && <InputError />}
-            {searchResults && <SearchResults />}
-        </>
+            {searchIsVisible && <SearchResults />}
+        </div>
     )
 }
 
@@ -111,15 +114,20 @@ export const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
     const dispatch = useDispatch();
 
-    const containerClasses = 'flex flex-col gap-2 absolute top-16 mt-2 p-4 w-[calc(100%-32px)] lg:w-[calc(66.66667%-18px)] rounded-lg';
+    //! remove
+    dispatch(setSearch(null));
+
+    const containerClasses = 'flex flex-col absolute top-16 mt-2 p-2 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)] rounded-lg';
     const containerColors = 'shadow-lg bg-component-light dark:bg-component-dark';
-    const buttonClasses = 'flex flex-row justify-between items-center h-12 p-2 rounded-lg';
-    const buttonColors = 'hover:bg-component-light-hover dark:hover:bg-component-light-hover transition-colors';
+    const buttonClasses = 'flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg';
+    const buttonColors = 'hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors';
 
     const handleClick = (cityData: QuerySearchResults) => {
         const { lng: lon, lat } = cityData;
         const coords = { lon: parseFloat(lon), lat: parseFloat(lat) }
         localStorage.setItem('coords', JSON.stringify(coords));
+
+        dispatch(setSearchIsVisible(false));
 
         getData(coords)
             .then(data => {
@@ -132,7 +140,6 @@ export const SearchResults = (): JSX.Element => {
                 dispatch(setQuery(''));
                 dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
-
             })
             .catch(error => {
                 dispatch(setInputError(` ${error}`));
@@ -141,16 +148,22 @@ export const SearchResults = (): JSX.Element => {
     }
 
     return (
-        <div className={`${containerClasses} ${containerColors}`}>
-            {searchResults &&
+        <div className={`${containerClasses}  ${containerColors}`}>
+            {searchResults ?
                 <>
                     {searchResults.map((data, index) => (
                         <button key={index} onClick={() => handleClick(data)} className={`${buttonClasses} ${buttonColors}`}>
-                            <h3>{index + 1}</h3>
-                            <h1>{data.toponymName}</h1>
-                            <h2>{data.countryName}</h2>
+                            <h3 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>{index + 1}</h3>
+                            <div className='flex flex-row w-full'>
+                                <h1 className='font-semibold text-lg'>{data.toponymName}</h1>
+                                <h2 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>, {data.countryName}</h2>
+                            </div>
                         </button>
                     ))}
+                </>
+                :
+                <>
+                    <h1 className='font-semibold text-lg pl-2'>Loading...</h1>
                 </>
             }
         </div>
@@ -162,7 +175,7 @@ export const ThemeSwitcher = (): JSX.Element => {
     const dispatch = useDispatch();
 
     return (
-        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-component-light-hover dark:hover:bg-component-light-hover transition-colors">
+        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
             <button onClick={() => dispatch(toggleTheme())} className="w-full aspect-square p-2 rounded-xl">
 
                 {theme === 'dark' ? <ThemeLight /> : <ThemeDark />}
@@ -203,7 +216,7 @@ export const Location = (): JSX.Element => {
     }
 
     return (
-        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-component-light-hover dark:hover:bg-component-light-hover transition-colors">
+        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
             <button onClick={handleClick} className="w-full aspect-square p-2 rounded-xl">
 
                 {theme === 'dark' ? <LocationDark /> : <LocationLight />}

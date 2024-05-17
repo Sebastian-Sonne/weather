@@ -17,20 +17,20 @@ const initialState: QueryState = {
     value: '',
     searchIsVisible: false,
     results: [{
-        toponymName: 'Test',
-        countryName: 'Test',
+        toponymName: 'Erlangen',
+        countryName: 'Germany',
+        lng: '1',
+        lat: '1',
+    },
+    {
+        toponymName: 'Singapore',
+        countryName: 'Singapore',
         lng: 'Test',
         lat: 'Test',
     },
     {
-        toponymName: 'Test',
-        countryName: 'Test',
-        lng: 'Test',
-        lat: 'Test',
-    },
-    {
-        toponymName: 'Test',
-        countryName: 'Test',
+        toponymName: 'Houston',
+        countryName: 'United States of America',
         lng: 'Test',
         lat: 'Test',
     }],
@@ -43,7 +43,7 @@ const querySlice = createSlice({
         setQuery: (state, action: PayloadAction<string>) => {
             state.value = action.payload;
         },
-        setSearch: (state, action: PayloadAction<QuerySearchResults[]>) => {
+        setSearch: (state, action: PayloadAction<QuerySearchResults[] | null>) => {
             state.results = action.payload;
         },
         setSearchIsVisible: (state, action: PayloadAction<boolean>) => {

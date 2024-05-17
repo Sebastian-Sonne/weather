@@ -11,7 +11,7 @@ export default {
 
         'bg-dark': '#0b131e',
         'component-dark': '#202b3b',
-        'component-dark-hover': '4b5563',
+        'component-dark-hover': '#4b5563',
 
         'icon': '#ced4da',
 
