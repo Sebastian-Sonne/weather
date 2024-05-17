@@ -1,4 +1,5 @@
 import { CityData } from "../state/slices/citySlice";
+import { QuerySearchResults } from "../state/slices/querySlice";
 
 const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
 const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
@@ -53,7 +54,7 @@ export const getUserLocation = async (): Promise<any> => {
     }
 }
 
-export const getCityResuts = async (queryStartsWith: string): Promise<any> => {
+export const getCityResuts = async (queryStartsWith: string): Promise<QuerySearchResults[]> => {
     const url = new URL(BASE_URL_GEO_NAMES);
     //@ts-ignore
     url.search = new URLSearchParams({ startsWith: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();

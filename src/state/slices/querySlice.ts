@@ -9,19 +9,31 @@ export interface QuerySearchResults {
 
 interface QueryState {
     value: string;
-    results: QuerySearchResults[];
+    searchIsVisible: boolean;
+    results: QuerySearchResults[] | null;
 }
 
 const initialState: QueryState = {
     value: '',
-    results: [
-        {
-            toponymName: '',
-            countryName: '',
-            lng: '',
-            lat: '',
-        }
-    ]
+    searchIsVisible: false,
+    results: [{
+        toponymName: 'Test',
+        countryName: 'Test',
+        lng: 'Test',
+        lat: 'Test',
+    },
+    {
+        toponymName: 'Test',
+        countryName: 'Test',
+        lng: 'Test',
+        lat: 'Test',
+    },
+    {
+        toponymName: 'Test',
+        countryName: 'Test',
+        lng: 'Test',
+        lat: 'Test',
+    }],
 };
 
 const querySlice = createSlice({
@@ -33,9 +45,12 @@ const querySlice = createSlice({
         },
         setSearch: (state, action: PayloadAction<QuerySearchResults[]>) => {
             state.results = action.payload;
-        }
+        },
+        setSearchIsVisible: (state, action: PayloadAction<boolean>) => {
+            state.searchIsVisible = action.payload;
+        },
     },
 });
 
-export const { setQuery, setSearch } = querySlice.actions;
+export const { setQuery, setSearch, setSearchIsVisible } = querySlice.actions;
 export default querySlice.reducer;
