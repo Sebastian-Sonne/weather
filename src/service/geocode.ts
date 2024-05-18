@@ -5,7 +5,7 @@ const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
 const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
 const BASE_URL_GEO_NAMES = 'https://api.geonames.org/searchJSON';
-const API_KEY_GEO_NAMES = process.env.REACT_GEO_NAMES_API_KEY;
+const API_KEY_GEO_NAMES = 'sebastian_sonne';
 
 const getCities = async (cityName: string): Promise<CityData[]> => {
     const url = new URL(BASE_URL_OPEN_WEATHER + '/direct');
@@ -54,10 +54,12 @@ export const getUserLocation = async (): Promise<any> => {
     }
 }
 
-export const getCityResuts = async (queryStartsWith: string): Promise<QuerySearchResults[]> => {
+export const getCityResults = async (queryStartsWith: string): Promise<QuerySearchResults> => {
     const url = new URL(BASE_URL_GEO_NAMES);
     //@ts-ignore
-    url.search = new URLSearchParams({ startsWith: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();
+    url.search = new URLSearchParams({ q: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();
+
+    console.log(url);
 
     try {
         const response = await fetch(url);

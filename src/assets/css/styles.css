@@ -945,6 +945,10 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .pr-4 {
   padding-right: 1rem;
 }
@@ -955,10 +959,6 @@ video {
 
 .pt-7 {
   padding-top: 1.75rem;
-}
-
-.pl-2 {
-  padding-left: 0.5rem;
 }
 
 .text-center {

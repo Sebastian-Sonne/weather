@@ -1,39 +1,26 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface QuerySearchResults {
+export interface QueryObjects {
     toponymName: string;
-    countryName: string;
-    lng: string;
-    lat: string;
+        countryName: string;
+        lng: string;
+        lat: string;
+}
+
+export interface QuerySearchResults {
+    geonames: QueryObjects[]
 }
 
 interface QueryState {
     value: string;
     searchIsVisible: boolean;
-    results: QuerySearchResults[] | null;
+    results: QuerySearchResults | null;
 }
 
 const initialState: QueryState = {
     value: '',
     searchIsVisible: false,
-    results: [{
-        toponymName: 'Erlangen',
-        countryName: 'Germany',
-        lng: '1',
-        lat: '1',
-    },
-    {
-        toponymName: 'Singapore',
-        countryName: 'Singapore',
-        lng: 'Test',
-        lat: 'Test',
-    },
-    {
-        toponymName: 'Houston',
-        countryName: 'United States of America',
-        lng: 'Test',
-        lat: 'Test',
-    }],
+    results: null,
 };
 
 const querySlice = createSlice({
@@ -43,7 +30,7 @@ const querySlice = createSlice({
         setQuery: (state, action: PayloadAction<string>) => {
             state.value = action.payload;
         },
-        setSearch: (state, action: PayloadAction<QuerySearchResults[] | null>) => {
+        setSearch: (state, action: PayloadAction<QuerySearchResults | null>) => {
             state.results = action.payload;
         },
         setSearchIsVisible: (state, action: PayloadAction<boolean>) => {
