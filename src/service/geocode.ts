@@ -59,8 +59,6 @@ export const getCityResults = async (queryStartsWith: string): Promise<QuerySear
     //@ts-ignore
     url.search = new URLSearchParams({ q: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();
 
-    console.log(url);
-
     try {
         const response = await fetch(url);
         if (!response.ok)

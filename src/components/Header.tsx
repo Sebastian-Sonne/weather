@@ -1,4 +1,4 @@
-import React, {  useRef } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
@@ -34,6 +34,7 @@ export const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
+    const searchResults = useSelector((state: RootState) => state.query.results);
     const searchIsVisible = useSelector((state: RootState) => state.query.searchIsVisible);
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
@@ -41,10 +42,7 @@ export const SearchBar = (): JSX.Element => {
 
     const debouncedGetCityResults = useDebounce((value: string) => {
         getCityResults(value)
-            .then(data  => {
-                console.log(data);
-                dispatch(setSearch(data));
-            })
+            .then(data => dispatch(setSearch(data)))
             .catch(error => {
                 console.error(error);
                 dispatch(setInputError('Failed to fetch city results.'));
@@ -75,7 +73,12 @@ export const SearchBar = (): JSX.Element => {
         dispatch(setLoading(true));
         dispatch(setSearchIsVisible(false));
 
-        getData(query)
+        const param = (searchResults !== null && searchResults.geonames.length !== 0 
+                        ? ({ lon: parseFloat(searchResults.geonames[0].lng), 
+                             lat: parseFloat(searchResults.geonames[0].lat) })
+                        : query);
+
+        getData(param)
             .then(data => {
                 const { cityData, currentWeather, forecast } = data;
                 const coords = { lon: cityData.lon, lat: cityData.lat };
