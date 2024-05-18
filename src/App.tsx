@@ -1,25 +1,27 @@
-import { useDispatch, useSelector } from 'react-redux';
-import Main from './components/Components';
-import { RootState } from './state/store';
 import { useEffect } from 'react';
-import { CityData, setCity } from './state/slices/citySlice';
-import { WeatherData, setWeather } from './state/slices/weatherSlice';
-import getData, { Data } from './service/service';
-import { ForecastData, setForecast } from './state/slices/forecastSlice';
-import { getUserLocation } from './service/geocode';
-import { Loader } from './components/Effects';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './state/store';
+
+import Main from './components/Components';
+import Loader from './components/Effects';
+import Settings from './components/Settings';
+
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
+import { CityData, setCity } from './state/slices/citySlice';
+import { WeatherData, setWeather } from './state/slices/weatherSlice';
+import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { setLang, setPrevScrollPos } from './state/slices/settingsSlice';
-import Settings from './components/Settings';
+
+import getData, { Data } from './service/service';
+import { getUserLocation } from './service/geocode';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
-    const theme = useSelector((state: RootState) => state.settings.theme);
-    const city = useSelector((state: RootState) => state.city.value.name);
+    const settings = useSelector((state: RootState) => state.settings);
+    const cityName = useSelector((state: RootState) => state.city.value.name);
     const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
     const isLoading = useSelector((state: RootState) => state.loading.value);
-    const settingsIsVisible = useSelector((state: RootState) => state.settings.isVisible);
 
     //onload data fetch 
     useEffect(() => {
@@ -81,36 +83,36 @@ function App(): JSX.Element {
 
     // theme switching
     useEffect(() => {
-        (theme === 'dark') ? document.body.classList.add('dark')
+        (settings.theme === 'dark') ? document.body.classList.add('dark')
             : document.body.classList.remove('dark');
-    }, [theme]);
+    }, [settings.theme]);
 
     // document title
     useEffect(() => {
-        document.title = `${city} - Weather`;
+        document.title = `${cityName} - ${settings.lang === 'de' ? 'Wetter': 'Weather'}`;
 
         interface HTMLLinkElementWithFavicon extends HTMLLinkElement { href: string }
         const icon = document.getElementById('favicon') as HTMLLinkElementWithFavicon;
         icon.href = `https://openweathermap.org/img/wn/${iconNum}@4x.png`;
-    }, [city]);
+    }, [cityName, settings.lang]);
 
     //smooth settings scroll
     useEffect(() => {
-        if (settingsIsVisible) {
+        if (settings.isVisible) {
             dispatch(setPrevScrollPos(window.scrollY));
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth',
             });
         }
-    }, [settingsIsVisible])
+    }, [settings.isVisible])
 
     return (
         <>
             {isLoading && <Loader />}
             <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
-                {settingsIsVisible && <Settings />}
+                {settings.isVisible && <Settings />}
             </div>
         </>
     )
