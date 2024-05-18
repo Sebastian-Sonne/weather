@@ -5,6 +5,7 @@ const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
 const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
 const BASE_URL_GEO_NAMES = 'https://api.geonames.org/searchJSON';
+const CORS_PROXY_URL = 'https://corsproxy.io/';
 const API_KEY_GEO_NAMES = 'sebastian_sonne';
 
 const getCities = async (cityName: string): Promise<CityData[]> => {
@@ -59,8 +60,14 @@ export const getCityResults = async (queryStartsWith: string): Promise<QuerySear
     //@ts-ignore
     url.search = new URLSearchParams({ q: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();
 
+    console.log(url.toString());
+
+    //! geonames invalid ssl
+
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent('https://api.geonames.org/searchJSON?q=erlangen');
+
     try {
-        const response = await fetch(url);
+        const response = await fetch(proxyUrl);
         if (!response.ok)
             throw new Error(`Failed to fetch cities: ${response.status} ${response.statusText}`);
 
