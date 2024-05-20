@@ -1,10 +1,28 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CityData } from "./citySlice";
+
+export interface SearchData {
+    id: number;
+    type: string;
+    city: string;
+    name: string;
+    country: string;
+    countryCode: string;
+    region: string;
+    regionCode: string;
+    latitude: number;
+    longitude: number;
+    population: number;
+}
+
+export interface SearchResponse {
+    data: SearchData[];
+}
+
 
 interface QueryState {
     value: string;
     searchIsVisible: boolean;
-    results: CityData[] | null;
+    results: SearchResponse | null;
 }
 
 const initialState: QueryState = {
@@ -20,7 +38,7 @@ const querySlice = createSlice({
         setQuery: (state, action: PayloadAction<string>) => {
             state.value = action.payload;
         },
-        setSearch: (state, action: PayloadAction<CityData[] | null>) => {
+        setSearch: (state, action: PayloadAction<SearchResponse | null>) => {
             state.results = action.payload;
         },
         setSearchIsVisible: (state, action: PayloadAction<boolean>) => {

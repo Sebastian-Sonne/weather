@@ -2,13 +2,13 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { setQuery, setSearch, setSearchIsVisible } from "../state/slices/querySlice";
+import { SearchData, setQuery, setSearch, setSearchIsVisible } from "../state/slices/querySlice";
 import getData from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
-import getCities, { getUserLocation } from '../service/geocode';
+import { getCityResults, getUserLocation } from '../service/geocode';
 import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
-import { CityData, setCity } from '../state/slices/citySlice';
+import { setCity } from '../state/slices/citySlice';
 import { setLoading } from '../state/slices/loadingSlice';
 import { setInputError } from '../state/slices/errorSlice';
 import { InputError } from './Effects';
@@ -41,13 +41,13 @@ export const SearchBar = (): JSX.Element => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const debouncedGetCityResults = useDebounce((value: string) => {
-        getCities(value, 5)
+        getCityResults(value)
             .then(data => dispatch(setSearch(data)))
             .catch(error => {
                 console.error(error);
                 dispatch(setInputError('Failed to fetch city results.'));
             });
-    }, 500);
+    }, 750);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -60,7 +60,7 @@ export const SearchBar = (): JSX.Element => {
         debouncedGetCityResults(value);
     };
 
-    const handleKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') handleClick();
     };
 
@@ -73,11 +73,10 @@ export const SearchBar = (): JSX.Element => {
         dispatch(setLoading(true));
         dispatch(setSearchIsVisible(false));
 
-        const param = (searchResults !== null && searchResults.length !== 0 
-                        ? ({ lon: searchResults[0].lon, 
-                             lat: searchResults[0].lat })
+        const param = (searchResults !== null && searchResults.data.length !== 0 
+                        ? ({ lon: searchResults.data[0].longitude, 
+                             lat: searchResults.data[0].latitude })
                         : query);
-
         getData(param)
             .then(data => {
                 const { cityData, currentWeather, forecast } = data;
@@ -126,9 +125,9 @@ export const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
     const dispatch = useDispatch();
 
-    const handleClick = (cityData: CityData) => {
-        const { lon, lat } = cityData;
-        const coords = { lon: lon, lat: lat };
+    const handleClick = (cityData: SearchData) => {
+        const { longitude, latitude } = cityData;
+        const coords = { lon: longitude, lat: latitude };
         localStorage.setItem('coords', JSON.stringify(coords));
 
         dispatch(setSearchIsVisible(false));
@@ -155,7 +154,7 @@ export const SearchResults = (): JSX.Element => {
     return (
         <div className="flex flex-col absolute top-16 mt-2 p-2 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)] rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
-                searchResults.map((data, index) => (
+                searchResults.data.map((data, index) => (
                     <button key={index} onClick={() => handleClick(data)} className="flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
                         <h3 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>{index + 1}</h3>
                         <div className='flex flex-row w-full'>

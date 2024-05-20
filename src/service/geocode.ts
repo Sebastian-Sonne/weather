@@ -1,4 +1,5 @@
 import { CityData } from "../state/slices/citySlice";
+import { SearchResponse } from "../state/slices/querySlice";
 
 const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
 const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
@@ -50,28 +51,28 @@ export const getUserLocation = async (): Promise<any> => {
     }
 }
 
-/*
 
-export const getCityResults = async (queryStartsWith: string): Promise<QuerySearchResults> => {
-    const url = new URL(BASE_URL_GEO_NAMES);
-    //@ts-ignore
-    url.search = new URLSearchParams({ q: queryStartsWith, orderby: 'relevancy', maxRows: 5, username: API_KEY_GEO_NAMES }).toString();
+const BASE_URL_GEO_DB = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities';
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_X_RapidAPI_Key,
+        'X-RapidAPI-Host': process.env.REACT_APP_X_RapidAP_Host
+    }
+};
 
-    console.log(url.toString());
-
-    //! geonames invalid ssl
-
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent('https://api.geonames.org/searchJSON?q=erlangen');
+export const getCityResults = async (namePrefix: string): Promise<SearchResponse> => {
+    const url = new URL(BASE_URL_GEO_DB);
+    url.search = new URLSearchParams({namePrefix: namePrefix, limit: '5', sort: 'population', minPopulation: '1000'}).toString();
 
     try {
-        const response = await fetch(proxyUrl);
+        //@ts-ignore
+        const response = await fetch(url, options);
         if (!response.ok)
-            throw new Error(`Failed to fetch cities: ${response.status} ${response.statusText}`);
+            throw new Error(`${response.status} ${response.statusText}`);
 
         return await response.json();
     } catch (error) {
-        throw new Error(`GeoNames API Error: ${error}`)
+        throw new Error(`GeoDB API Error: ${error}`)
     }
 }
-
-*/
