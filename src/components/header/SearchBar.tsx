@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDebounce } from "../../hooks/debounce";
 import { getCityResults } from "../../service/geocode";
 import { setQuery, setSearch, setSearchIsVisible } from "../../state/slices/querySlice";
@@ -20,6 +20,7 @@ const SearchBar = (): JSX.Element => {
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const searchContainerRef = useRef<HTMLInputElement | null>(null);
 
     const debouncedGetCityResults = useDebounce((value: string) => {
         getCityResults(value)
@@ -35,9 +36,11 @@ const SearchBar = (): JSX.Element => {
         if (inputError !== '') dispatch(setInputError(''));
         dispatch(setQuery(value));
         dispatch(setSearchIsVisible(value !== ''));
+        
+        if (typeof event === 'string') return; //prevent fetch if query has not changed
         dispatch(setSearch(null));
 
-        if (value === '') return;
+        if (value === '') return; //prevent fetch if no query
         debouncedGetCityResults(value);
     };
 
@@ -82,18 +85,25 @@ const SearchBar = (): JSX.Element => {
             });
     };
 
-    const handleBlur = () => {
-        //! rework so that it only happens when user clicks outside of it, not when unfocused
-        //dispatch(setSearchIsVisible(false));
-        //dispatch(setInputError(''));
+    const handleOutsideClick = (event: MouseEvent) => {
+        if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+            dispatch(setSearchIsVisible(false));
+            dispatch(setInputError(''));
+        }
     }
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, []);
 
     const handleFocus = () => {
         handleChange(query);
     }
 
     return (
-        <div className='w-full lg:w-2/3 h-12 pr-4 rounded-xl'>
+        <div ref={searchContainerRef} className='w-full lg:w-2/3 h-12 pr-4 rounded-xl'>
             <div className="flex flex-row w-full h-full bg-component-light dark:bg-component-dark rounded-xl">
                 <input
                     className={`w-full h-full bg-transparent px-4 rounded-xl focus:border focus:border-blue-600 placeholder:text-slate-600 ${inputError !== '' ? '!border !border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
@@ -101,7 +111,6 @@ const SearchBar = (): JSX.Element => {
                     onChange={handleChange}
                     value={query}
                     onKeyDown={handleKeyDown}
-                    onBlur={handleBlur}
                     onFocus={handleFocus}
                     ref={inputRef}
                 />
