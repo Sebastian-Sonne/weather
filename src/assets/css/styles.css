@@ -668,6 +668,10 @@ video {
   min-height: 100px;
 }
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }
