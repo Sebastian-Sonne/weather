@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "./header/Header";
 import { WeatherContent } from "./weather/Weather";
 
 const MainContent = (): JSX.Element => {
