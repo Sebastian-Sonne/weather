@@ -63,7 +63,7 @@ const options = {
 
 export const getCityResults = async (namePrefix: string): Promise<SearchResponse> => {
     const url = new URL(BASE_URL_GEO_DB);
-    url.search = new URLSearchParams({ namePrefix: namePrefix, limit: '5', sort: '-population', minPopulation: '5000' }).toString();
+    url.search = new URLSearchParams({ namePrefix: namePrefix, limit: '5', sort: '-population' }).toString();
     try {
         //@ts-ignore
         const response = await fetch(url, options);

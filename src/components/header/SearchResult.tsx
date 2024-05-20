@@ -42,15 +42,21 @@ const SearchResults = (): JSX.Element => {
     return (
         <div className="flex flex-col p-2 w-full rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
-                searchResults.data.map((data, index) => (
-                    <button key={index} onClick={() => handleClick(data)} className="flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
-                        <h3 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>{index + 1}</h3>
-                        <div className='flex flex-row w-full'>
-                            <h1 className='font-semibold text-lg'>{data.name}</h1>
-                            <h2 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>, {data.country}</h2>
-                        </div>
-                    </button>
-                ))
+                <>
+                    {searchResults.data.length !== 0 ?
+                        searchResults.data.map((data, index) => (
+                            <button key={index} onClick={() => handleClick(data)} className="flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
+                                <h3 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>{index + 1}</h3>
+                                <div className='flex flex-row w-full'>
+                                    <h1 className='font-semibold text-lg'>{data.name}</h1>
+                                    <h2 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>, {data.country}</h2>
+                                </div>
+                            </button>
+                        ))
+                        :
+                        <h1 className='font-semibold text-lg pl-2'>Error: City not found</h1>
+                    }
+                </>
                 :
                 <h1 className='font-semibold text-lg pl-2'>Loading...</h1>
             }

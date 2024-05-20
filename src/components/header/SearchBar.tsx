@@ -15,7 +15,6 @@ import Notification from "../effects/Notification";
 
 const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
-    const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
     const searchResults = useSelector((state: RootState) => state.query.results);
     const inputError = useSelector((state: RootState) => state.error.inputError);
@@ -31,8 +30,8 @@ const SearchBar = (): JSX.Element => {
             });
     }, 750);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement> | string) => {
+        const value = (typeof event === 'string') ? event : event.target.value;
         if (inputError !== '') dispatch(setInputError(''));
         dispatch(setQuery(value));
         dispatch(setSearchIsVisible(value !== ''));
@@ -83,6 +82,15 @@ const SearchBar = (): JSX.Element => {
             });
     };
 
+    const handleBlur = () => {
+        dispatch(setSearchIsVisible(false));
+        dispatch(setInputError(''));
+    }
+
+    const handleFocus = () => {
+        handleChange(query);
+    }
+
     return (
         <div className='w-full lg:w-2/3 h-12 pr-4 rounded-xl'>
             <div className="flex flex-row w-full h-full bg-component-light dark:bg-component-dark rounded-xl">
@@ -92,11 +100,11 @@ const SearchBar = (): JSX.Element => {
                     onChange={handleChange}
                     value={query}
                     onKeyDown={handleKeyDown}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
                     ref={inputRef}
                 />
-                <button onClick={handleClick} className='h-full aspect-square rounded-xl p-3 hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors'>
-                    {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
-                </button>
+                <SearchButton onClick={handleClick} />
             </div>
 
             <Notification />
@@ -105,3 +113,16 @@ const SearchBar = (): JSX.Element => {
 };
 
 export default SearchBar
+
+type SearchButtonProps = {
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+};
+export const SearchButton: React.FC<SearchButtonProps> = ({ onClick }): JSX.Element => {
+    const theme = useSelector((state: RootState) => state.settings.theme);
+
+    return (
+        <button onClick={onClick} className='h-full aspect-square rounded-xl p-3 hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors'>
+            {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
+        </button>
+    );
+}
