@@ -1,9 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
 import Header from "./Header";
+import { SettingsIcon } from "./Settings";
 import { AirCondition, Forecast5Day, ForecastToday, Overview } from "./Weather";
-import { RootState } from "../state/store";
-import { SettingsIconDark, SettingsIconLight } from "./Icons";
-import { toggleSettings } from "../state/slices/settingsSlice";
 
 const MainContent = (): JSX.Element => {
     return (
@@ -47,23 +44,6 @@ export const WeatherSettingsContainer = (): JSX.Element => {
                 <Footer />
                 <SettingsIcon />
             </div>
-        </div>
-    );
-}
-
-export const SettingsIcon = (): JSX.Element => {
-    const theme = useSelector((state: RootState) => state.settings.theme);
-    const dispatch = useDispatch();
-
-    const handleClick = () => {
-        dispatch(toggleSettings());
-    }
-
-    return (
-        <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors">
-            <button onClick={handleClick} className="w-full aspect-square p-2 rounded-xl">
-                {theme === 'dark' ? <SettingsIconDark /> : <SettingsIconLight />}
-            </button>
         </div>
     );
 }

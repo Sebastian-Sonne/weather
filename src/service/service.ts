@@ -10,7 +10,7 @@ export interface Data {
     forecast: ForecastData;
 }
 
-interface Coordinates {
+export interface Coordinates {
     lon: number;
     lat: number;
 }

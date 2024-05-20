@@ -668,6 +668,10 @@ video {
   min-height: 100px;
 }
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -808,6 +812,10 @@ video {
   border-bottom-right-radius: 0.5rem;
 }
 
+.\!border {
+  border-width: 1px !important;
+}
+
 .border {
   border-width: 1px;
 }
@@ -842,6 +850,11 @@ video {
   border-top-width: 0px;
 }
 
+.\!border-red-600 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(220 38 38 / var(--tw-border-opacity)) !important;
+}
+
 .border-accent-l {
   --tw-border-opacity: 1;
   border-color: rgb(43 49 59 / var(--tw-border-opacity));
@@ -850,11 +863,6 @@ video {
 .border-gray-600 {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
-
-.border-red-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(220 38 38 / var(--tw-border-opacity));
 }
 
 .border-secondary-l {
@@ -939,6 +947,14 @@ video {
 
 .pb-2 {
   padding-bottom: 0.5rem;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
 }
 
 .pt-1 {
@@ -1096,7 +1112,7 @@ video {
   color: rgb(71 85 105 / var(--tw-text-opacity));
 }
 
-.hover\:bg-gray-400:hover {
+.hover\:bg-component-light-hover:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
@@ -1124,6 +1140,15 @@ video {
 .hover\:text-red-600:hover {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
+.focus\:border:focus {
+  border-width: 1px;
+}
+
+.focus\:border-blue-600:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(37 99 235 / var(--tw-border-opacity));
 }
 
 .focus\:outline-none:focus {
@@ -1204,7 +1229,7 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
-.dark\:hover\:bg-gray-600:hover:is(.dark *) {
+.dark\:hover\:bg-component-dark-hover:hover:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
@@ -1270,8 +1295,8 @@ video {
     width: 66.666667%;
   }
 
-  .lg\:w-\[calc\(66\.66667\%-18px\)\] {
-    width: calc(66.66667% - 18px);
+  .lg\:w-\[calc\(66\.66667\%-34px\)\] {
+    width: calc(66.66667% - 34px);
   }
 
   .lg\:flex-row {

@@ -7,9 +7,11 @@ export default {
       colors: {
         'bg-light': '#ffffff',
         'component-light': '#f0f0f0',
+        'component-light-hover': '#9ca3af',
 
         'bg-dark': '#0b131e',
         'component-dark': '#202b3b',
+        'component-dark-hover': '#4b5563',
 
         'icon': '#ced4da',
 

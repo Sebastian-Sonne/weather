@@ -1,12 +1,13 @@
 import { CityData } from "../state/slices/citySlice";
+import { SearchResponse } from "../state/slices/querySlice";
 
-const BASE_URL = 'https://api.openweathermap.org/geo/1.0';
-const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
+const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
+const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
-const getCities = async (cityName: string): Promise<CityData[]> => {
-    const url = new URL(BASE_URL + '/direct');
+const getCities = async (cityName: string, limit: number = 1): Promise<CityData[]> => {
+    const url = new URL(BASE_URL_OPEN_WEATHER + '/direct');
     //@ts-ignore
-    url.search = new URLSearchParams({ q: cityName, appid: API_KEY, limit: 5 }).toString();
+    url.search = new URLSearchParams({ q: cityName, appid: API_KEY_OPEN_WEATHER, limit: limit }).toString();
 
     try {
         const response = await fetch(url);
@@ -21,9 +22,9 @@ const getCities = async (cityName: string): Promise<CityData[]> => {
 export default getCities
 
 export const getCitiesByCoordinates = async (lon: number, lat: number): Promise<CityData[]> => {
-    const url = new URL(BASE_URL + '/reverse');
+    const url = new URL(BASE_URL_OPEN_WEATHER + '/reverse');
     //@ts-ignore
-    url.search = new URLSearchParams({ lat: lat, lon: lon, limit: 5, appid: API_KEY }).toString();
+    url.search = new URLSearchParams({ lat: lat, lon: lon, limit: 5, appid: API_KEY_OPEN_WEATHER }).toString();
 
     try {
         const response = await fetch(url);
@@ -47,5 +48,31 @@ export const getUserLocation = async (): Promise<any> => {
     } catch (error) {
         console.error(error);
         throw new Error('Failed to fetch user location');
+    }
+}
+
+
+const BASE_URL_GEO_DB = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities';
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_X_RapidAPI_Key,
+        'X-RapidAPI-Host': process.env.REACT_APP_X_RapidAP_Host
+    }
+};
+
+export const getCityResults = async (namePrefix: string): Promise<SearchResponse> => {
+    const url = new URL(BASE_URL_GEO_DB);
+    url.search = new URLSearchParams({namePrefix: namePrefix, limit: '5', sort: 'population', minPopulation: '1000'}).toString();
+
+    try {
+        //@ts-ignore
+        const response = await fetch(url, options);
+        if (!response.ok)
+            throw new Error(`${response.status} ${response.statusText}`);
+
+        return await response.json();
+    } catch (error) {
+        throw new Error(`GeoDB API Error: ${error}`)
     }
 }

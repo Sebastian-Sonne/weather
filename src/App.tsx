@@ -110,7 +110,7 @@ function App(): JSX.Element {
     return (
         <>
             {isLoading && <Loader />}
-            <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 text-slate-950 dark:text-slate-50 transition-colors'>
+            <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 min-h-screen text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
                 {settings.isVisible && <Settings />}
             </div>
