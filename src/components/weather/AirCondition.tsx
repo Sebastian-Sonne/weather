@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "../Icons";
+import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "../icons/Icons";
 
 export const AirCondition = (): JSX.Element => {
     const weather = useSelector((state: RootState) => state.weather.value);

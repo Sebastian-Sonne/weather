@@ -10,7 +10,7 @@ import getData from "../../service/service";
 import { setWeather } from "../../state/slices/weatherSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
-import { SearchIconDark, SearchIconLight } from "../Icons";
+import { SearchIconDark, SearchIconLight } from "../icons/Icons";
 import SearchResults from "./SearchResult";
 import InputError from "../effects/Error";
 

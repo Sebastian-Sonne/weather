@@ -7,7 +7,7 @@ import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setWeather } from "../../state/slices/weatherSlice";
-import { LocationDark, LocationLight } from "../Icons";
+import { LocationDark, LocationLight } from "../icons/Icons";
 
 const Location = (): JSX.Element => {
     const dispatch = useDispatch();

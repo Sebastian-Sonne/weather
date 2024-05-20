@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading, decrementTimeout } from "../../state/slices/loadingSlice";
-import { ExitIconDark, ExitIconLight } from "../Icons";
+import { ExitIconDark, ExitIconLight } from "../icons/Icons";
 import { RootState } from "../../state/store";
 
 /**

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { toggleSettings } from "../../state/slices/settingsSlice";
-import { SettingsIconDark, SettingsIconLight } from "../Icons";
+import { SettingsIconDark, SettingsIconLight } from "../icons/Icons";
 import ThemeSettings from "./Theme";
 import UnitSettings from "./Unit";
 import LanguageSettings from "./Language";

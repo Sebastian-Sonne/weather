@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { toggleTheme } from "../../state/slices/settingsSlice";
-import { ThemeDark, ThemeLight } from "../Icons";
+import { ThemeDark, ThemeLight } from "../icons/Icons";
 
 const ThemeSwitcher = (): JSX.Element => {
     const theme = useSelector((state: RootState) => state.settings.theme);
