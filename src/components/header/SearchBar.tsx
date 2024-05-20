@@ -83,8 +83,9 @@ const SearchBar = (): JSX.Element => {
     };
 
     const handleBlur = () => {
-        dispatch(setSearchIsVisible(false));
-        dispatch(setInputError(''));
+        //! rework so that it only happens when user clicks outside of it, not when unfocused
+        //dispatch(setSearchIsVisible(false));
+        //dispatch(setInputError(''));
     }
 
     const handleFocus = () => {
