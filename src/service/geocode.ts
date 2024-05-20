@@ -1,17 +1,12 @@
 import { CityData } from "../state/slices/citySlice";
-import { QuerySearchResults } from "../state/slices/querySlice";
 
 const BASE_URL_OPEN_WEATHER = 'https://api.openweathermap.org/geo/1.0';
 const API_KEY_OPEN_WEATHER = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
 
-const BASE_URL_GEO_NAMES = 'https://api.geonames.org/searchJSON';
-const CORS_PROXY_URL = 'https://corsproxy.io/';
-const API_KEY_GEO_NAMES = 'sebastian_sonne';
-
-const getCities = async (cityName: string): Promise<CityData[]> => {
+const getCities = async (cityName: string, limit: number = 1): Promise<CityData[]> => {
     const url = new URL(BASE_URL_OPEN_WEATHER + '/direct');
     //@ts-ignore
-    url.search = new URLSearchParams({ q: cityName, appid: API_KEY_OPEN_WEATHER, limit: 5 }).toString();
+    url.search = new URLSearchParams({ q: cityName, appid: API_KEY_OPEN_WEATHER, limit: limit }).toString();
 
     try {
         const response = await fetch(url);
@@ -55,6 +50,8 @@ export const getUserLocation = async (): Promise<any> => {
     }
 }
 
+/*
+
 export const getCityResults = async (queryStartsWith: string): Promise<QuerySearchResults> => {
     const url = new URL(BASE_URL_GEO_NAMES);
     //@ts-ignore
@@ -76,3 +73,5 @@ export const getCityResults = async (queryStartsWith: string): Promise<QuerySear
         throw new Error(`GeoNames API Error: ${error}`)
     }
 }
+
+*/

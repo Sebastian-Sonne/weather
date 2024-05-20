@@ -1,20 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-export interface QueryObjects {
-    toponymName: string;
-        countryName: string;
-        lng: string;
-        lat: string;
-}
-
-export interface QuerySearchResults {
-    geonames: QueryObjects[]
-}
+import { CityData } from "./citySlice";
 
 interface QueryState {
     value: string;
     searchIsVisible: boolean;
-    results: QuerySearchResults | null;
+    results: CityData[] | null;
 }
 
 const initialState: QueryState = {
@@ -30,7 +20,7 @@ const querySlice = createSlice({
         setQuery: (state, action: PayloadAction<string>) => {
             state.value = action.payload;
         },
-        setSearch: (state, action: PayloadAction<QuerySearchResults | null>) => {
+        setSearch: (state, action: PayloadAction<CityData[] | null>) => {
             state.results = action.payload;
         },
         setSearchIsVisible: (state, action: PayloadAction<boolean>) => {

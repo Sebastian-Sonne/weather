@@ -2,13 +2,13 @@ import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { LocationDark, LocationLight, SearchIconDark, SearchIconLight, ThemeDark, ThemeLight } from "./Icons";
 import { RootState } from "../state/store";
-import { QueryObjects, setQuery, setSearch, setSearchIsVisible } from "../state/slices/querySlice";
+import { setQuery, setSearch, setSearchIsVisible } from "../state/slices/querySlice";
 import getData from '../service/service';
 import { toggleTheme } from '../state/slices/settingsSlice';
-import { getCityResults, getUserLocation } from '../service/geocode';
+import getCities, { getUserLocation } from '../service/geocode';
 import { setWeather } from '../state/slices/weatherSlice';
 import { setForecast } from '../state/slices/forecastSlice';
-import { setCity } from '../state/slices/citySlice';
+import { CityData, setCity } from '../state/slices/citySlice';
 import { setLoading } from '../state/slices/loadingSlice';
 import { setInputError } from '../state/slices/errorSlice';
 import { InputError } from './Effects';
@@ -41,7 +41,7 @@ export const SearchBar = (): JSX.Element => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const debouncedGetCityResults = useDebounce((value: string) => {
-        getCityResults(value)
+        getCities(value, 5)
             .then(data => dispatch(setSearch(data)))
             .catch(error => {
                 console.error(error);
@@ -73,9 +73,9 @@ export const SearchBar = (): JSX.Element => {
         dispatch(setLoading(true));
         dispatch(setSearchIsVisible(false));
 
-        const param = (searchResults !== null && searchResults.geonames.length !== 0 
-                        ? ({ lon: parseFloat(searchResults.geonames[0].lng), 
-                             lat: parseFloat(searchResults.geonames[0].lat) })
+        const param = (searchResults !== null && searchResults.length !== 0 
+                        ? ({ lon: searchResults[0].lon, 
+                             lat: searchResults[0].lat })
                         : query);
 
         getData(param)
@@ -126,9 +126,9 @@ export const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
     const dispatch = useDispatch();
 
-    const handleClick = (cityData: QueryObjects) => {
-        const { lng: lon, lat } = cityData;
-        const coords = { lon: parseFloat(lon), lat: parseFloat(lat) };
+    const handleClick = (cityData: CityData) => {
+        const { lon, lat } = cityData;
+        const coords = { lon: lon, lat: lat };
         localStorage.setItem('coords', JSON.stringify(coords));
 
         dispatch(setSearchIsVisible(false));
@@ -155,12 +155,12 @@ export const SearchResults = (): JSX.Element => {
     return (
         <div className="flex flex-col absolute top-16 mt-2 p-2 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)] rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
-                searchResults.geonames.map((data, index) => (
+                searchResults.map((data, index) => (
                     <button key={index} onClick={() => handleClick(data)} className="flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
                         <h3 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>{index + 1}</h3>
                         <div className='flex flex-row w-full'>
-                            <h1 className='font-semibold text-lg'>{data.toponymName}</h1>
-                            <h2 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>, {data.countryName}</h2>
+                            <h1 className='font-semibold text-lg'>{data.name}</h1>
+                            <h2 className='font-semibold text-lg text-secondary-l dark:text-secondary-d'>, {data.country}</h2>
                         </div>
                     </button>
                 ))
