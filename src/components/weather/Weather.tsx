@@ -1,5 +1,5 @@
 import { Footer } from "../Footer";
-import { SettingsIcon } from "../Settings";
+import { SettingsIcon } from "../settings/Settings";
 import { AirCondition } from "./AirCondition";
 import { Forecast5Day } from "./Forecast5Day";
 import { ForecastToday } from "./ForecastToday";

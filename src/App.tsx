@@ -4,7 +4,7 @@ import { RootState } from './state/store';
 
 import Main from './components/Components';
 import Loader from './components/Effects';
-import Settings from './components/Settings';
+import Settings from './components/settings/Settings';
 
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
