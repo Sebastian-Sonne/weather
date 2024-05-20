@@ -3,7 +3,7 @@ import SearchResults from "../header/SearchResult";
 import InputError from "./Error";
 import { RootState } from "../../state/store";
 
-const Notification = () => {
+const Notification = (): JSX.Element => {
     const searchIsVisible = useSelector((state: RootState) => state.query.searchIsVisible);
     const inputError = useSelector((state: RootState) => state.error.inputError);
 

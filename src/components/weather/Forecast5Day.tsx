@@ -3,7 +3,7 @@ import { RootState } from "../../state/store";
 import { getDailyForecast } from "../../service/weather";
 import { HourlyData } from "../../state/slices/forecastSlice";
 
-export const Forecast5Day = (): JSX.Element => {
+const Forecast5Day = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const forecast = useSelector((state: RootState) => state.forecast.value);
     const dailyData = getDailyForecast(forecast);
@@ -60,6 +60,7 @@ export const Forecast5Day = (): JSX.Element => {
         </div>
     );
 }
+export default Forecast5Day
 
 interface DayOverviewProps {
     isFirst?: boolean,

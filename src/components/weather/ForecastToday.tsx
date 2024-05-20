@@ -3,7 +3,7 @@ import { RootState } from "../../state/store";
 import { HourlyData } from "../../state/slices/forecastSlice";
 import moment from "moment";
 
-export const ForecastToday = (): JSX.Element => {
+const ForecastToday = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const forecast = useSelector((state: RootState) => state.forecast.value);
     const firstForecast = forecast.list.slice(0, 6);
@@ -32,6 +32,7 @@ export const ForecastToday = (): JSX.Element => {
         </div>
     );
 }
+export default ForecastToday
 
 interface HourOverviewProps {
     isFirst?: boolean;

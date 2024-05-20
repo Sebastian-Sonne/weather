@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 
-export const Overview = (): JSX.Element => {
+const Overview = (): JSX.Element => {
     const city = useSelector((state: RootState) => state.city.value);
     const weather = useSelector((state: RootState) => state.weather.value);
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -33,3 +33,4 @@ export const Overview = (): JSX.Element => {
         </div>
     );
 }
+export default Overview

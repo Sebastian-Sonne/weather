@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { DropIconLight, PressureIconLight, ThermometerIconLight, WindIconLight } from "../icons/Icons";
 
-export const AirCondition = (): JSX.Element => {
+const AirCondition = (): JSX.Element => {
     const weather = useSelector((state: RootState) => state.weather.value);
     const unit = useSelector((state: RootState) => state.settings.unit);
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -25,6 +25,7 @@ export const AirCondition = (): JSX.Element => {
         </div>
     );
 }
+export default AirCondition
 
 interface ConditionElementProps {
     name: string,
