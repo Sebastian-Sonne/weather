@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../state/store";
-import { decrementTimeout, setLoading } from "../state/slices/loadingSlice";
-import { ExitIconDark, ExitIconLight } from "./Icons";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading, decrementTimeout } from "../../state/slices/loadingSlice";
+import { ExitIconDark, ExitIconLight } from "../icons/Icons";
+import { RootState } from "../../state/store";
 
 /**
  * Loading Screen with timeout to exit screen
@@ -93,18 +93,5 @@ export const LoaderTimer = (): JSX.Element => {
                 </div>
             )}
         </>
-    );
-}
-
-export const InputError = (): JSX.Element => {
-    const inputError = useSelector((state: RootState) => state.error.inputError);
-
-    return (
-        <div className='absolute top-16 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)]'>
-            <div className='flex flex-col bg-component-light dark:bg-component-dark py-1 text-red-600 text-center font-semibold text-xl rounded-lg mt-2 shadow-lg'>
-                <span className="inline-block h-min break-words">{inputError}</span>
-                <a href='mailto:hello@sebastian-sonne.com' className='font-semibold text-secondary-l dark:text-secondary-d hover:text-red-600 text-lg'>Report Issue</a>
-            </div>
-        </div>
     );
 }
