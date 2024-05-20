@@ -1,6 +1,7 @@
 # React Weather App
 
 A beautiful and functional weather app built using React and TypeScript.
+**Live Demo**: [React Weather App](https://weather.sebastian-sonne.com)
 
 ## Key Features
 
@@ -33,19 +34,20 @@ A beautiful and functional weather app built using React and TypeScript.
    npm install
    ```
 
-3. Obtain API keys:
+3. Obtain API keys: 
    - [OpenWeather API Key](https://openweathermap.org/api)
    - [GeoDB API Key](https://rapidapi.com/wirefreethought/api/geodb-cities)
+   Note: Both APIs offer a free tier, so you don't need the paid option.
 
 4. Create a `.env` file in the root directory and add your API keys:
-   ```
+   ```plaintext
    REACT_APP_OPENWEATHER_API_KEY=your_openweather_api_key
    REACT_APP_GEODB_API_KEY=your_geodb_api_key
    ```
 
 5. Run the application:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## How to Contribute
