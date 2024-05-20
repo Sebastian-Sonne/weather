@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './state/store';
 
 import Main from './components/Components';
-import Loader from './components/Effects';
 import Settings from './components/settings/Settings';
 
 import { setLoading } from './state/slices/loadingSlice';
@@ -15,6 +14,7 @@ import { setLang, setPrevScrollPos } from './state/slices/settingsSlice';
 
 import getData, { Data } from './service/service';
 import { getUserLocation } from './service/geocode';
+import Loader from './components/effects/Loader';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();

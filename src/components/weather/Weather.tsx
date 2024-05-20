@@ -1,4 +1,4 @@
-import { Footer } from "../Footer";
+import { Footer } from "./Footer";
 import { SettingsIcon } from "../settings/Settings";
 import { AirCondition } from "./AirCondition";
 import { Forecast5Day } from "./Forecast5Day";
