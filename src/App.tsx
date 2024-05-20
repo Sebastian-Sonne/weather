@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './state/store';
 
-import Main from './components/Components';
-import Settings from './components/settings/Settings';
+import Main from './components';
+import Settings from './components/settings';
 
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';

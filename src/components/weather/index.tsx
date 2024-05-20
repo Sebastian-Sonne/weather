@@ -1,11 +1,11 @@
 import { Footer } from "./Footer";
-import { SettingsIcon } from "../settings/Settings";
+import { SettingsIcon } from "../settings";
 import { AirCondition } from "./AirCondition";
 import { Forecast5Day } from "./Forecast5Day";
 import { ForecastToday } from "./ForecastToday";
 import { Overview } from "./Overview";
 
-export const WeatherContent = (): JSX.Element => {
+const WeatherContent = (): JSX.Element => {
     return (
         <div className='flex flex-col lg:flex-row w-full gap-6'>
             <WeatherToday />
@@ -13,6 +13,7 @@ export const WeatherContent = (): JSX.Element => {
         </div>
     );
 }
+export default WeatherContent
 
 export const WeatherToday = (): JSX.Element => {
 

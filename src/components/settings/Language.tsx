@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { SettingButton } from "./Settings";
+import { SettingButton } from ".";
 import { setLang } from "../../state/slices/settingsSlice";
 
 const LanguageSettings = (): JSX.Element => {

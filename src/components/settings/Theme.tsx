@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { setTheme } from "../../state/slices/settingsSlice";
-import { SettingButton } from "./Settings";
+import { SettingButton } from ".";
 
 const ThemeSettings = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);

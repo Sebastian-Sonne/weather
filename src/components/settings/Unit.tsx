@@ -7,7 +7,7 @@ import { setWeather } from "../../state/slices/weatherSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
-import { SettingButton } from "./Settings";
+import { SettingButton } from ".";
 
 const UnitSettings = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);

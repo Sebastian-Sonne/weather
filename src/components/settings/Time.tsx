@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { SettingButton } from "./Settings";
+import { SettingButton } from ".";
 import { setTime } from "../../state/slices/settingsSlice";
 
 export const TimeSettings = (): JSX.Element => {
