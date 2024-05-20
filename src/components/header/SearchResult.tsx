@@ -40,7 +40,7 @@ const SearchResults = (): JSX.Element => {
     };
 
     return (
-        <div className="flex flex-col absolute top-16 mt-2 p-2 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)] rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
+        <div className="flex flex-col p-2 w-full rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
                 searchResults.data.map((data, index) => (
                     <button key={index} onClick={() => handleClick(data)} className="flex flex-row gap-4 justify-between items-left h-12 px-4 py-2 rounded-lg hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">

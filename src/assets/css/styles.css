@@ -768,6 +768,10 @@ video {
   gap: 1.5rem;
 }
 
+.gap-1 {
+  gap: 0.25rem;
+}
+
 .overflow-x-auto {
   overflow-x: auto;
 }

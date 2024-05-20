@@ -11,15 +11,13 @@ import { setWeather } from "../../state/slices/weatherSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { SearchIconDark, SearchIconLight } from "../icons/Icons";
-import SearchResults from "./SearchResult";
-import InputError from "../effects/Error";
+import Notification from "../effects/Notification";
 
 const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const theme = useSelector((state: RootState) => state.settings.theme);
     const query = useSelector((state: RootState) => state.query.value);
     const searchResults = useSelector((state: RootState) => state.query.results);
-    const searchIsVisible = useSelector((state: RootState) => state.query.searchIsVisible);
     const inputError = useSelector((state: RootState) => state.error.inputError);
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -57,10 +55,12 @@ const SearchBar = (): JSX.Element => {
         dispatch(setLoading(true));
         dispatch(setSearchIsVisible(false));
 
-        const param = (searchResults !== null && searchResults.data.length !== 0 
-                        ? ({ lon: searchResults.data[0].longitude, 
-                             lat: searchResults.data[0].latitude })
-                        : query);
+        const param = (searchResults !== null && searchResults.data.length !== 0
+            ? ({
+                lon: searchResults.data[0].longitude,
+                lat: searchResults.data[0].latitude
+            })
+            : query);
         getData(param)
             .then(data => {
                 const { cityData, currentWeather, forecast } = data;
@@ -98,8 +98,8 @@ const SearchBar = (): JSX.Element => {
                     {theme === 'dark' ? <SearchIconDark /> : <SearchIconLight />}
                 </button>
             </div>
-            {inputError !== '' && <InputError />}
-            {searchIsVisible && <SearchResults />}
+
+            <Notification />
         </div>
     );
 };
