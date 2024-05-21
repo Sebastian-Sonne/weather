@@ -8,6 +8,7 @@ import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
 import { SettingButton } from ".";
+import { getCoords } from "../../service/localStorage";
 
 const UnitSettings = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -18,7 +19,7 @@ const UnitSettings = (): JSX.Element => {
         dispatch(setUnit(unit));
         dispatch(setLoading(true));
 
-        const { lon, lat } = JSON.parse(localStorage.coords);
+        const { lon, lat } = getCoords();
         getData({ lon: lon, lat: lat })
             .then(data => {
                 const { cityData, currentWeather, forecast } = data;

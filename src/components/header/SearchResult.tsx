@@ -7,6 +7,7 @@ import { setWeather } from "../../state/slices/weatherSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
+import { setCoords } from "../../service/localStorage";
 
 const SearchResults = (): JSX.Element => {
     const inputError = useSelector((state: RootState) => state.error.inputError);
@@ -16,7 +17,7 @@ const SearchResults = (): JSX.Element => {
     const handleClick = (cityData: SearchData) => {
         const { longitude, latitude } = cityData;
         const coords = { lon: longitude, lat: latitude };
-        localStorage.setItem('coords', JSON.stringify(coords));
+        setCoords(coords);
 
         dispatch(setSearchIsVisible(false));
         dispatch(setLoading(true));

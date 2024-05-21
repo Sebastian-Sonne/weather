@@ -1,45 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import * as storage from "../../service/localStorage";
+
+export type UnitType = 'metric' | 'imperial' | 'standard';
+export type ThemeType = 'dark' | 'light';
+export type TimeType = 12 | 24;
+export type LanguageType = 'de' | 'en';
 
 export interface SettingsState {
     isVisible: boolean,
     prevScollPos: number | null,
-    unit: 'metric' | 'imperial' | 'standard',
-    theme: 'dark' | 'light',
-    lang: string,
-    time: 12 | 24,
+    unit: UnitType,
+    theme: ThemeType,
+    time: TimeType,
+    lang: LanguageType,
 }
 
-var initialTheme;
-if ('theme' in localStorage) {
-    initialTheme = localStorage.theme;
-} else {
-    const initialIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    localStorage.theme = (initialIsDark) ? 'dark' : 'light';
-    initialTheme = (initialIsDark) ? 'dark' : 'light';
-}
+export const getUserPreferedTheme = (): 'dark' | 'light' => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
-var initialUnit;
-if ('unit' in localStorage) {
-    initialUnit = localStorage.unit;
-} else {
-    initialUnit = 'metric';
-    localStorage.unit = initialUnit;
-}
+const initialUnit = ('settings' in localStorage) ? storage.getUnit() : 'metric';
+const initialTheme = ('settings' in localStorage) ? storage.getTheme() : getUserPreferedTheme();
+const initialTime = ('settings' in localStorage) ? storage.getTime() : 24;
+const initialLanguage = ('settings' in localStorage) ? storage.getLanguage() : 'en';
 
-var initialTime;
-if ('time' in localStorage) {
-    initialTime = localStorage.time;
-} else {
-    initialTime = 24;
-    localStorage.time = initialTime;
-}
-
-var initialLanguage;
-if ('lang' in localStorage) {
-    initialLanguage = localStorage.lang;
-} else {
-    initialLanguage = 'en';
-}
+storage.setSettings({
+    unit: initialUnit,
+    time: initialTime,
+    theme: initialTheme,
+    lang: initialLanguage,
+})
 
 const initialState: SettingsState = {
     isVisible: false,
@@ -54,18 +42,26 @@ const settingwSlice = createSlice({
     name: "settings",
     initialState,
     reducers: {
-        setUnit: (state, action: PayloadAction<'metric' | 'imperial' | 'standard'>) => {
-            localStorage.unit = action.payload;
+        setUnit: (state, action: PayloadAction<UnitType>) => {
+            storage.setUnit(action.payload);
             state.unit = action.payload;
         },
-        setTheme: (state, action: PayloadAction<'dark' | 'light'>) => {
-            localStorage.theme = action.payload;
+        setTheme: (state, action: PayloadAction<ThemeType>) => {
+            storage.setTheme(action.payload);
             state.theme = action.payload;
         },
         toggleTheme: (state) => {
             const newTheme = (state.theme === 'dark') ? 'light' : 'dark';
-            localStorage.theme = newTheme;
+            storage.setTheme(newTheme);
             state.theme = newTheme;
+        },
+        setTime: (state, action: PayloadAction<TimeType>) => {
+            storage.setTime(action.payload);
+            state.time = action.payload;
+        },
+        setLang: (state, action: PayloadAction<LanguageType>) => {
+            storage.setLanguage(action.payload);
+            state.lang = action.payload;
         },
         setSettingsIsVisible: (state, action: PayloadAction<boolean>) => {
             state.isVisible = action.payload;
@@ -75,14 +71,6 @@ const settingwSlice = createSlice({
         },
         setPrevScrollPos: (state, action: PayloadAction<number | null>) => {
             state.prevScollPos = action.payload;
-        },
-        setTime: (state, action: PayloadAction<12 | 24>) => {
-            localStorage.time = action.payload;
-            state.time = action.payload;
-        },
-        setLang: (state, action: PayloadAction<string>) => {
-            localStorage.lang = action.payload;
-            state.lang = action.payload;
         },
     },
 })

@@ -10,11 +10,12 @@ import { setInputError } from './state/slices/errorSlice';
 import { CityData, setCity } from './state/slices/citySlice';
 import { WeatherData, setWeather } from './state/slices/weatherSlice';
 import { ForecastData, setForecast } from './state/slices/forecastSlice';
-import { setLang, setPrevScrollPos } from './state/slices/settingsSlice';
+import { setLang, setPrevScrollPos, setTime, setUnit } from './state/slices/settingsSlice';
 
 import getData, { Data } from './service/service';
 import { getUserLocation } from './service/geocode';
 import Loader from './components/effects/Loader';
+import { getCoords, setCoords } from './service/localStorage';
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
@@ -33,14 +34,18 @@ function App(): JSX.Element {
         const getInitialLocation = async (): Promise<LocationData | string> => {
             if (('coords' in localStorage)) {
                 try {
-                    return JSON.parse(localStorage.coords);
+                    return getCoords()
                 } catch (error) {
                     return 'berlin'; //* default location if local storage parse error
                 }
             } else {
                 try {
                     const data = await getUserLocation();
-                    localStorage.coords = JSON.stringify({ lon: data.longitude, lat: data.latitude });
+                    //set inital values based on certain locations
+                    dispatch(setUnit(data.country_code === 'US' ? 'imperial' : 'metric'));
+                    dispatch(setTime(data.country_code === 'US' ? 12 : 24));
+                    dispatch(setLang(data.country_code === 'DE' ? 'de' : 'en'));
+                    setCoords({ lon: data.longitude, lat: data.latitude });
                     return { lon: data.longitude, lat: data.latitude };
                 } catch (error) {
                     return 'berlin'; //* default location if error
@@ -53,15 +58,6 @@ function App(): JSX.Element {
             try {
                 const location = await getInitialLocation();
                 const { cityData, currentWeather, forecast }: Data = await getData(location);
-
-                //set lang german if coutrny germany
-                if (!('lang' in localStorage)) {
-                    if (cityData.country === 'DE') {
-                        dispatch(setLang('de'))
-                    } else {
-                        dispatch(setLang('en'));
-                    }
-                }
 
                 saveData(cityData, currentWeather, forecast);
             } catch (error: any) {

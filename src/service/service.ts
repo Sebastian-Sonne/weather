@@ -3,6 +3,7 @@ import { CityData } from "../state/slices/citySlice"
 import { WeatherData } from "../state/slices/weatherSlice";
 import getCities, { getCitiesByCoordinates } from "./geocode"
 import getCurrentWeather, { getForecast } from "./weather";
+import { getUnit } from "./localStorage";
 
 export interface Data {
     cityData: CityData;
@@ -16,7 +17,7 @@ export interface Coordinates {
 }
 
 const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> => {
-    const unit = localStorage.unit;
+    const unit = getUnit();
     let citiesData: CityData[];
 
     if (typeof queryOrCoordinates === 'string') {
