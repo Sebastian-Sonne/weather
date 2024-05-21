@@ -8,6 +8,7 @@ import { setInputError } from "../../state/slices/errorSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setWeather } from "../../state/slices/weatherSlice";
 import { LocationDark, LocationLight } from "../icons/Icons";
+import { setCoords } from "../../service/localStorage";
 
 const Location = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Location = (): JSX.Element => {
             .then(data => {
                 const { longitude, latitude } = data;
                 const coords = { lon: longitude, lat: latitude };
-                localStorage.setItem('coords', JSON.stringify(coords));
+                setCoords(coords);
 
                 getData(coords)
                     .then(data => {

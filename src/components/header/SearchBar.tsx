@@ -12,6 +12,7 @@ import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { SearchIconDark, SearchIconLight } from "../icons/Icons";
 import Notification from "../effects/Notification";
+import { setCoords } from "../../service/localStorage";
 
 const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -36,7 +37,7 @@ const SearchBar = (): JSX.Element => {
         if (inputError !== '') dispatch(setInputError(''));
         dispatch(setQuery(value));
         dispatch(setSearchIsVisible(value !== ''));
-        
+
         if (typeof event === 'string') return; //prevent fetch if query has not changed
         dispatch(setSearch(null));
 
@@ -66,9 +67,7 @@ const SearchBar = (): JSX.Element => {
         getData(param)
             .then(data => {
                 const { cityData, currentWeather, forecast } = data;
-                const coords = { lon: cityData.lon, lat: cityData.lat };
-
-                localStorage.setItem('coords', JSON.stringify(coords));
+                setCoords({ lon: cityData.lon, lat: cityData.lat });
 
                 dispatch(setWeather(currentWeather));
                 dispatch(setForecast(forecast));
