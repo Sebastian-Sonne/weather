@@ -52,7 +52,7 @@ const SearchBar = (): JSX.Element => {
     const handleClick = () => {
         if (query === '') {
             dispatch(setSearchIsVisible(false));
-            dispatch(setInputError('Please provide a location'));
+            dispatch(setInputError(lang === 'en' ? 'Please provide a location' : 'Bitte gebe einen Ort an'));
             return;
         }
         dispatch(setLoading(true));
@@ -79,7 +79,7 @@ const SearchBar = (): JSX.Element => {
             })
             .catch(error => {
                 console.error(error);
-                dispatch(setInputError('Failed to fetch weather data.'));
+                dispatch(setInputError(lang === 'en' ? 'Failed to fetch weather data.' : 'Wetter Daten konnten nicht geladen werden.'));
                 dispatch(setLoading(false));
             });
     };

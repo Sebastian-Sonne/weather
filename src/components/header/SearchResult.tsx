@@ -11,16 +11,17 @@ import { setCoords } from "../../service/localStorage";
 
 const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
+    const lang = useSelector((state: RootState) => state.settings.lang);
 
     return (
         <div className="flex flex-col p-2 w-full rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
                 <>
                     {searchResults.data.length !== 0 ? searchResults.data.map((data, index) => <SearchResultButton data={data} index={index} />)
-                        : <h1 className='font-semibold text-lg pl-2'>Error: City not found</h1>
+                        : <h1 className='font-semibold text-lg pl-2'>{lang === 'en' ? 'Error: City not found' : 'Fehler: Stadt nicht gefunden'}</h1>
                     }
                 </>
-                : <h1 className='font-semibold text-lg pl-2'>Loading...</h1>
+                : <h1 className='font-semibold text-lg pl-2'>{lang === 'en' ? 'Loading...' : 'Laden...'}</h1>
             }
         </div>
     );
