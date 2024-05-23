@@ -7,7 +7,7 @@ const Overview = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
 
     return (
-        <div className="flex flex-row w-full h-[200px] sm:h-[300px] sm:p-4 rounded-2xl overflow-x-hidden">
+        <div className="flex flex-row w-full h-[250px] xs:h-[300px] xs:p-4 rounded-2xl overflow-x-hidden">
             <div className="flex flex-col w-1/2 md:w-2/3 mr-auto py-4 px-2 lg:px-6">
 
                 <div className="h-full gap-4">

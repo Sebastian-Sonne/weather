@@ -647,8 +647,8 @@ video {
   height: 150px;
 }
 
-.h-\[200px\] {
-  height: 200px;
+.h-\[250px\] {
+  height: 250px;
 }
 
 .h-full {
@@ -1249,6 +1249,10 @@ video {
 }
 
 @media (min-width: 450px) {
+  .xs\:h-\[300px\] {
+    height: 300px;
+  }
+
   .xs\:w-1\/2 {
     width: 50%;
   }
@@ -1260,19 +1264,15 @@ video {
   .xs\:gap-6 {
     gap: 1.5rem;
   }
+
+  .xs\:p-4 {
+    padding: 1rem;
+  }
 }
 
 @media (min-width: 640px) {
-  .sm\:h-\[300px\] {
-    height: 300px;
-  }
-
   .sm\:flex-row {
     flex-direction: row;
-  }
-
-  .sm\:p-4 {
-    padding: 1rem;
   }
 }
 
