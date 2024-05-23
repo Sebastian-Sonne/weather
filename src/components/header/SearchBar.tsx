@@ -13,6 +13,7 @@ import { setCity } from "../../state/slices/citySlice";
 import { SearchIconDark, SearchIconLight } from "../icons/Icons";
 import Notification from "../effects/Notification";
 import { setCoords } from "../../service/localStorage";
+import { setPosition } from "../../state/slices/mapSlice";
 
 const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -72,6 +73,7 @@ const SearchBar = (): JSX.Element => {
                 dispatch(setWeather(currentWeather));
                 dispatch(setForecast(forecast));
                 dispatch(setCity(cityData));
+                dispatch(setPosition([cityData.lat, cityData.lon]));
                 dispatch(setQuery(''));
                 inputRef.current?.blur();
                 dispatch(setLoading(false));
@@ -102,7 +104,7 @@ const SearchBar = (): JSX.Element => {
     }
 
     return (
-        <div ref={searchContainerRef} className='w-full lg:w-2/3 h-12 pr-4 rounded-xl'>
+        <div ref={searchContainerRef} className='w-full lg:w-2/3 h-12  rounded-xl'>
             <div className="flex flex-row w-full h-full bg-component-light dark:bg-component-dark rounded-xl">
                 <input
                     className={`w-full h-full bg-transparent px-4 rounded-xl focus:border focus:border-blue-600 placeholder:text-slate-600 ${inputError !== '' ? '!border !border-red-600' : ''} font-semibold dark:caret-white focus:outline-none`}
