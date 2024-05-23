@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface MapState {
-    position: [number, number] | null;
+    position: [number, number];
     isVisible: boolean;
 }
 
 const initialState: MapState = {
-    position: null,
+    position: [0,0],
     isVisible: false,
 }
 
@@ -14,7 +14,7 @@ const mapSlice = createSlice({
     name: 'map',
     initialState,
     reducers: {
-        setPosition: (state, action: PayloadAction<[number, number] | null>) => {
+        setPosition: (state, action: PayloadAction<[number, number]>) => {
             state.position = action.payload;
         },
         setMapIsVisible: (state, action: PayloadAction<boolean>) => {

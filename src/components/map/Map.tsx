@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { setPosition } from '../../state/slices/mapSlice';
+import SubmitButton from './SubmitButton';
 
 const MapComponent: React.FC = () => {
     const API_KEY = process.env.REACT_APP_THUNDERFOREST_API_KEY;
@@ -32,11 +33,7 @@ const MapComponent: React.FC = () => {
     return (
         <div className='w-full h-full border-2 border-secondary-l dark:border-secondary-d rounded-lg'>
 
-            <div className="absolute top-24 right-10 z-[450]  bg-component-dark dark:bg-component-light rounded-xl cursor-pointer hover:bg-component-dark-hover dark:hover:bg-component-light-hover transition-colors">
-                <button className="text-lg font-bold text-primary-d dark:text-primary-l p-3 rounded-xl">
-                    Submit
-                </button>
-            </div>
+            <SubmitButton />
 
             <MapContainer
                 center={position !== null ? position : [40.7128, -74.0060]}
@@ -45,7 +42,7 @@ const MapComponent: React.FC = () => {
             >
                 <TileLayer
                     url={theme === 'dark'
-                        ? `https://tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png?apikey=${API_KEY}`
+                        ? `https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=${API_KEY}`
                         : `https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=${API_KEY}`}
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
