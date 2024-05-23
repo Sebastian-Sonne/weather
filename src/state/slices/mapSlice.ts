@@ -20,8 +20,11 @@ const mapSlice = createSlice({
         setMapIsVisible: (state, action: PayloadAction<boolean>) => {
             state.isVisible = action.payload;
         },
+        toggleMapIsVisible: (state) => {
+            state.isVisible = !state.isVisible;
+        },
     },
 });
 
-export const { setPosition, setMapIsVisible } = mapSlice.actions;
+export const { setPosition, setMapIsVisible, toggleMapIsVisible } = mapSlice.actions;
 export default mapSlice.reducer;

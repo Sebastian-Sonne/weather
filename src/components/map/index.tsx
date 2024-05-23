@@ -1,20 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
 import MapComponent from "./Map";
-import { RootState } from "../../state/store";
-import { setMapIsVisible } from "../../state/slices/mapSlice";
+import MapHeader from "./MapHeader";
 
 const MapContainer = (): JSX.Element => {
-    const lang = useSelector((state: RootState) => state.settings.lang);
-    const dispatch = useDispatch();
 
     return (
-        
-        <div className="flex flex-col p-6 bg-component-light dark:bg-component-dark rounded-lg">
-            <div className="flex flex-row justify-between p-2 pb-4">
-                <h1 className="font-bold text-md text-secondary-l dark:text-secondary-d mb-4">{lang === 'en' ? 'Select a Location' : 'Wähle einen Ort aus'}</h1>
-                <button onClick={() => dispatch(setMapIsVisible(false))}>Exit</button>
+        <div className="absolute flex flex-col p-6 w-[calc(100%-32px)] md:w-1/2 md:min-w-[700px] top-20 md:right-4 h-[calc(100vh-32px)] bg-component-light dark:bg-component-dark shadow-lg rounded-lg">
+            <MapHeader />
+
+            <div className="h-full">
+                <MapComponent />
             </div>
-            <MapComponent />
+
+            
         </div>
     );
 }

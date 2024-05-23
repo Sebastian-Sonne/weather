@@ -30,11 +30,18 @@ const MapComponent: React.FC = () => {
     };
 
     return (
-        <div className='w-full h-full rounded-lg'>
+        <div className='w-full h-full border-2 border-secondary-l dark:border-secondary-d rounded-lg'>
+
+            <div className="absolute top-24 right-10 z-[450]  bg-component-dark dark:bg-component-light rounded-xl cursor-pointer hover:bg-component-dark-hover dark:hover:bg-component-light-hover transition-colors">
+                <button className="text-lg font-bold text-primary-d dark:text-primary-l p-3 rounded-xl">
+                    Submit
+                </button>
+            </div>
+
             <MapContainer
                 center={position !== null ? position : [40.7128, -74.0060]}
                 zoom={10}
-                style={{ height: '100vh', borderRadius: '8px' }}
+                style={{ height: '100%', borderRadius: '8px' }}
             >
                 <TileLayer
                     url={theme === 'dark'
@@ -49,11 +56,3 @@ const MapComponent: React.FC = () => {
 };
 
 export default MapComponent;
-
-/**
- * 
-                    url={theme === 'dark'
-                        ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                        : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
-                    
- */
