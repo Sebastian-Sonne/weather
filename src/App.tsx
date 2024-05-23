@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './state/store';
 
 import Main from './components';
+import Map from './components/map';
 import Settings from './components/settings';
+import Loader from './components/effects/Loader';
 
+import { setPosition } from './state/slices/mapSlice';
 import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
 import { CityData, setCity } from './state/slices/citySlice';
@@ -14,12 +17,13 @@ import { setLang, setPrevScrollPos, setTime, setUnit } from './state/slices/sett
 
 import getData, { Data } from './service/service';
 import { getUserLocation } from './service/geocode';
-import Loader from './components/effects/Loader';
 import { getCoords, setCoords } from './service/localStorage';
+
 
 function App(): JSX.Element {
     const dispatch = useDispatch();
     const settings = useSelector((state: RootState) => state.settings);
+    const map = useSelector((state: RootState) => state.map);
     const cityName = useSelector((state: RootState) => state.city.value.name);
     const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
     const isLoading = useSelector((state: RootState) => state.loading.value);
@@ -69,6 +73,7 @@ function App(): JSX.Element {
         }
 
         const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
+            dispatch(setPosition([cityData.lat, cityData.lon]));
             dispatch(setWeather(currentWeather));
             dispatch(setForecast(forecast))
             dispatch(setCity(cityData));
@@ -105,9 +110,11 @@ function App(): JSX.Element {
 
     return (
         <>
+            
             {isLoading && <Loader />}
             <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 min-h-screen text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
+                {map.isVisible && <Map />}
                 {settings.isVisible && <Settings />}
             </div>
         </>

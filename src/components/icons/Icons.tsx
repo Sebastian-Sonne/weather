@@ -2,7 +2,10 @@ export const ThemeDark = (): JSX.Element => <img src="/theme_icons/moon.svg" alt
 export const ThemeLight = (): JSX.Element => <img src="/theme_icons/sun.svg" alt="switch to light theme icon" />
 
 export const LocationDark = (): JSX.Element => <img src="/theme_icons/location_d.svg" alt="use current location icon" />
-export const LocationLight = (): JSX.Element => <img src="/theme_icons/location_l.svg" alt="use current location icon icon" />
+export const LocationLight = (): JSX.Element => <img src="/theme_icons/location_l.svg" alt="use current location icon" />
+
+export const MapIconDark = (): JSX.Element => <img src="/icons/map_d.svg" alt="map icon" />
+export const MapIconLight = (): JSX.Element => <img src="/icons/map_l.svg" alt="map icon" />
 
 export const SearchIconLight = (): JSX.Element => <img src="/icons/search_l.svg" alt="search icon" />
 export const SearchIconDark = (): JSX.Element => <img src="/icons/search_d.svg" alt="search icon" />
