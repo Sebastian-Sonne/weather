@@ -9,6 +9,7 @@ import { setForecast } from "../../state/slices/forecastSlice";
 import { setWeather } from "../../state/slices/weatherSlice";
 import { LocationDark, LocationLight } from "../icons/Icons";
 import { setCoords } from "../../service/localStorage";
+import { setPosition } from "../../state/slices/mapSlice";
 
 const Location = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Location = (): JSX.Element => {
                         dispatch(setWeather(currentWeather));
                         dispatch(setForecast(forecast))
                         dispatch(setCity(cityData));
+                        dispatch(setPosition([cityData.lat, cityData.lon]));
                         dispatch(setLoading(false));
 
                     })

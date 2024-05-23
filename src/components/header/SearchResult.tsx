@@ -8,6 +8,7 @@ import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
 import { setCoords } from "../../service/localStorage";
+import { setPosition } from "../../state/slices/mapSlice";
 
 const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
@@ -51,6 +52,7 @@ export const SearchResultButton: React.FC<SearchButtonProps> = ({ data, index })
                 dispatch(setWeather(currentWeather));
                 dispatch(setForecast(forecast));
                 dispatch(setCity(cityData));
+                dispatch(setPosition([cityData.lat, cityData.lon]));
                 dispatch(setQuery(''));
                 dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
