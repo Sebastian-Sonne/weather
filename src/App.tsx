@@ -109,15 +109,14 @@ function App(): JSX.Element {
     }, [settings.isVisible])
 
     return (
-        <>
-            
+        <div className='xxl:w-screen bg-bg-light dark:bg-bg-dark'>
             {isLoading && <Loader />}
-            <div className='flex flex-col bg-bg-light dark:bg-bg-dark p-4 w-screen gap-4 min-h-screen text-slate-950 dark:text-slate-50 transition-colors'>
+            <div className='flex flex-col bg-bg-light dark:bg-bg-dark mx-auto p-4 xxl:w-fit gap-4 min-h-screen text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
                 {map.isVisible && <Map />}
                 {settings.isVisible && <Settings />}
             </div>
-        </>
+        </div>
     )
 }
 
