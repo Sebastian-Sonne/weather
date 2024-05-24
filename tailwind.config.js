@@ -24,7 +24,8 @@ export default {
         'accent-l': '#2b313b',
       },
       screens: {
-        'xs': '450px'
+        'xs': '450px',
+        'xxl': '1750px',
       },
     },
   },
