@@ -21,6 +21,7 @@ A beautiful and functional weather app built using React and TypeScript.
 - **TypeScript**
 - **OpenWeather API**
 - **GeoDB API**
+- **React Leaflet with ThunderForest API**
 
 ## Getting Started
 
