@@ -1,5 +1,5 @@
 import Footer from "./Footer";
-import { SettingsIcon } from "../settings";
+import SettingsButton from "../util-buttons/SettingsButton";
 import AirCondition from "./AirCondition";
 import Forecast5Day from "./Forecast5Day";
 import ForecastToday from "./ForecastToday";
@@ -35,7 +35,7 @@ export const WeatherSettingsContainer = (): JSX.Element => {
             <div className="flex flex-row space-between w-full">
 
                 <Footer />
-                <SettingsIcon />
+                <SettingsButton />
             </div>
         </div>
     );

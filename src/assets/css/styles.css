@@ -1347,10 +1347,6 @@ video {
   .md\:w-\[700px\] {
     width: 700px;
   }
-
-  .md\:flex-row {
-    flex-direction: row;
-  }
 }
 
 @media (min-width: 1024px) {

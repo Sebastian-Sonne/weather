@@ -7,7 +7,7 @@ import { setWeather } from "../../state/slices/weatherSlice";
 import { setForecast } from "../../state/slices/forecastSlice";
 import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
-import { SettingButton } from ".";
+import SettingButton from "./Switch";
 import { getCoords } from "../../service/localStorage";
 
 const UnitSettings = (): JSX.Element => {
@@ -46,5 +46,4 @@ const UnitSettings = (): JSX.Element => {
         </div>
     );
 }
-
 export default UnitSettings

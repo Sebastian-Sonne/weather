@@ -11,7 +11,7 @@ import { LocationDark, LocationLight } from "../icons/Icons";
 import { setCoords } from "../../service/localStorage";
 import { setPosition } from "../../state/slices/mapSlice";
 
-const Location = (): JSX.Element => {
+const LocationButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.settings.theme);
 
@@ -52,5 +52,4 @@ const Location = (): JSX.Element => {
         </div>
     );
 }
-
-export default Location
+export default LocationButton

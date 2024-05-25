@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { SettingButton } from ".";
+import SettingButton from "./Switch";
 import { setTime } from "../../state/slices/settingsSlice";
 
-export const TimeSettings = (): JSX.Element => {
+const TimeSettings = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
     const time = useSelector((state: RootState) => state.settings.time);
     const dispatch = useDispatch();
@@ -19,3 +19,4 @@ export const TimeSettings = (): JSX.Element => {
         </div>
     );
 }
+export default TimeSettings

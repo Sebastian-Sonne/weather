@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { ExitIconDark, ExitIconLight } from "../icons/Icons";
 import { setMapIsVisible } from "../../state/slices/mapSlice";
+import ExitButton from "../util-buttons/ExitButton";
 
 const MapHeader = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
-    const theme = useSelector((state: RootState) => state.settings.theme);
     const dispatch = useDispatch();
 
     return (
@@ -14,13 +13,7 @@ const MapHeader = (): JSX.Element => {
                 {lang === 'en' ? 'Select a Location' : 'Wähle einen Ort aus'}
             </h1>
 
-            <div className="bg-component-light dark:bg-component-dark h-12 ml-4 aspect-square rounded-xl cursor-pointer hover:bg-component-light-hover dark:hover:bg-component-dark-hover transition-colors">
-                <button onClick={() => dispatch(setMapIsVisible(false))} className="w-full aspect-square p-3 rounded-xl">
-
-                    {theme === 'dark' ? <ExitIconDark /> : <ExitIconLight />}
-
-                </button>
-            </div>
+            <ExitButton onClick={() => dispatch(setMapIsVisible(false))} />
         </div>
     );
 }
