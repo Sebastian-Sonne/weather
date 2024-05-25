@@ -582,10 +582,6 @@ video {
   top: 0px;
 }
 
-.top-16 {
-  top: 4rem;
-}
-
 .top-20 {
   top: 5rem;
 }
@@ -672,8 +668,8 @@ video {
   height: 250px;
 }
 
-.h-\[calc\(100vh-32px\)\] {
-  height: calc(100vh - 32px);
+.h-\[400px\] {
+  height: 400px;
 }
 
 .h-full {
@@ -727,6 +723,10 @@ video {
 
 .w-\[250px\] {
   width: 250px;
+}
+
+.w-\[calc\(100\%-2rem\)\] {
+  width: calc(100% - 2rem);
 }
 
 .w-\[calc\(100\%-32px\)\] {
@@ -1124,12 +1124,6 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow {
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 .blur {
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1204,15 +1198,6 @@ video {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
-}
-
-.disabled\:cursor-pointer:disabled {
-  cursor: pointer;
-}
-
-.disabled\:bg-component-light-hover:disabled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 
 .dark\:border-accent-d:is(.dark *) {
@@ -1318,11 +1303,6 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.disabled\:dark\:bg-component-dark-hover:is(.dark *):disabled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
-}
-
 @media (min-width: 450px) {
   .xs\:h-\[300px\] {
     height: 300px;
@@ -1356,10 +1336,6 @@ video {
     right: 1rem;
   }
 
-  .md\:w-1\/2 {
-    width: 50%;
-  }
-
   .md\:w-1\/3 {
     width: 33.333333%;
   }
@@ -1368,8 +1344,8 @@ video {
     width: 66.666667%;
   }
 
-  .md\:min-w-\[700px\] {
-    min-width: 700px;
+  .md\:w-\[700px\] {
+    width: 700px;
   }
 
   .md\:flex-row {
@@ -1378,6 +1354,14 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:relative {
+    position: relative;
+  }
+
+  .lg\:h-\[700px\] {
+    height: 700px;
+  }
+
   .lg\:w-1\/3 {
     width: 33.333333%;
   }
@@ -1386,8 +1370,8 @@ video {
     width: 66.666667%;
   }
 
-  .lg\:w-\[calc\(66\.66667\%-34px\)\] {
-    width: calc(66.66667% - 34px);
+  .lg\:w-full {
+    width: 100%;
   }
 
   .lg\:flex-row {

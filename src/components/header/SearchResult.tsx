@@ -18,7 +18,7 @@ const SearchResults = (): JSX.Element => {
         <div className="flex flex-col p-2 w-full rounded-lg shadow-lg bg-component-light dark:bg-component-dark">
             {searchResults !== null ?
                 <>
-                    {searchResults.data.length !== 0 ? searchResults.data.map((data, index) => <SearchResultButton data={data} index={index} />)
+                    {searchResults.data.length !== 0 ? searchResults.data.map((data, index) => <SearchResultButton key={index} data={data} index={index} />)
                         : <h1 className='font-semibold text-lg pl-2'>{lang === 'en' ? 'Error: City not found' : 'Fehler: Stadt nicht gefunden'}</h1>
                     }
                 </>
