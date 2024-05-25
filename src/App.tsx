@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './state/store';
 
 import Main from './components';
-import Map from './components/map';
 import Settings from './components/settings';
 import Loader from './components/effects/Loader';
 
@@ -23,7 +22,6 @@ import { getCoords, setCoords } from './service/localStorage';
 function App(): JSX.Element {
     const dispatch = useDispatch();
     const settings = useSelector((state: RootState) => state.settings);
-    const map = useSelector((state: RootState) => state.map);
     const cityName = useSelector((state: RootState) => state.city.value.name);
     const iconNum = useSelector((state: RootState) => state.weather.value.weather[0].icon);
     const isLoading = useSelector((state: RootState) => state.loading.value);
@@ -113,7 +111,6 @@ function App(): JSX.Element {
             {isLoading && <Loader />}
             <div className='flex flex-col bg-bg-light dark:bg-bg-dark mx-auto p-4 xxl:w-fit gap-4 min-h-screen text-slate-950 dark:text-slate-50 transition-colors'>
                 <Main />
-                {map.isVisible && <Map />}
                 {settings.isVisible && <Settings />}
             </div>
         </div>

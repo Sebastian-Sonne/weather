@@ -8,7 +8,7 @@ const Notification = (): JSX.Element => {
     const inputError = useSelector((state: RootState) => state.error.inputError);
 
     return (
-        <div className="flex flex-col gap-1 absolute top-16 mt-2 w-[calc(100%-32px)] lg:w-[calc(66.66667%-34px)]">
+        <div className="flex flex-col gap-1 absolute lg:relative mt-2 w-[calc(100%-2rem)] lg:w-full">
             {searchIsVisible && <SearchResults />}
             {inputError !== '' && <InputError />}
         </div>
