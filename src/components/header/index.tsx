@@ -1,7 +1,7 @@
 import SearchBar from "./SearchBar";
-import ThemeSwitcher from "./ThemeSwitcher";
-import Location from "./LocationButton"
-import MapButton from "../map/MapButton";
+import ThemeSwitcher from "../util-buttons/ThemeButton";
+import LocationButton from "../util-buttons/LocationButton"
+import MapButton from "../util-buttons/MapButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import MapContainer from "../map";
@@ -15,7 +15,7 @@ const Header = (): JSX.Element => {
                 <SearchBar />
 
                 <div className='flex flex-r'>
-                    <Location />
+                    <LocationButton />
                     <MapButton />
                     <ThemeSwitcher />
                 </div>

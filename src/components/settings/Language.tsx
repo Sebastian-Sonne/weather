@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { SettingButton } from ".";
 import { setLang } from "../../state/slices/settingsSlice";
+import SettingButton from "./Switch";
 
 const LanguageSettings = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -18,5 +18,4 @@ const LanguageSettings = (): JSX.Element => {
         </div>
     );
 }
-
 export default LanguageSettings

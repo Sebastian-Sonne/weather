@@ -17,5 +17,4 @@ const ThemeSwitcher = (): JSX.Element => {
         </div>
     );
 }
-
 export default ThemeSwitcher
