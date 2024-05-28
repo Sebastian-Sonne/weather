@@ -5,15 +5,9 @@ import { useDebounce } from "../../hooks/debounce";
 import { getCityResults } from "../../service/geocode";
 import { setQuery, setSearch, setSearchIsVisible } from "../../state/slices/querySlice";
 import { setInputError } from "../../state/slices/errorSlice";
-import { setLoading } from "../../state/slices/loadingSlice";
-import getData from "../../service/service";
-import { setWeather } from "../../state/slices/weatherSlice";
-import { setForecast } from "../../state/slices/forecastSlice";
-import { setCity } from "../../state/slices/citySlice";
+import getAndSaveData from "../../service/service";
 import { SearchIconDark, SearchIconLight } from "../icons/Icons";
 import Notification from "../effects/Notification";
-import { setCoords } from "../../service/localStorage";
-import { setPosition } from "../../state/slices/mapSlice";
 
 const SearchBar = (): JSX.Element => {
     const lang = useSelector((state: RootState) => state.settings.lang);
@@ -51,12 +45,12 @@ const SearchBar = (): JSX.Element => {
     };
 
     const handleClick = () => {
+        //early return 
         if (query === '') {
             dispatch(setSearchIsVisible(false));
             dispatch(setInputError(lang === 'en' ? 'Please provide a location' : 'Bitte gebe einen Ort an'));
             return;
         }
-        dispatch(setLoading(true));
         dispatch(setSearchIsVisible(false));
 
         const param = (searchResults !== null && searchResults.data.length !== 0
@@ -65,24 +59,14 @@ const SearchBar = (): JSX.Element => {
                 lat: searchResults.data[0].latitude
             })
             : query);
-        getData(param)
-            .then(data => {
-                const { cityData, currentWeather, forecast } = data;
-                setCoords({ lon: cityData.lon, lat: cityData.lat });
-
-                dispatch(setWeather(currentWeather));
-                dispatch(setForecast(forecast));
-                dispatch(setCity(cityData));
-                dispatch(setPosition([cityData.lat, cityData.lon]));
+        getAndSaveData(param, dispatch)
+            .then(() => {
                 dispatch(setQuery(''));
                 inputRef.current?.blur();
-                dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
             })
-            .catch(error => {
-                console.error(error);
+            .catch(() => {
                 dispatch(setInputError(lang === 'en' ? 'Failed to fetch weather data.' : 'Wetter Daten konnten nicht geladen werden.'));
-                dispatch(setLoading(false));
             });
     };
 
