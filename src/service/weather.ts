@@ -47,10 +47,12 @@ export const getDailyForecast = (forecast: ForecastData): HourlyData[] => {
     const dailyData: HourlyData[] = [];
 
     forecast.list.forEach((data: HourlyData) => {
+
         const date = new Date(data.dt * 1000);
         const hour = date.getHours();
 
-        if (hour === 13 && date >= new Date()) {
+        if (hour == 14 && date >= new Date()) {
+            console.log(data)
             dailyData.push(data);
         }
     });
