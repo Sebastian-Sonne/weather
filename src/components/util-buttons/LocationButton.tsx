@@ -1,45 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
-import { setLoading } from "../../state/slices/loadingSlice";
 import { getUserLocation } from "../../service/geocode";
-import getData from "../../service/service";
-import { setCity } from "../../state/slices/citySlice";
 import { setInputError } from "../../state/slices/errorSlice";
-import { setForecast } from "../../state/slices/forecastSlice";
-import { setWeather } from "../../state/slices/weatherSlice";
 import { LocationDark, LocationLight } from "../icons/Icons";
-import { setCoords } from "../../service/localStorage";
-import { setPosition } from "../../state/slices/mapSlice";
+import getAndSaveData from "../../service/service";
 
 const LocationButton = (): JSX.Element => {
     const dispatch = useDispatch();
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     const handleClick = async () => {
-        dispatch(setLoading(true));
-
-        getUserLocation()
-            .then(data => {
-                const { longitude, latitude } = data;
-                const coords = { lon: longitude, lat: latitude };
-                setCoords(coords);
-
-                getData(coords)
-                    .then(data => {
-                        const { cityData, currentWeather, forecast } = data;
-
-                        dispatch(setWeather(currentWeather));
-                        dispatch(setForecast(forecast))
-                        dispatch(setCity(cityData));
-                        dispatch(setPosition([cityData.lat, cityData.lon]));
-                        dispatch(setLoading(false));
-
-                    })
-            })
-            .catch(error => {
-                dispatch(setInputError(` ${error}`));
-                dispatch(setLoading(false));
-            })
+        try {
+            const userLocation = await getUserLocation();
+            const coords = { lon: userLocation.longitude, lat: userLocation.latitude };
+            getAndSaveData(coords, dispatch);
+        } catch (error) {
+            dispatch(setInputError(` ${error}`));
+        }
     }
 
     return (
