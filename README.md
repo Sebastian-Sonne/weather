@@ -7,6 +7,7 @@ A beautiful and functional weather app built using React and TypeScript.
 ## Key Features
 
 - **Search Preview**: Real-time search results for cities.
+- **Map Integration**: Select your location via a map
 - **Location Fetching**: Automatically fetches your current location.
 - **Dark/Light Mode**: User preference for light or dark theme.
 - **Multi-language Support**: Available in German and English.
