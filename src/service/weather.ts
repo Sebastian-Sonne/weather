@@ -52,7 +52,6 @@ export const getDailyForecast = (forecast: ForecastData): HourlyData[] => {
         const hour = date.getHours();
 
         if (hour == 14 && date >= new Date()) {
-            console.log(data)
             dailyData.push(data);
         }
     });
