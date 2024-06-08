@@ -6,17 +6,12 @@ import Main from './components';
 import Settings from './components/settings';
 import Loader from './components/effects/Loader';
 
-import { setPosition } from './state/slices/mapSlice';
-import { setLoading } from './state/slices/loadingSlice';
 import { setInputError } from './state/slices/errorSlice';
-import { CityData, setCity } from './state/slices/citySlice';
-import { WeatherData, setWeather } from './state/slices/weatherSlice';
-import { ForecastData, setForecast } from './state/slices/forecastSlice';
 import { setLang, setPrevScrollPos, setTime, setUnit } from './state/slices/settingsSlice';
 
-import getData, { Data } from './service/service';
 import { getUserLocation } from './service/geocode';
 import { getCoords, setCoords } from './service/localStorage';
+import getAndSaveData from './service/service';
 
 
 function App(): JSX.Element {
@@ -36,7 +31,7 @@ function App(): JSX.Element {
         const getInitialLocation = async (): Promise<LocationData | string> => {
             if (('coords' in localStorage)) {
                 try {
-                    return getCoords()
+                    return getCoords();
                 } catch (error) {
                     return 'berlin'; //* default location if local storage parse error
                 }
@@ -59,24 +54,12 @@ function App(): JSX.Element {
         const initialSetup = async () => {
             try {
                 const location = await getInitialLocation();
-                const { cityData, currentWeather, forecast }: Data = await getData(location);
-
-                saveData(cityData, currentWeather, forecast);
+                getAndSaveData(location, dispatch)
             } catch (error: any) {
                 dispatch(setInputError(`Failed to Load Weather Data: ${error.message}`));
                 console.error(error);
             }
-
-            dispatch(setLoading(false));
         }
-
-        const saveData = (cityData: CityData, currentWeather: WeatherData, forecast: ForecastData) => {
-            dispatch(setPosition([cityData.lat, cityData.lon]));
-            dispatch(setWeather(currentWeather));
-            dispatch(setForecast(forecast))
-            dispatch(setCity(cityData));
-        }
-
         initialSetup();
     }, []);
 

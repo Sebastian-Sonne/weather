@@ -1,9 +1,12 @@
-import { ForecastData } from "../state/slices/forecastSlice";
-import { CityData } from "../state/slices/citySlice"
-import { WeatherData } from "../state/slices/weatherSlice";
+import { ForecastData, setForecast } from "../state/slices/forecastSlice";
+import { CityData, setCity } from "../state/slices/citySlice"
+import { WeatherData, setWeather } from "../state/slices/weatherSlice";
 import getCities, { getCitiesByCoordinates } from "./geocode"
 import getCurrentWeather, { getForecast } from "./weather";
-import { getUnit } from "./localStorage";
+import * as storage from './localStorage';
+import { Dispatch } from "redux";
+import { setPosition } from "../state/slices/mapSlice";
+import { setLoading } from "../state/slices/loadingSlice";
 
 export interface Data {
     cityData: CityData;
@@ -17,7 +20,7 @@ export interface Coordinates {
 }
 
 const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> => {
-    const unit = getUnit();
+    const unit = storage.getUnit();
     let citiesData: CityData[];
 
     if (typeof queryOrCoordinates === 'string') {
@@ -36,4 +39,24 @@ const getData = async (queryOrCoordinates: string | Coordinates): Promise<Data> 
     return { cityData, currentWeather, forecast };
 };
 
-export default getData;
+const getAndSaveData = async (queryOrCoordinates: string | Coordinates, dispatch: Dispatch) => {
+    try {
+        dispatch(setLoading(true));
+
+        const data = await getData(queryOrCoordinates);
+        const { cityData, currentWeather, forecast } = data;
+        storage.setCoords({ lon: cityData.lon, lat: cityData.lat });
+
+        dispatch(setCity(cityData));
+        dispatch(setWeather(currentWeather));
+        dispatch(setForecast(forecast));
+        dispatch(setPosition([cityData.lat, cityData.lon]));
+
+        dispatch(setLoading(false));
+    } catch (error) {
+        dispatch(setLoading(false));
+        console.error(error);
+        throw error;
+    }
+}
+export default getAndSaveData

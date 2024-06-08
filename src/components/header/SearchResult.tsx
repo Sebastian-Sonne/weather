@@ -1,14 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { SearchData, setQuery, setSearchIsVisible } from "../../state/slices/querySlice";
 import { RootState } from "../../state/store";
-import { setLoading } from "../../state/slices/loadingSlice";
-import getData from "../../service/service";
-import { setWeather } from "../../state/slices/weatherSlice";
-import { setForecast } from "../../state/slices/forecastSlice";
-import { setCity } from "../../state/slices/citySlice";
+import getAndSaveData from "../../service/service";
 import { setInputError } from "../../state/slices/errorSlice";
-import { setCoords } from "../../service/localStorage";
-import { setPosition } from "../../state/slices/mapSlice";
 
 const SearchResults = (): JSX.Element => {
     const searchResults = useSelector((state: RootState) => state.query.results);
@@ -38,30 +32,16 @@ export const SearchResultButton: React.FC<SearchButtonProps> = ({ data, index })
     const dispatch = useDispatch();
 
     const handleClick = (cityData: SearchData) => {
-        const { longitude, latitude } = cityData;
-        const coords = { lon: longitude, lat: latitude };
-        setCoords(coords);
-
         dispatch(setSearchIsVisible(false));
-        dispatch(setLoading(true));
 
-        getData(coords)
-            .then(data => {
-                const { cityData, currentWeather, forecast } = data;
-
-                dispatch(setWeather(currentWeather));
-                dispatch(setForecast(forecast));
-                dispatch(setCity(cityData));
-                dispatch(setPosition([cityData.lat, cityData.lon]));
+        getAndSaveData({ lon: cityData.longitude, lat: cityData.latitude}, dispatch)
+            .then(() => {
                 dispatch(setQuery(''));
-                dispatch(setLoading(false));
                 if (inputError !== '') dispatch(setInputError(''));
             })
-            .catch(error => {
-                console.error(error);
+            .catch(() => {
                 dispatch(setInputError('Failed to fetch weather data.'));
-                dispatch(setLoading(false));
-            });
+            })
     };
 
     return (
